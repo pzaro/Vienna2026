@@ -135,6 +135,11 @@
             currentDisplayData.forEach((item, index) => {
                 const distanceHtml = item.distance ? `<span class="distance-tag">👣 Από Hampton: <b>${item.distance}</b></span>` : '';
 
+                // ΔΗΜΙΟΥΡΓΙΑ ΠΡΑΓΜΑΤΙΚΟΥ URL ΓΙΑ GOOGLE MAPS
+                // Χρησιμοποιούμε το όνομα της τοποθεσίας + "Vienna" για σίγουρα αποτελέσματα
+                const searchQuery = encodeURIComponent(item.name + " Vienna");
+                const realMapUrl = `https://www.google.com/maps/search/?api=1&query=${searchQuery}`;
+
                 container.innerHTML += `
                     <div class="card">
                         <div class="category-tag">${item.category}</div>
@@ -147,7 +152,7 @@
                         <div class="tip">💡 ${item.tip}</div>
                         <div class="card-actions">
                             <button class="action-btn info-btn" onclick="openModal(${index})">ℹ️ Info & Audio</button>
-                            <a href="${item.mapUrl}" target="_blank" class="action-btn map-btn">📍 Χάρτης</a>
+                            <a href="${realMapUrl}" target="_blank" class="action-btn map-btn">📍 Χάρτης</a>
                         </div>
                     </div>
                 `;
