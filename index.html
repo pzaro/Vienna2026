@@ -13,6 +13,8 @@
             --accent: #fbbf24;
             --food-color: #ef4444;
             --sight-color: #3b82f6;
+            --arr-color: #10b981; /* Πράσινο για άφιξη */
+            --dep-color: #8b5cf6; /* Μωβ για αναχώρηση */
         }
 
         body { 
@@ -42,14 +44,18 @@
 
         h1 { margin: 0 0 15px 0; font-size: 1.4rem; text-align: center; color: var(--accent); letter-spacing: 0.5px; }
 
-        .tabs { display: flex; gap: 10px; }
+        .tabs { 
+            display: flex; 
+            flex-wrap: wrap; /* Επιτρέπει να πάνε σε 2η σειρά σε μικρές οθόνες */
+            gap: 8px; 
+        }
         
         .tab-btn {
-            flex: 1;
-            padding: 14px;
+            flex: 1 1 calc(50% - 8px); /* 2 κουμπιά ανά σειρά */
+            padding: 12px 8px;
             border: none;
-            border-radius: 12px;
-            font-size: 1rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
             font-weight: 700;
             color: var(--text-sec);
             background: #334155;
@@ -58,11 +64,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
 
+        /* Active Tab Colors */
         .tab-btn.active.food { background: var(--food-color); color: #fff; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); }
         .tab-btn.active.sights { background: var(--sight-color); color: #fff; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+        .tab-btn.active.arrival { background: var(--arr-color); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
+        .tab-btn.active.departure { background: var(--dep-color); color: #fff; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); }
 
         /* Cards Layout */
         .container { padding: 15px; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
@@ -82,12 +91,15 @@
         }
         .card.type-food::before { background: var(--food-color); }
         .card.type-sight::before { background: var(--sight-color); }
+        .card.type-arrival::before { background: var(--arr-color); }
+        .card.type-departure::before { background: var(--dep-color); }
 
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
         .card-title { font-size: 1.25rem; font-weight: 800; margin: 0; color: #fff; line-height: 1.3; }
         .card-cost { background: #064e3b; color: #34d399; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; white-space: nowrap; margin-left: 10px; }
 
-        .card-desc { font-size: 0.95rem; line-height: 1.5; color: var(--text-sec); margin: 0 0 15px 0; }
+        /* pre-line για να λειτουργούν οι αλλαγές γραμμής (enter) στο κείμενο */
+        .card-desc { font-size: 0.95rem; line-height: 1.6; color: var(--text-sec); margin: 0 0 15px 0; white-space: pre-line; }
         
         .card-tip {
             background: rgba(251, 191, 36, 0.1);
@@ -103,7 +115,7 @@
         .actions { display: flex; gap: 10px; }
         .btn {
             flex: 1; padding: 12px; border-radius: 10px; font-weight: 700; text-align: center; 
-            text-decoration: none; font-size: 0.9rem; border: none; cursor: pointer;
+            text-decoration: none; font-size: 0.9rem; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px;
         }
         .btn-audio { background: #334155; color: #fff; }
         .btn-map { background: var(--text-main); color: var(--bg-dark); }
@@ -119,6 +131,8 @@
     <div class="header">
         <h1>🇦🇹 Vienna Local Guide</h1>
         <div class="tabs">
+            <button class="tab-btn arrival" onclick="setFilter('arrival')">🛬 Άφιξη</button>
+            <button class="tab-btn departure" onclick="setFilter('departure')">🛫 Αναχώρ.</button>
             <button class="tab-btn food active" onclick="setFilter('food')">🍔 Φαγητό</button>
             <button class="tab-btn sights" onclick="setFilter('sights')">🏛️ Αξιοθέατα</button>
         </div>
@@ -127,8 +141,27 @@
     <div class="container" id="content"></div>
 
     <script>
-        // Δεδομένα ενσωματωμένα για τέλεια offline λειτουργία στο κινητό
         const placesData = [
+            // --- ΑΦΙΞΗ ---
+            { 
+                type: "arrival", 
+                name: "Αεροδρόμιο ➔ Ξενοδοχείο", 
+                cost: "2,10€", 
+                tip: "Μην ξεχάσεις να βγάλεις το 'Εισιτήριο Επέκτασης' (Zusatzticket) αφού ενεργοποιήσεις την 7ήμερη κάρτα σου.", 
+                desc: "23:19 - Προαστιακός S7: Παίρνεις τη γραμμή S7 με κατεύθυνση Wien Floridsdorf από τον σταθμό του αεροδρομίου.\n\n23:42 - Μετεπιβίβαση (Wien Mitte): Κατεβαίνεις στον σταθμό Wien Mitte-Landstraße.\n\n23:47 - Μετρό U4: Περπατάς ~4 λεπτά μέσα στον σταθμό, αλλάζεις πλατφόρμα και μπαίνεις στην πράσινη γραμμή U4 (κατεύθυνση Wien Hütteldorf).\n\n23:57 - Άφιξη (Längenfeldgasse): Κατεβαίνεις στη στάση Wien Längenfeldgasse.\n\n00:04 - Στο ξενοδοχείο: Μόλις 7 λεπτά περπάτημα (375μ) μέχρι το Hampton by Hilton City West.", 
+                customMap: "https://www.google.com/maps/dir/Längenfeldgasse,+1120+Vienna,+Austria/Hampton+by+Hilton+Vienna+City+West,+Diefenbachgasse+1-3,+1150+Wien,+Austria" 
+            },
+
+            // --- ΑΝΑΧΩΡΗΣΗ ---
+            { 
+                type: "departure", 
+                name: "Ξενοδοχείο ➔ Αεροδρόμιο", 
+                cost: "2,10€", 
+                tip: "Η πτήση είναι στις 12:55. Ιδανικά, ξεκίνα από το ξενοδοχείο στις 09:30 για να είσαι εντελώς χαλαρός.", 
+                desc: "09:30 - Μετρό U6: Παίρνεις την καφέ γραμμή U6 από την Längenfeldgasse με κατεύθυνση Siebenhirten ή Alterlaa.\n\n09:33 - Αλλαγή (Wien Meidling): Κατεβαίνεις στον σταθμό Wien Meidling και ακολουθείς τις πινακίδες για τα τρένα ÖBB.\n\n09:59 ή 10:29 - Τρένο RJ: Παίρνεις το γρήγορο τρένο Railjet (RJ) προς το αεροδρόμιο (Flughafen Wien).\n\n10:26 ή 10:56 - Άφιξη στο Αεροδρόμιο: Το τρένο κάνει ακριβώς 27 λεπτά.", 
+                customMap: "https://www.google.com/maps/dir/Hampton+by+Hilton+Vienna+City+West,+Diefenbachgasse+1-3,+1150+Wien,+Austria/Flughafen+Wien+(VIE),+1300+Schwechat,+Austria" 
+            },
+
             // --- ΦΑΓΗΤΟ & ΣΤΕΚΙΑ ΝΤΟΠΙΩΝ ---
             { type: "food", name: "Leberkas-Pepi", cost: "~4€", tip: "Ζήτα το Pepi-Leberkäse με τυρί και λίγη μουστάρδα.", desc: "Το απόλυτο βρώμικο των ντόπιων. Ένα ζεστό, παχύ κομμάτι ψητού πατέ κρέατος (σαν χοντρή πάριζα) μέσα σε τραγανό ψωμάκι. Γρήγορο, χορταστικό και φθηνό.", mapQuery: "Leberkas-Pepi Vienna" },
             { type: "food", name: "Würstelstand am Hohen Markt", cost: "~5€", tip: "Πάρε Käsekrainer κομμένο σε φέτες (geschnitten) με μαύρο ψωμί και φρέσκο χρένο.", desc: "Η πιο διάσημη καντίνα για λουκάνικα. Το Käsekrainer είναι χοντρό λουκάνικο γεμιστό με τυρί που λιώνει και πετάγεται καθώς το δαγκώνεις.", mapQuery: "Würstelstand am Hohen Markt Vienna" },
@@ -173,9 +206,14 @@
             const filteredData = placesData.filter(item => item.type === currentFilter);
 
             filteredData.forEach((item, index) => {
-                // ΕΠΙΣΗΜΟ GOOGLE MAPS LINK: Ανοίγει κατευθείαν το App στο κινητό!
-                const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
-                const emoji = item.type === 'food' ? '🍔' : '🏛️';
+                // Χρήση απευθείας url (αν υπάρχει), αλλιώς αναζήτηση τοποθεσίας 
+                const mapLink = item.customMap ? item.customMap : `https://www.google.com/maps/search/?api=1&query=$${encodeURIComponent(item.mapQuery)}`;
+                
+                let emoji = '📍';
+                if(item.type === 'food') emoji = '🍔';
+                if(item.type === 'sights') emoji = '🏛️';
+                if(item.type === 'arrival') emoji = '🛬';
+                if(item.type === 'departure') emoji = '🛫';
 
                 container.innerHTML += `
                     <div class="card type-${item.type}">
@@ -186,7 +224,7 @@
                         <div class="card-tip">💡 <b>Tip:</b> ${item.tip}</div>
                         <p class="card-desc">${item.desc}</p>
                         <div class="actions">
-                            <button id="audio-btn-${index}" class="btn btn-audio" onclick="toggleAudio(${index}, '${item.desc.replace(/'/g, "\\'")}')">🔊 Ακρόαση</button>
+                            <button id="audio-btn-${index}" class="btn btn-audio" onclick="toggleAudio(${index}, '${item.desc.replace(/'/g, "\\'").replace(/\n/g, " ")}')">🔊 Ακρόαση</button>
                             <a href="${mapLink}" target="_blank" class="btn btn-map">📍 Χάρτης</a>
                         </div>
                     </div>
@@ -221,7 +259,7 @@
                 const btn = document.getElementById(`audio-btn-${playingIndex}`);
                 if (btn) {
                     btn.classList.remove('playing');
-                    btn.innerText = "🔊 Ακρόαση";
+                    btn.innerHTML = "🔊 Ακρόαση";
                 }
                 playingIndex = -1;
             }
