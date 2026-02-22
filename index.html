@@ -2,223 +2,234 @@
 <html lang="el">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Βιέννη: Local Guide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vienna Local Guide</title>
     <style>
-        /* DARK MODE CSS & PROGRESS BAR */
         :root {
-            --bg-color: #121212;
-            --header-bg: #1e1e1e;
-            --card-bg: #1e1e1e;
-            --text-main: #e0e0e0;
-            --text-muted: #aaaaaa;
-            --accent: #d4af37;
-            --btn-bg: #333333;
-            --btn-active: #d4af37;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-sec: #94a3b8;
+            --accent: #fbbf24;
+            --food-color: #ef4444;
+            --sight-color: #3b82f6;
         }
 
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; padding-bottom: 60px; }
-        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background: var(--bg-dark); 
+            color: var(--text-main); 
+            margin: 0; 
+            padding: 0; 
+            padding-bottom: 80px;
+            -webkit-font-smoothing: antialiased;
+        }
+
         /* Progress Bar */
-        .progress-container { width: 100%; height: 4px; background: #333; position: fixed; top: 0; z-index: 1000; }
-        .progress-bar { height: 4px; background: var(--accent); width: 0%; }
+        .progress-container { width: 100%; height: 4px; background: #334155; position: fixed; top: 0; z-index: 9999; }
+        .progress-bar { height: 4px; background: var(--accent); width: 0%; border-radius: 0 2px 2px 0; }
 
-        .header { background: var(--header-bg); position: sticky; top: 4px; z-index: 900; box-shadow: 0 4px 6px rgba(0,0,0,0.3); padding: 10px 0; border-bottom: 1px solid #333; }
-        h1 { text-align: center; color: var(--accent); margin: 5px 0; font-size: 1.3rem; font-family: "Georgia", serif; }
-        
-        .filters-wrapper { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
-        .scroll-container { display: flex; overflow-x: auto; gap: 8px; padding: 0 15px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-        .scroll-container::-webkit-scrollbar { display: none; }
-        
-        .btn-filter { flex: 0 0 auto; padding: 8px 15px; border-radius: 20px; border: 1px solid #555; background: var(--btn-bg); font-size: 0.85rem; color: var(--text-main); cursor: pointer; transition: 0.2s; }
-        .btn-filter.active { background: var(--btn-active); color: #000; border-color: var(--btn-active); font-weight: bold; }
+        /* App Header & Tabs */
+        .header {
+            position: sticky;
+            top: 4px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 15px 15px 10px;
+            border-bottom: 1px solid #334155;
+        }
 
-        .container { max-width: 600px; margin: 0 auto; padding: 15px; }
-        .card { background: var(--card-bg); border-radius: 8px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--accent); box-shadow: 0 3px 6px rgba(0,0,0,0.5); }
-        
-        .category-tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--accent); letter-spacing: 1px; }
-        .name { font-size: 1.3rem; font-weight: 800; margin: 5px 0; color: #fff; font-family: "Georgia", serif; }
-        
-        .distance-tag { font-size: 0.9rem; color: #ddd; display: block; margin-bottom: 5px; background: #333; padding: 4px 8px; border-radius: 4px; width: fit-content; }
-        
-        .meta-info { display: flex; gap: 10px; margin-top: 8px; font-size: 0.9rem; flex-wrap: wrap; }
-        .time-badge { background: #444; color: #fff; padding: 3px 6px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; }
-        .cost-badge { background: #1e3a29; color: #4cd137; padding: 3px 6px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; }
-        
-        .tip { background: #2a2a0a; color: #e5e5e5; padding: 10px; border-radius: 4px; margin-top: 10px; font-style: italic; font-size: 0.95rem; border-left: 3px solid #f1c40f; }
+        h1 { margin: 0 0 15px 0; font-size: 1.4rem; text-align: center; color: var(--accent); letter-spacing: 0.5px; }
 
-        .card-actions { display: flex; gap: 10px; margin-top: 15px; }
-        .action-btn { flex: 1; padding: 12px; border-radius: 4px; text-align: center; font-weight: bold; text-decoration: none; font-size: 0.9rem; cursor: pointer; border: none; text-transform: uppercase; letter-spacing: 0.5px; }
-        .map-btn { background: #444; color: #fff; border: 1px solid #555; }
-        .info-btn { background: var(--accent); color: #000; display: flex; align-items: center; justify-content: center; gap: 5px; }
-
-        /* MODAL */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: flex-end; justify-content: center; }
-        .modal-content { background: var(--card-bg); width: 100%; max-width: 600px; border-radius: 15px 15px 0 0; padding: 25px; max-height: 85vh; overflow-y: auto; color: var(--text-main); animation: slideUp 0.3s ease-out; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #444; padding-bottom: 10px; }
-        .modal-title { font-size: 1.4rem; font-weight: bold; color: #fff; margin: 0; font-family: "Georgia", serif; }
-        .close-btn { background: none; border: none; font-size: 2rem; color: #aaa; cursor: pointer; }
-        .modal-body { font-size: 1.05rem; line-height: 1.6; white-space: pre-line; }
-        .audio-controls { margin-top: 20px; display: flex; gap: 10px; border-top: 1px solid #444; padding-top: 15px; }
-        .speak-btn { background: var(--accent); color: #000; }
-        .stop-btn { background: #c0392b; color: white; display: none; }
+        .tabs { display: flex; gap: 10px; }
         
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .tab-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-sec);
+            background: #334155;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-btn.active.food { background: var(--food-color); color: #fff; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); }
+        .tab-btn.active.sights { background: var(--sight-color); color: #fff; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+
+        /* Cards Layout */
+        .container { padding: 15px; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 1px solid #334155;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+        }
+        .card.type-food::before { background: var(--food-color); }
+        .card.type-sight::before { background: var(--sight-color); }
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .card-title { font-size: 1.25rem; font-weight: 800; margin: 0; color: #fff; line-height: 1.3; }
+        .card-cost { background: #064e3b; color: #34d399; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; white-space: nowrap; margin-left: 10px; }
+
+        .card-desc { font-size: 0.95rem; line-height: 1.5; color: var(--text-sec); margin: 0 0 15px 0; }
+        
+        .card-tip {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fcd34d;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .actions { display: flex; gap: 10px; }
+        .btn {
+            flex: 1; padding: 12px; border-radius: 10px; font-weight: 700; text-align: center; 
+            text-decoration: none; font-size: 0.9rem; border: none; cursor: pointer;
+        }
+        .btn-audio { background: #334155; color: #fff; }
+        .btn-map { background: var(--text-main); color: var(--bg-dark); }
+        .btn-audio.playing { background: #ef4444; animation: pulse 1.5s infinite; }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="progress-container">
-        <div class="progress-bar" id="myBar"></div>
-    </div>
+    <div class="progress-container"><div class="progress-bar" id="myBar"></div></div>
 
     <div class="header">
-        <h1>🇦🇹 Vienna: Local & Transport Guide</h1>
-        <div class="filters-wrapper">
-            <div class="scroll-container">
-                <button class="btn-filter date-btn active" onclick="filterData('day', 0)">Όλα</button>
-                <button class="btn-filter date-btn" onclick="filterData('day', 1)">Πέμ 26/2</button>
-                <button class="btn-filter date-btn" onclick="filterData('day', 2)">Παρ 27/2</button>
-                <button class="btn-filter date-btn" onclick="filterData('day', 3)">Σάβ 28/2</button>
-                <button class="btn-filter date-btn" onclick="filterData('day', 4)">Κυρ 1/3</button>
-                <button class="btn-filter date-btn" onclick="filterData('day', 5)">Δευ 2/3</button>
-                <button class="btn-filter date-btn" onclick="filterData('day', 6)">Τρί 3/3</button>
-            </div>
-            <div class="scroll-container">
-                <button class="btn-filter active" onclick="filterData('cat', 'all')">Όλα</button>
-                <button class="btn-filter" onclick="filterData('cat', 'μετακίνηση')">🚇 Μετακίνηση</button>
-                <button class="btn-filter" onclick="filterData('cat', 'αξιοθέατα')">🏛️ Αξιοθέατα</button>
-                <button class="btn-filter" onclick="filterData('cat', 'ντόπιοι')">🍻 Στέκια Ντόπιων</button>
-            </div>
+        <h1>🇦🇹 Vienna Local Guide</h1>
+        <div class="tabs">
+            <button class="tab-btn food active" onclick="setFilter('food')">🍔 Φαγητό</button>
+            <button class="tab-btn sights" onclick="setFilter('sights')">🏛️ Αξιοθέατα</button>
         </div>
     </div>
 
     <div class="container" id="content"></div>
 
-    <div id="infoModal" class="modal-overlay" onclick="closeModal(event)">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <h2 id="modalTitle" class="modal-title"></h2>
-                <button class="close-btn" onclick="closeModal()">×</button>
-            </div>
-            <div id="modalBody" class="modal-body"></div>
-            <div class="audio-controls">
-                <button id="speakBtn" class="action-btn speak-btn" onclick="startSpeaking()">🔊 Ακρόαση</button>
-                <button id="stopBtn" class="action-btn stop-btn" onclick="stopSpeaking()">⏹️ Stop</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // Progress Bar Logic
-        window.onscroll = function() {
-            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            var scrolled = (winScroll / height) * 100;
-            document.getElementById("myBar").style.width = scrolled + "%";
+        // Δεδομένα ενσωματωμένα για τέλεια offline λειτουργία στο κινητό
+        const placesData = [
+            // --- ΦΑΓΗΤΟ & ΣΤΕΚΙΑ ΝΤΟΠΙΩΝ ---
+            { type: "food", name: "Leberkas-Pepi", cost: "~4€", tip: "Ζήτα το Pepi-Leberkäse με τυρί και λίγη μουστάρδα.", desc: "Το απόλυτο βρώμικο των ντόπιων. Ένα ζεστό, παχύ κομμάτι ψητού πατέ κρέατος (σαν χοντρή πάριζα) μέσα σε τραγανό ψωμάκι. Γρήγορο, χορταστικό και φθηνό.", mapQuery: "Leberkas-Pepi Vienna" },
+            { type: "food", name: "Käsekrainer στο Würstelstand am Hohen Markt", cost: "~5€", tip: "Κομμένο σε φέτες (geschnitten) με μαύρο ψωμί και φρέσκο χρένο (Kren).", desc: "Η πιο διάσημη καντίνα για λουκάνικα. Το Käsekrainer είναι χοντρό λουκάνικο γεμιστό με τυρί που λιώνει και πετάγεται καθώς το δαγκώνεις.", mapQuery: "Würstelstand am Hohen Markt Vienna" },
+            { type: "food", name: "Gasthaus Quell", cost: "~15-20€", tip: "Δοκίμασε το Schweinsbraten (χοιρινό ψητό με τραγανή πέτσα).", desc: "Αυθεντικό Wirtshaus στην 15η συνοικία. Ξύλινη επένδυση, καθόλου τουρίστες, μεγάλες μερίδες και εξαιρετική τοπική βαρελίσια μπύρα.", mapQuery: "Gasthaus Quell Vienna" },
+            { type: "food", name: "Heuriger Schübel-Auer", cost: "~20€", tip: "Πάρε Liptauer (πικάντικο άλειμμα τυριού) και νέο κρασί Gemischter Satz.", desc: "Παραδοσιακή κρασοταβέρνα στα περίχωρα (Nußdorf). Οι ντόπιοι έρχονται εδώ για να πιουν κρασί παραγωγής τους και να φάνε κρύα πιάτα από τον μπουφέ.", mapQuery: "Heuriger Schübel-Auer Vienna" },
+            { type: "food", name: "Café Jelinek", cost: "~8€", tip: "Παράγγειλε ένα Kaiserschmarrn (Το γλυκό του Αυτοκράτορα).", desc: "Ξέχασε τα τουριστικά καφέ. Εδώ θα βρεις φθαρμένους βελούδινους καναπέδες, μια ξυλόσομπα στη μέση και ντόπιους να διαβάζουν εφημερίδα. Τρομερά γλυκά.", mapQuery: "Cafe Jelinek Vienna" },
+            { type: "food", name: "Steman", cost: "~18€", tip: "Εδώ θα φας το πιο 'τίμιο' μοσχαρίσιο Wiener Schnitzel.", desc: "Κλασικό στέκι στην 6η συνοικία που υπάρχει πάνω από 100 χρόνια. Εξαιρετικό φαγητό, μακριά από τις εξωφρενικές τιμές του κέντρου.", mapQuery: "Steman Vienna" },
+            
+            // --- ΑΞΙΟΘΕΑΤΑ & ΔΩΡΕΑΝ ΒΟΛΤΕΣ ---
+            { type: "sights", name: "Κήποι Schönbrunn & Gloriette", cost: "Δωρεάν", tip: "Ανέβα τον λόφο μέχρι την αψίδα Gloriette για πανοραμική θέα όλης της πόλης.", desc: "Η θερινή κατοικία των Αψβούργων. Μην πληρώσεις για να μπεις μέσα αν δεν θες μουσεία. Η βόλτα στους αχανείς κήπους είναι μαγική και εντελώς δωρεάν.", mapQuery: "Schonbrunn Palace Vienna" },
+            { type: "sights", name: "Καθεδρικός Αγ. Στεφάνου (Εσωτερικά)", cost: "Δωρεάν", tip: "Αν θες να δεις τη θέα, η ανάβαση στον Πύργο κοστίζει περίπου 6€.", desc: "Το σύμβολο της Βιέννης στο κέντρο της πόλης. Μπορείς να μπεις δωρεάν στον κεντρικό χώρο του ναού και να θαυμάσεις την επιβλητική γοτθική αρχιτεκτονική.", mapQuery: "Stephansdom Vienna" },
+            { type: "sights", name: "Κήποι του Belvedere", cost: "Δωρεάν", tip: "Τέλεια συμμετρία και σιντριβάνια, ιδανικό για φωτογραφίες.", desc: "Η βόλτα ανάμεσα στο Πάνω (Upper) και το Κάτω (Lower) παλάτι Belvedere είναι εκπληκτική. Οι κήποι είναι ανοιχτοί για το κοινό δωρεάν.", mapQuery: "Belvedere Palace Vienna" },
+            { type: "sights", name: "Hundertwasserhaus", cost: "Δωρεάν", tip: "Δες το από έξω. Ακριβώς απέναντι υπάρχει ένα μικρό 'χωριό' για καφέ.", desc: "Μια πολυκατοικία βγαλμένη από παραμύθι. Δεν έχει ίσιες γραμμές, είναι βαμμένη με έντονα χρώματα και έχει δέντρα που βγαίνουν μέσα από τα μπαλκόνια!", mapQuery: "Hundertwasserhaus Vienna" },
+            { type: "sights", name: "Naschmarkt & Karmelitermarkt", cost: "Δωρεάν", tip: "Το Σάββατο το πρωί, δίπλα στο Naschmarkt έχει και υπαίθριο παζάρι αντικών (Flohmarkt).", desc: "Περιπλάνηση στις αγορές της πόλης. Χάζεψε τους πάγκους με τα μπαχαρικά και τα τυριά, και νιώσε τον παλμό των ντόπιων.", mapQuery: "Naschmarkt Vienna" },
+            { type: "sights", name: "Βόλτα στη Ringstraße", cost: "Δωρεάν", tip: "Μπορείς να την περπατήσεις ή να πάρεις το απλό Τραμ (γραμμές 1 ή 2) για να κάνεις τον κύκλο.", desc: "Η κυκλική λεωφόρος του κέντρου. Θα δεις δωρεάν και φωτισμένα τις εντυπωσιακές προσόψεις του Κοινοβουλίου, του Δημαρχείου και της Όπερας.", mapQuery: "Vienna State Opera" },
+            { type: "sights", name: "Stadtpark (Το πάρκο της πόλης)", cost: "Δωρεάν", tip: "Βρες το χρυσό άγαλμα του Γιόχαν Στράους, το πιο φωτογραφημένο μνημείο.", desc: "Μια υπέροχη βόλτα στο πράσινο στην άκρη του κέντρου. Εδώ κάνουν τη βόλτα τους οι Βιεννέζοι όταν βγαίνει ο ήλιος.", mapQuery: "Stadtpark Vienna" }
+        ];
+
+        let currentFilter = 'food';
+        let synth = window.speechSynthesis;
+        let currentUtterance = null;
+        let playingIndex = -1;
+
+        // Progress Bar
+        window.onscroll = () => {
+            let winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById("myBar").style.width = (winScroll / height) * 100 + "%";
         };
 
-        let allData = [];
-        let currentDisplayData = [];
-        let currentDay = 0;
-        let currentCat = 'all';
-        let currentTextToSpeak = "";
-        const synth = window.speechSynthesis;
-
-        // Φόρτωση του τοπικού JSON
-        fetch('locations.json')
-            .then(res => res.json())
-            .then(data => { allData = data; render(); })
-            .catch(err => console.error("Error loading JSON:", err));
-
-        function filterData(type, value) {
-            if (type === 'day') {
-                currentDay = value;
-                document.querySelectorAll('.date-btn').forEach(b => b.classList.remove('active'));
-            } else {
-                currentCat = value;
-                document.querySelectorAll('.btn-filter:not(.date-btn)').forEach(b => b.classList.remove('active'));
-            }
-            event.target.classList.add('active');
-            render();
+        function setFilter(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.tab-btn.${filter}`).classList.add('active');
+            stopAudio();
+            renderCards();
         }
 
-        function render() {
+        function renderCards() {
             const container = document.getElementById('content');
             container.innerHTML = '';
+            
+            const filteredData = placesData.filter(item => item.type === currentFilter);
 
-            currentDisplayData = allData.filter(item => {
-                const dayMatch = currentDay === 0 || (item.days && item.days.includes(currentDay));
-                let catMatch = true;
-                if (currentCat !== 'all') catMatch = item.category.toLowerCase().includes(currentCat);
-                return dayMatch && catMatch;
-            });
-
-            if (currentDisplayData.length === 0) {
-                container.innerHTML = '<div style="text-align:center; padding:20px; color:#777;">Κενό Πρόγραμμα (Πτήση/Ύπνος) 😴</div>';
-                return;
-            }
-
-            currentDisplayData.forEach((item, index) => {
-                const distanceHtml = item.distance ? `<span class="distance-tag">🚇 ${item.distance}</span>` : '';
-                const searchQuery = encodeURIComponent(item.name + " Vienna");
-                const mapUrl = item.mapUrl ? item.mapUrl : `https://www.google.com/maps/search/?api=1&query=$${searchQuery}`;
+            filteredData.forEach((item, index) => {
+                // Δημιουργία link για Google Maps
+                const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
+                const emoji = item.type === 'food' ? '🍔' : '🏛️';
 
                 container.innerHTML += `
-                    <div class="card">
-                        <div class="category-tag">${item.category}</div>
-                        <div class="name">${item.name}</div>
-                        ${distanceHtml}
-                        <div class="meta-info">
-                            <span class="time-badge">🕒 ${item.time || '-'}</span>
-                            <span class="cost-badge">💰 ${item.cost || '-'}</span>
+                    <div class="card type-${item.type}">
+                        <div class="card-header">
+                            <h2 class="card-title">${emoji} ${item.name}</h2>
+                            <div class="card-cost">${item.cost}</div>
                         </div>
-                        <div class="tip">💡 ${item.tip}</div>
-                        <div class="card-actions">
-                            <button class="action-btn info-btn" onclick="openModal(${index})">ℹ️ Info</button>
-                            <a href="${mapUrl}" target="_blank" class="action-btn map-btn">📍 Map</a>
+                        <div class="card-tip">💡 <b>Tip:</b> ${item.tip}</div>
+                        <p class="card-desc">${item.desc}</p>
+                        <div class="actions">
+                            <button id="audio-btn-${index}" class="btn btn-audio" onclick="toggleAudio(${index}, '${item.desc.replace(/'/g, "\\'")}')">🔊 Ακρόαση</button>
+                            <a href="${mapLink}" target="_blank" class="btn btn-map">📍 Χάρτης</a>
                         </div>
                     </div>
                 `;
             });
         }
 
-        function openModal(index) {
-            const item = currentDisplayData[index];
-            if (!item) return;
-            document.getElementById('modalTitle').innerText = item.name;
-            document.getElementById('modalBody').innerText = item.description || item.tip;
-            currentTextToSpeak = item.description || item.tip;
-            document.getElementById('infoModal').style.display = 'flex';
-            stopSpeaking();
-        }
-
-        function closeModal() {
-            document.getElementById('infoModal').style.display = 'none';
-            stopSpeaking();
-        }
-
-        function startSpeaking() {
-            if (synth.speaking) return;
-            if (currentTextToSpeak) {
-                const utterThis = new SpeechSynthesisUtterance(currentTextToSpeak);
-                utterThis.lang = 'el-GR';
-                utterThis.rate = 0.9;
-                utterThis.onend = () => toggleAudioButtons(false);
-                synth.speak(utterThis);
-                toggleAudioButtons(true);
+        function toggleAudio(index, text) {
+            if (playingIndex === index && synth.speaking) {
+                stopAudio();
+            } else {
+                stopAudio();
+                playingIndex = index;
+                document.getElementById(`audio-btn-${index}`).classList.add('playing');
+                document.getElementById(`audio-btn-${index}`).innerText = "⏹️ Stop";
+                
+                currentUtterance = new SpeechSynthesisUtterance(text);
+                currentUtterance.lang = 'el-GR';
+                currentUtterance.rate = 0.95;
+                
+                currentUtterance.onend = () => {
+                    stopAudio();
+                };
+                
+                synth.speak(currentUtterance);
             }
         }
 
-        function stopSpeaking() {
+        function stopAudio() {
             if (synth.speaking) synth.cancel();
-            toggleAudioButtons(false);
+            if (playingIndex !== -1) {
+                const btn = document.getElementById(`audio-btn-${playingIndex}`);
+                if (btn) {
+                    btn.classList.remove('playing');
+                    btn.innerText = "🔊 Ακρόαση";
+                }
+                playingIndex = -1;
+            }
         }
 
-        function toggleAudioButtons(isSpeaking) {
-            document.getElementById('speakBtn').style.display = isSpeaking ? 'none' : 'inline-block';
-            document.getElementById('stopBtn').style.display = isSpeaking ? 'inline-block' : 'none';
-        }
+        // Αρχική φόρτωση
+        renderCards();
     </script>
 </body>
 </html>
