@@ -3,50 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Βιέννη: Dousis Guide</title>
+    <title>Βιέννη: Local Guide</title>
     <style>
-        /* CSS STYLES */
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fdf6e3; color: #2c3e50; margin: 0; padding-bottom: 60px; }
+        /* DARK MODE CSS & PROGRESS BAR */
+        :root {
+            --bg-color: #121212;
+            --header-bg: #1e1e1e;
+            --card-bg: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-muted: #aaaaaa;
+            --accent: #d4af37;
+            --btn-bg: #333333;
+            --btn-active: #d4af37;
+        }
+
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; padding-bottom: 60px; }
         
-        .header { background: #fff; position: sticky; top: 0; z-index: 900; box-shadow: 0 4px 6px rgba(0,0,0,0.05); padding: 10px 0; border-bottom: 3px solid #d4af37; }
-        h1 { text-align: center; color: #2c3e50; margin: 5px 0; font-size: 1.3rem; font-family: "Georgia", serif; }
+        /* Progress Bar */
+        .progress-container { width: 100%; height: 4px; background: #333; position: fixed; top: 0; z-index: 1000; }
+        .progress-bar { height: 4px; background: var(--accent); width: 0%; }
+
+        .header { background: var(--header-bg); position: sticky; top: 4px; z-index: 900; box-shadow: 0 4px 6px rgba(0,0,0,0.3); padding: 10px 0; border-bottom: 1px solid #333; }
+        h1 { text-align: center; color: var(--accent); margin: 5px 0; font-size: 1.3rem; font-family: "Georgia", serif; }
         
-        .filters-wrapper { display: flex; flex-direction: column; gap: 8px; }
+        .filters-wrapper { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
         .scroll-container { display: flex; overflow-x: auto; gap: 8px; padding: 0 15px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
         .scroll-container::-webkit-scrollbar { display: none; }
         
-        .btn-filter { flex: 0 0 auto; padding: 8px 15px; border-radius: 20px; border: 1px solid #d4af37; background: #fff; font-size: 0.85rem; color: #555; cursor: pointer; transition: 0.2s; }
-        .btn-filter.active { background: #d4af37; color: white; border-color: #d4af37; }
-        .date-btn.active { background: #2c3e50; border-color: #2c3e50; }
+        .btn-filter { flex: 0 0 auto; padding: 8px 15px; border-radius: 20px; border: 1px solid #555; background: var(--btn-bg); font-size: 0.85rem; color: var(--text-main); cursor: pointer; transition: 0.2s; }
+        .btn-filter.active { background: var(--btn-active); color: #000; border-color: var(--btn-active); font-weight: bold; }
 
         .container { max-width: 600px; margin: 0 auto; padding: 15px; }
-        .card { background: white; border-radius: 4px; padding: 15px; margin-bottom: 15px; border-left: 5px solid #d4af37; box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
+        .card { background: var(--card-bg); border-radius: 8px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--accent); box-shadow: 0 3px 6px rgba(0,0,0,0.5); }
         
-        .category-tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #d4af37; letter-spacing: 1px; }
-        .name { font-size: 1.3rem; font-weight: 800; margin: 5px 0; color: #2c3e50; font-family: "Georgia", serif; }
+        .category-tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--accent); letter-spacing: 1px; }
+        .name { font-size: 1.3rem; font-weight: 800; margin: 5px 0; color: #fff; font-family: "Georgia", serif; }
         
-        .distance-tag { font-size: 0.9rem; color: #555; display: block; margin-bottom: 5px; background: #eee; padding: 3px 8px; border-radius: 4px; width: fit-content; }
+        .distance-tag { font-size: 0.9rem; color: #ddd; display: block; margin-bottom: 5px; background: #333; padding: 4px 8px; border-radius: 4px; width: fit-content; }
         
-        .meta-info { display: flex; gap: 10px; margin-top: 8px; font-size: 0.9rem; }
-        .time-badge { background: #2c3e50; color: white; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; }
-        .cost-badge { background: #eafaf1; color: #27ae60; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; }
+        .meta-info { display: flex; gap: 10px; margin-top: 8px; font-size: 0.9rem; flex-wrap: wrap; }
+        .time-badge { background: #444; color: #fff; padding: 3px 6px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; }
+        .cost-badge { background: #1e3a29; color: #4cd137; padding: 3px 6px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; }
         
-        .tip { background: #fcf3cf; color: #555; padding: 10px; border-radius: 4px; margin-top: 10px; font-style: italic; font-size: 0.95rem; border-left: 3px solid #f1c40f; }
+        .tip { background: #2a2a0a; color: #e5e5e5; padding: 10px; border-radius: 4px; margin-top: 10px; font-style: italic; font-size: 0.95rem; border-left: 3px solid #f1c40f; }
 
         .card-actions { display: flex; gap: 10px; margin-top: 15px; }
         .action-btn { flex: 1; padding: 12px; border-radius: 4px; text-align: center; font-weight: bold; text-decoration: none; font-size: 0.9rem; cursor: pointer; border: none; text-transform: uppercase; letter-spacing: 0.5px; }
-        .map-btn { background: white; color: #2c3e50; border: 1px solid #2c3e50; }
-        .info-btn { background: #2c3e50; color: white; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .map-btn { background: #444; color: #fff; border: 1px solid #555; }
+        .info-btn { background: var(--accent); color: #000; display: flex; align-items: center; justify-content: center; gap: 5px; }
 
         /* MODAL */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: flex-end; justify-content: center; }
-        .modal-content { background: white; width: 100%; max-width: 600px; border-radius: 15px 15px 0 0; padding: 25px; max-height: 85vh; overflow-y: auto; animation: slideUp 0.3s ease-out; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .modal-title { font-size: 1.4rem; font-weight: bold; color: #2c3e50; margin: 0; font-family: "Georgia", serif; }
-        .close-btn { background: none; border: none; font-size: 2rem; color: #888; cursor: pointer; }
-        .modal-body { font-size: 1.05rem; line-height: 1.6; color: #333; white-space: pre-line; }
-        .audio-controls { margin-top: 20px; display: flex; gap: 10px; border-top: 1px solid #eee; padding-top: 15px; }
-        .speak-btn { background: #d4af37; color: white; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: flex-end; justify-content: center; }
+        .modal-content { background: var(--card-bg); width: 100%; max-width: 600px; border-radius: 15px 15px 0 0; padding: 25px; max-height: 85vh; overflow-y: auto; color: var(--text-main); animation: slideUp 0.3s ease-out; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #444; padding-bottom: 10px; }
+        .modal-title { font-size: 1.4rem; font-weight: bold; color: #fff; margin: 0; font-family: "Georgia", serif; }
+        .close-btn { background: none; border: none; font-size: 2rem; color: #aaa; cursor: pointer; }
+        .modal-body { font-size: 1.05rem; line-height: 1.6; white-space: pre-line; }
+        .audio-controls { margin-top: 20px; display: flex; gap: 10px; border-top: 1px solid #444; padding-top: 15px; }
+        .speak-btn { background: var(--accent); color: #000; }
         .stop-btn { background: #c0392b; color: white; display: none; }
         
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -54,8 +68,12 @@
 </head>
 <body>
 
+    <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+    </div>
+
     <div class="header">
-        <h1>🇦🇹 Vienna: Imperial Guide</h1>
+        <h1>🇦🇹 Vienna: Local & Transport Guide</h1>
         <div class="filters-wrapper">
             <div class="scroll-container">
                 <button class="btn-filter date-btn active" onclick="filterData('day', 0)">Όλα</button>
@@ -68,9 +86,9 @@
             </div>
             <div class="scroll-container">
                 <button class="btn-filter active" onclick="filterData('cat', 'all')">Όλα</button>
+                <button class="btn-filter" onclick="filterData('cat', 'μετακίνηση')">🚇 Μετακίνηση</button>
                 <button class="btn-filter" onclick="filterData('cat', 'αξιοθέατα')">🏛️ Αξιοθέατα</button>
-                <button class="btn-filter" onclick="filterData('cat', 'φαγητό')">🥪 Φαγητό</button>
-                <button class="btn-filter" onclick="filterData('cat', 'καφέ')">☕ Καφέ</button>
+                <button class="btn-filter" onclick="filterData('cat', 'ντόπιοι')">🍻 Στέκια Ντόπιων</button>
             </div>
         </div>
     </div>
@@ -85,13 +103,21 @@
             </div>
             <div id="modalBody" class="modal-body"></div>
             <div class="audio-controls">
-                <button id="speakBtn" class="action-btn speak-btn" onclick="startSpeaking()">🔊 Ακρόαση Ξεναγού</button>
+                <button id="speakBtn" class="action-btn speak-btn" onclick="startSpeaking()">🔊 Ακρόαση</button>
                 <button id="stopBtn" class="action-btn stop-btn" onclick="stopSpeaking()">⏹️ Stop</button>
             </div>
         </div>
     </div>
 
     <script>
+        // Progress Bar Logic
+        window.onscroll = function() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("myBar").style.width = scrolled + "%";
+        };
+
         let allData = [];
         let currentDisplayData = [];
         let currentDay = 0;
@@ -99,10 +125,11 @@
         let currentTextToSpeak = "";
         const synth = window.speechSynthesis;
 
+        // Φόρτωση του τοπικού JSON
         fetch('locations.json')
             .then(res => res.json())
             .then(data => { allData = data; render(); })
-            .catch(err => console.error("Error:", err));
+            .catch(err => console.error("Error loading JSON:", err));
 
         function filterData(type, value) {
             if (type === 'day') {
@@ -133,12 +160,9 @@
             }
 
             currentDisplayData.forEach((item, index) => {
-                const distanceHtml = item.distance ? `<span class="distance-tag">👣 Από Hampton: <b>${item.distance}</b></span>` : '';
-
-                // ΔΗΜΙΟΥΡΓΙΑ ΠΡΑΓΜΑΤΙΚΟΥ URL ΓΙΑ GOOGLE MAPS
-                // Χρησιμοποιούμε το όνομα της τοποθεσίας + "Vienna" για σίγουρα αποτελέσματα
+                const distanceHtml = item.distance ? `<span class="distance-tag">🚇 ${item.distance}</span>` : '';
                 const searchQuery = encodeURIComponent(item.name + " Vienna");
-                const realMapUrl = `https://www.google.com/maps/search/?api=1&query=${searchQuery}`;
+                const mapUrl = item.mapUrl ? item.mapUrl : `https://www.google.com/maps/search/?api=1&query=$${searchQuery}`;
 
                 container.innerHTML += `
                     <div class="card">
@@ -147,12 +171,12 @@
                         ${distanceHtml}
                         <div class="meta-info">
                             <span class="time-badge">🕒 ${item.time || '-'}</span>
-                            <span class="cost-badge">💰 ${item.cost}</span>
+                            <span class="cost-badge">💰 ${item.cost || '-'}</span>
                         </div>
                         <div class="tip">💡 ${item.tip}</div>
                         <div class="card-actions">
-                            <button class="action-btn info-btn" onclick="openModal(${index})">ℹ️ Info & Audio</button>
-                            <a href="${realMapUrl}" target="_blank" class="action-btn map-btn">📍 Χάρτης</a>
+                            <button class="action-btn info-btn" onclick="openModal(${index})">ℹ️ Info</button>
+                            <a href="${mapUrl}" target="_blank" class="action-btn map-btn">📍 Map</a>
                         </div>
                     </div>
                 `;
@@ -196,6 +220,5 @@
             document.getElementById('stopBtn').style.display = isSpeaking ? 'inline-block' : 'none';
         }
     </script>
-
 </body>
 </html>
