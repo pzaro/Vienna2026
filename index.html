@@ -131,7 +131,7 @@
         const placesData = [
             // --- ΦΑΓΗΤΟ & ΣΤΕΚΙΑ ΝΤΟΠΙΩΝ ---
             { type: "food", name: "Leberkas-Pepi", cost: "~4€", tip: "Ζήτα το Pepi-Leberkäse με τυρί και λίγη μουστάρδα.", desc: "Το απόλυτο βρώμικο των ντόπιων. Ένα ζεστό, παχύ κομμάτι ψητού πατέ κρέατος (σαν χοντρή πάριζα) μέσα σε τραγανό ψωμάκι. Γρήγορο, χορταστικό και φθηνό.", mapQuery: "Leberkas-Pepi Vienna" },
-            { type: "food", name: "Käsekrainer στο Würstelstand am Hohen Markt", cost: "~5€", tip: "Κομμένο σε φέτες (geschnitten) με μαύρο ψωμί και φρέσκο χρένο (Kren).", desc: "Η πιο διάσημη καντίνα για λουκάνικα. Το Käsekrainer είναι χοντρό λουκάνικο γεμιστό με τυρί που λιώνει και πετάγεται καθώς το δαγκώνεις.", mapQuery: "Würstelstand am Hohen Markt Vienna" },
+            { type: "food", name: "Würstelstand am Hohen Markt", cost: "~5€", tip: "Πάρε Käsekrainer κομμένο σε φέτες (geschnitten) με μαύρο ψωμί και φρέσκο χρένο.", desc: "Η πιο διάσημη καντίνα για λουκάνικα. Το Käsekrainer είναι χοντρό λουκάνικο γεμιστό με τυρί που λιώνει και πετάγεται καθώς το δαγκώνεις.", mapQuery: "Würstelstand am Hohen Markt Vienna" },
             { type: "food", name: "Gasthaus Quell", cost: "~15-20€", tip: "Δοκίμασε το Schweinsbraten (χοιρινό ψητό με τραγανή πέτσα).", desc: "Αυθεντικό Wirtshaus στην 15η συνοικία. Ξύλινη επένδυση, καθόλου τουρίστες, μεγάλες μερίδες και εξαιρετική τοπική βαρελίσια μπύρα.", mapQuery: "Gasthaus Quell Vienna" },
             { type: "food", name: "Heuriger Schübel-Auer", cost: "~20€", tip: "Πάρε Liptauer (πικάντικο άλειμμα τυριού) και νέο κρασί Gemischter Satz.", desc: "Παραδοσιακή κρασοταβέρνα στα περίχωρα (Nußdorf). Οι ντόπιοι έρχονται εδώ για να πιουν κρασί παραγωγής τους και να φάνε κρύα πιάτα από τον μπουφέ.", mapQuery: "Heuriger Schübel-Auer Vienna" },
             { type: "food", name: "Café Jelinek", cost: "~8€", tip: "Παράγγειλε ένα Kaiserschmarrn (Το γλυκό του Αυτοκράτορα).", desc: "Ξέχασε τα τουριστικά καφέ. Εδώ θα βρεις φθαρμένους βελούδινους καναπέδες, μια ξυλόσομπα στη μέση και ντόπιους να διαβάζουν εφημερίδα. Τρομερά γλυκά.", mapQuery: "Cafe Jelinek Vienna" },
@@ -139,12 +139,11 @@
             
             // --- ΑΞΙΟΘΕΑΤΑ & ΔΩΡΕΑΝ ΒΟΛΤΕΣ ---
             { type: "sights", name: "Κήποι Schönbrunn & Gloriette", cost: "Δωρεάν", tip: "Ανέβα τον λόφο μέχρι την αψίδα Gloriette για πανοραμική θέα όλης της πόλης.", desc: "Η θερινή κατοικία των Αψβούργων. Μην πληρώσεις για να μπεις μέσα αν δεν θες μουσεία. Η βόλτα στους αχανείς κήπους είναι μαγική και εντελώς δωρεάν.", mapQuery: "Schonbrunn Palace Vienna" },
-            { type: "sights", name: "Καθεδρικός Αγ. Στεφάνου (Εσωτερικά)", cost: "Δωρεάν", tip: "Αν θες να δεις τη θέα, η ανάβαση στον Πύργο κοστίζει περίπου 6€.", desc: "Το σύμβολο της Βιέννης στο κέντρο της πόλης. Μπορείς να μπεις δωρεάν στον κεντρικό χώρο του ναού και να θαυμάσεις την επιβλητική γοτθική αρχιτεκτονική.", mapQuery: "Stephansdom Vienna" },
+            { type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "Δωρεάν", tip: "Αν θες να δεις τη θέα, η ανάβαση στον Πύργο κοστίζει περίπου 6€.", desc: "Το σύμβολο της Βιέννης στο κέντρο της πόλης. Μπορείς να μπεις δωρεάν στον κεντρικό χώρο του ναού και να θαυμάσεις την επιβλητική γοτθική αρχιτεκτονική.", mapQuery: "Stephansdom Vienna" },
             { type: "sights", name: "Κήποι του Belvedere", cost: "Δωρεάν", tip: "Τέλεια συμμετρία και σιντριβάνια, ιδανικό για φωτογραφίες.", desc: "Η βόλτα ανάμεσα στο Πάνω (Upper) και το Κάτω (Lower) παλάτι Belvedere είναι εκπληκτική. Οι κήποι είναι ανοιχτοί για το κοινό δωρεάν.", mapQuery: "Belvedere Palace Vienna" },
             { type: "sights", name: "Hundertwasserhaus", cost: "Δωρεάν", tip: "Δες το από έξω. Ακριβώς απέναντι υπάρχει ένα μικρό 'χωριό' για καφέ.", desc: "Μια πολυκατοικία βγαλμένη από παραμύθι. Δεν έχει ίσιες γραμμές, είναι βαμμένη με έντονα χρώματα και έχει δέντρα που βγαίνουν μέσα από τα μπαλκόνια!", mapQuery: "Hundertwasserhaus Vienna" },
-            { type: "sights", name: "Naschmarkt & Karmelitermarkt", cost: "Δωρεάν", tip: "Το Σάββατο το πρωί, δίπλα στο Naschmarkt έχει και υπαίθριο παζάρι αντικών (Flohmarkt).", desc: "Περιπλάνηση στις αγορές της πόλης. Χάζεψε τους πάγκους με τα μπαχαρικά και τα τυριά, και νιώσε τον παλμό των ντόπιων.", mapQuery: "Naschmarkt Vienna" },
-            { type: "sights", name: "Βόλτα στη Ringstraße", cost: "Δωρεάν", tip: "Μπορείς να την περπατήσεις ή να πάρεις το απλό Τραμ (γραμμές 1 ή 2) για να κάνεις τον κύκλο.", desc: "Η κυκλική λεωφόρος του κέντρου. Θα δεις δωρεάν και φωτισμένα τις εντυπωσιακές προσόψεις του Κοινοβουλίου, του Δημαρχείου και της Όπερας.", mapQuery: "Vienna State Opera" },
-            { type: "sights", name: "Stadtpark (Το πάρκο της πόλης)", cost: "Δωρεάν", tip: "Βρες το χρυσό άγαλμα του Γιόχαν Στράους, το πιο φωτογραφημένο μνημείο.", desc: "Μια υπέροχη βόλτα στο πράσινο στην άκρη του κέντρου. Εδώ κάνουν τη βόλτα τους οι Βιεννέζοι όταν βγαίνει ο ήλιος.", mapQuery: "Stadtpark Vienna" }
+            { type: "sights", name: "Naschmarkt", cost: "Δωρεάν", tip: "Το Σάββατο το πρωί, ακριβώς δίπλα, στήνεται το υπαίθριο παζάρι αντικών (Flohmarkt).", desc: "Περιπλάνηση στις αγορές της πόλης. Χάζεψε τους πάγκους με τα μπαχαρικά και τα τυριά, και νιώσε τον παλμό των ντόπιων.", mapQuery: "Naschmarkt Vienna" },
+            { type: "sights", name: "Stadtpark (Πάρκο της Πόλης)", cost: "Δωρεάν", tip: "Βρες το χρυσό άγαλμα του Γιόχαν Στράους, το πιο φωτογραφημένο μνημείο.", desc: "Μια υπέροχη βόλτα στο πράσινο στην άκρη του κέντρου. Εδώ κάνουν τη βόλτα τους οι Βιεννέζοι όταν βγαίνει ο ήλιος.", mapQuery: "Stadtpark Vienna" }
         ];
 
         let currentFilter = 'food';
@@ -174,7 +173,7 @@
             const filteredData = placesData.filter(item => item.type === currentFilter);
 
             filteredData.forEach((item, index) => {
-                // Δημιουργία link για Google Maps
+                // ΕΠΙΣΗΜΟ GOOGLE MAPS LINK: Ανοίγει κατευθείαν το App στο κινητό!
                 const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
                 const emoji = item.type === 'food' ? '🍔' : '🏛️';
 
