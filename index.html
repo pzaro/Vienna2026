@@ -13,8 +13,8 @@
             --accent: #fbbf24;
             --food-color: #ef4444;
             --sight-color: #3b82f6;
-            --arr-color: #10b981; /* Πράσινο για άφιξη */
-            --dep-color: #8b5cf6; /* Μωβ για αναχώρηση */
+            --arr-color: #10b981; 
+            --dep-color: #8b5cf6; 
         }
 
         body { 
@@ -46,12 +46,12 @@
 
         .tabs { 
             display: flex; 
-            flex-wrap: wrap; /* Επιτρέπει να πάνε σε 2η σειρά σε μικρές οθόνες */
+            flex-wrap: wrap; 
             gap: 8px; 
         }
         
         .tab-btn {
-            flex: 1 1 calc(50% - 8px); /* 2 κουμπιά ανά σειρά */
+            flex: 1 1 calc(50% - 8px); 
             padding: 12px 8px;
             border: none;
             border-radius: 10px;
@@ -98,7 +98,6 @@
         .card-title { font-size: 1.25rem; font-weight: 800; margin: 0; color: #fff; line-height: 1.3; }
         .card-cost { background: #064e3b; color: #34d399; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; white-space: nowrap; margin-left: 10px; }
 
-        /* pre-line για να λειτουργούν οι αλλαγές γραμμής (enter) στο κείμενο */
         .card-desc { font-size: 0.95rem; line-height: 1.6; color: var(--text-sec); margin: 0 0 15px 0; white-space: pre-line; }
         
         .card-tip {
@@ -147,8 +146,8 @@
                 type: "arrival", 
                 name: "Αεροδρόμιο ➔ Ξενοδοχείο", 
                 cost: "2,10€", 
-                tip: "Μην ξεχάσεις να βγάλεις το 'Εισιτήριο Επέκτασης' (Zusatzticket) αφού ενεργοποιήσεις την 7ήμερη κάρτα σου.", 
-                desc: "23:19 - Προαστιακός S7: Παίρνεις τη γραμμή S7 με κατεύθυνση Wien Floridsdorf από τον σταθμό του αεροδρομίου.\n\n23:42 - Μετεπιβίβαση (Wien Mitte): Κατεβαίνεις στον σταθμό Wien Mitte-Landstraße.\n\n23:47 - Μετρό U4: Περπατάς ~4 λεπτά μέσα στον σταθμό, αλλάζεις πλατφόρμα και μπαίνεις στην πράσινη γραμμή U4 (κατεύθυνση Wien Hütteldorf).\n\n23:57 - Άφιξη (Längenfeldgasse): Κατεβαίνεις στη στάση Wien Längenfeldgasse.\n\n00:04 - Στο ξενοδοχείο: Μόλις 7 λεπτά περπάτημα (375μ) μέχρι το Hampton by Hilton City West.", 
+                tip: "Μην αγχώνεσαι για τις στάσεις, όλα τα τρένα έχουν φωτεινές οθόνες και ηχητικές ανακοινώσεις (Next stop...).", 
+                desc: "23:19 - Προαστιακός S7: Παίρνεις τη γραμμή S7 προς Wien Floridsdorf. \n👉 Περνάς 8 στάσεις. \n👉 Κατεβαίνεις στην 9η στάση: Wien Mitte-Landstraße.\n\n23:42 - Μετεπιβίβαση: Περπατάς ~4 λεπτά και μπαίνεις στο Μετρό U4 (κατεύθυνση Wien Hütteldorf).\n\n23:47 - Μετρό U4: \n👉 Περνάς 5 στάσεις (Stadtpark, Karlsplatz, Kettenbrückengasse, Pilgramgasse, Margaretengürtel). \n👉 Κατεβαίνεις στην 6η στάση: Längenfeldgasse.\n\n00:04 - Στο ξενοδοχείο: Μόλις 7 λεπτά περπάτημα (375μ) μέχρι το Hampton by Hilton City West.", 
                 customMap: "https://www.google.com/maps/dir/Längenfeldgasse,+1120+Vienna,+Austria/Hampton+by+Hilton+Vienna+City+West,+Diefenbachgasse+1-3,+1150+Wien,+Austria" 
             },
 
@@ -157,8 +156,8 @@
                 type: "departure", 
                 name: "Ξενοδοχείο ➔ Αεροδρόμιο", 
                 cost: "2,10€", 
-                tip: "Η πτήση είναι στις 12:55. Ιδανικά, ξεκίνα από το ξενοδοχείο στις 09:30 για να είσαι εντελώς χαλαρός.", 
-                desc: "09:30 - Μετρό U6: Παίρνεις την καφέ γραμμή U6 από την Längenfeldgasse με κατεύθυνση Siebenhirten ή Alterlaa.\n\n09:33 - Αλλαγή (Wien Meidling): Κατεβαίνεις στον σταθμό Wien Meidling και ακολουθείς τις πινακίδες για τα τρένα ÖBB.\n\n09:59 ή 10:29 - Τρένο RJ: Παίρνεις το γρήγορο τρένο Railjet (RJ) προς το αεροδρόμιο (Flughafen Wien).\n\n10:26 ή 10:56 - Άφιξη στο Αεροδρόμιο: Το τρένο κάνει ακριβώς 27 λεπτά.", 
+                tip: "Η πτήση είναι στις 12:55. Ξεκίνα από το ξενοδοχείο στις 09:30.", 
+                desc: "09:30 - Μετρό U6: Παίρνεις την καφέ γραμμή U6 από την Längenfeldgasse με κατεύθυνση Siebenhirten ή Alterlaa.\n👉 Περνάς 1 στάση (Niederhofstraße).\n👉 Κατεβαίνεις στη 2η στάση: Wien Meidling.\n\n09:33 - Αλλαγή: Κατεβαίνεις στον σταθμό Wien Meidling και ακολουθείς τις πινακίδες για τα τρένα ÖBB.\n\n09:59 ή 10:29 - Τρένο RJ: Παίρνεις το γρήγορο τρένο Railjet (RJ) προς το αεροδρόμιο.\n👉 Περνάς 1 στάση (Wien Hauptbahnhof).\n👉 Κατεβαίνεις στη 2η στάση: Flughafen Wien (Αεροδρόμιο).", 
                 customMap: "https://www.google.com/maps/dir/Hampton+by+Hilton+Vienna+City+West,+Diefenbachgasse+1-3,+1150+Wien,+Austria/Flughafen+Wien+(VIE),+1300+Schwechat,+Austria" 
             },
 
@@ -179,12 +178,11 @@
             { type: "sights", name: "Stadtpark (Πάρκο της Πόλης)", cost: "Δωρεάν", tip: "Βρες το χρυσό άγαλμα του Γιόχαν Στράους, το πιο φωτογραφημένο μνημείο.", desc: "Μια υπέροχη βόλτα στο πράσινο στην άκρη του κέντρου. Εδώ κάνουν τη βόλτα τους οι Βιεννέζοι όταν βγαίνει ο ήλιος.", mapQuery: "Stadtpark Vienna" }
         ];
 
-        let currentFilter = 'food';
+        let currentFilter = 'arrival';
         let synth = window.speechSynthesis;
         let currentUtterance = null;
         let playingIndex = -1;
 
-        // Progress Bar
         window.onscroll = () => {
             let winScroll = document.documentElement.scrollTop || document.body.scrollTop;
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -206,7 +204,6 @@
             const filteredData = placesData.filter(item => item.type === currentFilter);
 
             filteredData.forEach((item, index) => {
-                // Χρήση απευθείας url (αν υπάρχει), αλλιώς αναζήτηση τοποθεσίας 
                 const mapLink = item.customMap ? item.customMap : `https://www.google.com/maps/search/?api=1&query=$${encodeURIComponent(item.mapQuery)}`;
                 
                 let emoji = '📍';
@@ -265,8 +262,7 @@
             }
         }
 
-        // Αρχική φόρτωση
-        renderCards();
+        setFilter('arrival'); // Να ξεκινάει δείχνοντας την άφιξη
     </script>
 </body>
 </html>
