@@ -100,7 +100,12 @@
 
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
         .card-title { font-size: 1.25rem; font-weight: 800; margin: 0; color: #fff; line-height: 1.3; }
-        .card-cost { background: #064e3b; color: #34d399; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; white-space: nowrap; margin-left: 10px; }
+        
+        /* Cost Level Badges */
+        .card-cost { padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; white-space: nowrap; margin-left: 10px; }
+        .cost-low { background: #064e3b; color: #34d399; border: 1px solid #047857; }
+        .cost-med { background: #78350f; color: #fbbf24; border: 1px solid #b45309; }
+        .cost-high { background: #7f1d1d; color: #f87171; border: 1px solid #b91c1c; }
 
         .card-desc { font-size: 0.95rem; line-height: 1.6; color: var(--text-sec); margin: 0 0 15px 0; white-space: pre-line; }
         .card-desc strong { color: #fff; }
@@ -165,53 +170,35 @@
     <script>
         const placesData = [
             // --- ΕΙΣΙΤΗΡΙΑ ---
-            { 
-                type: "ticket", 
-                id: "panos",
-                name: "Ticket Panos", 
-                cost: "Ενεργό", 
-                tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου.", 
-                desc: "<strong>ΕΠΙΒΑΤΗΣ:</strong> PANAGIOTIS ZAROGOULIDIS\n<strong>ΚΩΔΙΚΟΣ:</strong> 26020648370\n<strong>ΙΣΧΥΕΙ ΑΠΟ:</strong> 26.02.2026 00:00\n<strong>ΙΣΧΥΕΙ ΕΩΣ:</strong> 05.03.2026 00:59", 
-                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Panos.png?raw=true" 
-            },
-            { 
-                type: "ticket", 
-                id: "lia",
-                name: "Ticket Lia", 
-                cost: "Ενεργό", 
-                tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου.", 
-                desc: "<strong>ΕΠΙΒΑΤΗΣ:</strong> VASILEIA LIAPAKI\n<strong>ΚΩΔΙΚΟΣ:</strong> 26020648369\n<strong>ΙΣΧΥΕΙ ΑΠΟ:</strong> 26.02.2026 00:00\n<strong>ΙΣΧΥΕΙ ΕΩΣ:</strong> 05.03.2026 00:59", 
-                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Lia.png?raw=true" 
-            },
+            { type: "ticket", id: "panos", name: "Ticket Panos", cost: "🟢 Ενεργό", level: "cost-low", tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί.", desc: "<strong>ΕΠΙΒΑΤΗΣ:</strong> PANAGIOTIS ZAROGOULIDIS\n<strong>ΚΩΔΙΚΟΣ:</strong> 26020648370\n<strong>ΙΣΧΥΕΙ ΑΠΟ:</strong> 26.02.2026 00:00\n<strong>ΙΣΧΥΕΙ ΕΩΣ:</strong> 05.03.2026 00:59", qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Panos.png?raw=true" },
+            { type: "ticket", id: "lia", name: "Ticket Lia", cost: "🟢 Ενεργό", level: "cost-low", tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί.", desc: "<strong>ΕΠΙΒΑΤΗΣ:</strong> VASILEIA LIAPAKI\n<strong>ΚΩΔΙΚΟΣ:</strong> 26020648369\n<strong>ΙΣΧΥΕΙ ΑΠΟ:</strong> 26.02.2026 00:00\n<strong>ΙΣΧΥΕΙ ΕΩΣ:</strong> 05.03.2026 00:59", qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Lia.png?raw=true" },
 
             // --- ΓΛΥΚΑ & ΙΣΤΟΡΙΚΑ ΚΑΦΕ ---
-            { type: "sweets", name: "Haas & Haas", cost: "~10-20€", tip: "Δοκίμασε το 'Afternoon Tea' τους με φρέσκα scones, μαρμελάδα και clotted cream. Βρίσκεται ακριβώς πίσω από τον Αγ. Στέφανο!", desc: "Το πιο διάσημο παραδοσιακό τεϊοποτείο (Teehaus) της Βιέννης. Αντί για τον κλασικό καφέ, εδώ θα βρεις τεράστια ποικιλία από κορυφαία τσάγια, σερβιρισμένα με παραδοσιακά γλυκά και αλμυρά σνακ σε ένα υπέροχο, αρχοντικό περιβάλλον.", mapQuery: "Haas and Haas Vienna" },
-            { type: "sweets", name: "Café Sacher", cost: "~10-15€", tip: "Οπλίσου με υπομονή γιατί συχνά έχει ουρά. Η αυθεντική Sachertorte σερβίρεται πάντα με άγλυκη σαντιγί.", desc: "Το πιο διάσημο καφέ της Βιέννης και το σπίτι της αυθεντικής Sachertorte! Είναι τουριστικό και οι τιμές είναι 'τσιμπημένες', αλλά αποτελεί την απόλυτη κλασική εμπειρία του ταξιδιού.", mapQuery: "Cafe Sacher Wien" },
-            { type: "sweets", name: "Café Demel", cost: "~10-15€", tip: "Πήγαινε στο βάθος του ισογείου! Έχουν ένα γυάλινο τοίχο όπου μπορείς να δεις τους ζαχαροπλάστες να φτιάχνουν τα γλυκά ζωντανά.", desc: "Ο αιώνιος αντίπαλος του Sacher. Αυτό το πρώην αυτοκρατορικό ζαχαροπλαστείο διαθέτει εκπληκτική ιστορική διακόσμηση. Δοκίμασε την δική τους εκδοχή της Sachertorte ή το Kaiserschmarrn.", mapQuery: "Demel Vienna" },
-            { type: "sweets", name: "Konditorei Groissböck", cost: "~3-5€", tip: "Εδώ πρέπει να φάτε Schaumrolle (ρολό με αφράτη κρέμα) και Krapfen (παραδοσιακός λουκουμάς με μαρμελάδα).", desc: "Μακριά από το ακριβό κέντρο. Αυτό είναι το απόλυτο παραδοσιακό ζαχαροπλαστείο της 12ης συνοικίας, όπου οι ντόπιοι κάνουν ουρές για τα γλυκά τους! Βρίσκεται μόλις 1 στάση μακριά από τον σταθμό Meidling (με το U6).", mapQuery: "Konditorei Groissboeck Meidling Vienna" },
-            { type: "sweets", name: "Aida Café-Konditorei", cost: "~4-6€", tip: "Δοκιμάστε το Apfelstrudel (Μηλόπιτα) ή το χαρακτηριστικό ροζ Punschkrapfen.", desc: "Η πιο ιστορική και ρετρό αλυσίδα ζαχαροπλαστείων της πόλης. Ξεχωρίζουν από μακριά χάρη στο χαρακτηριστικό ροζ χρώμα τους που θυμίζει δεκαετία του '50. Έχουν υποκαταστήματα παντού και οι τιμές είναι πολύ πιο τίμιες από τα πολυτελή καφέ.", mapQuery: "Aida Cafe Vienna" },
-            { type: "sweets", name: "Vollpension", cost: "~5-7€", tip: "Συνδυάστε το γλυκό σας με ζεστή σοκολάτα ή βιεννέζικο Melange.", desc: "Ένα μοναδικό, ζεστό στέκι που μοιάζει με σαλόνι γιαγιάς! Ο λόγος; Τα γλυκά εδώ τα φτιάχνουν και τα σερβίρουν... πραγματικές Βιεννέζες γιαγιάδες και παππούδες! Απίστευτη ατμόσφαιρα, πεντανόστιμα σπιτικά κέικ (Buchteln) και εξαιρετικές τιμές.", mapQuery: "Vollpension Vienna" },
+            { type: "sweets", name: "Café Landtmann", cost: "🟠 ~10-15€", level: "cost-med", tip: "Δοκιμάστε το παραδοσιακό Apfelstrudel με ζεστή σως βανίλιας.", desc: "Ένα από τα πιο κομψά και ιστορικά καφέ της Βιέννης. Το αγαπημένο καφέ του Σίγκμουντ Φρόιντ!", mapQuery: "Cafe Landtmann Vienna" },
+            { type: "sweets", name: "Haas & Haas", cost: "🟠 ~10-20€", level: "cost-med", tip: "Δοκίμασε το 'Afternoon Tea' τους με φρέσκα scones, μαρμελάδα και clotted cream.", desc: "Το πιο διάσημο παραδοσιακό τεϊοποτείο της Βιέννης ακριβώς πίσω από τον Αγ. Στέφανο.", mapQuery: "Haas and Haas Vienna" },
+            { type: "sweets", name: "Café Sacher", cost: "🟠 ~10-15€", level: "cost-med", tip: "Η αυθεντική Sachertorte σερβίρεται πάντα με άγλυκη σαντιγί.", desc: "Το πιο διάσημο καφέ της Βιέννης και το σπίτι της αυθεντικής Sachertorte!", mapQuery: "Cafe Sacher Wien" },
+            { type: "sweets", name: "Café Demel", cost: "🟠 ~10-15€", level: "cost-med", tip: "Στο βάθος του ισογείου βλέπεις τους ζαχαροπλάστες να φτιάχνουν τα γλυκά ζωντανά.", desc: "Ο αιώνιος αντίπαλος του Sacher με εκπληκτική ιστορική διακόσμηση.", mapQuery: "Demel Vienna" },
+            { type: "sweets", name: "Konditorei Groissböck", cost: "🟢 ~3-5€", level: "cost-low", tip: "Εδώ πρέπει να φάτε Schaumrolle και Krapfen.", desc: "Το απόλυτο παραδοσιακό ζαχαροπλαστείο της 12ης συνοικίας, όπου οι ντόπιοι κάνουν ουρές!", mapQuery: "Konditorei Groissboeck Meidling Vienna" },
+            { type: "sweets", name: "Aida Café-Konditorei", cost: "🟢 ~4-6€", level: "cost-low", tip: "Δοκιμάστε το Apfelstrudel ή το χαρακτηριστικό ροζ Punschkrapfen.", desc: "Ρετρό αλυσίδα ζαχαροπλαστείων της πόλης, πολύ πιο τίμιες τιμές από τα πολυτελή καφέ.", mapQuery: "Aida Cafe Vienna" },
+            { type: "sweets", name: "Vollpension", cost: "🟢 ~5-7€", level: "cost-low", tip: "Συνδυάστε το γλυκό σας με ζεστή σοκολάτα ή Melange.", desc: "Ένα στέκι όπου τα γλυκά τα φτιάχνουν και τα σερβίρουν πραγματικές Βιεννέζες γιαγιάδες!", mapQuery: "Vollpension Vienna" },
 
-            // --- ΑΦΙΞΗ ---
-            { type: "arrival", name: "Αεροδρόμιο ➔ Ξενοδοχείο", cost: "2,10€", tip: "Εισιτήρια: Το πρώτο τρένο χρειάζεται την 'Επέκταση' (2,10€). Μετά, το Μετρό U4 είναι 100% ΔΩΡΕΑΝ με την 7ήμερη κάρτα σου!", desc: "🚆 23:19 - Προαστιακός S7 (Προς Wien Floridsdorf)\nΣτάσεις που περνάς (8): Mannswörth, Schwechat, Kaiserebersdorf, Zentralfriedhof, Geiselbergstraße, St. Marx, Rennweg.\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗΝ 9η: Wien Mitte-Landstraße\n\n🚇 23:47 - Μετρό U4 (Προς Wien Hütteldorf) - [ΔΩΡΕΑΝ με την 7ήμερη]\nΣτάσεις που περνάς (5): Stadtpark, Karlsplatz, Kettenbrückengasse, Pilgramgasse, Margaretengürtel.\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗΝ 6η: Längenfeldgasse\n\n🚶‍♂️ 00:04 - Στο ξενοδοχείο: 7 λεπτά περπάτημα (375μ).", customMap: "https://www.google.com/maps/dir/L%C3%A4ngenfeldgasse/Hampton+by+Hilton+Vienna+City+West/" },
-
-            // --- ΑΝΑΧΩΡΗΣΗ ---
-            { type: "departure", name: "Ξενοδοχείο ➔ Αεροδρόμιο", cost: "2,10€", tip: "Εισιτήρια: Το Μετρό είναι ΔΩΡΕΑΝ. Για το τρένο προς το αεροδρόμιο θα βγάλεις ξανά μόνο το εισιτήριο επέκτασης 2,10€.", desc: "🚇 09:30 - Μετρό U6 (Προς Siebenhirten/Alterlaa) - [ΔΩΡΕΑΝ με την 7ήμερη]\nΣτάσεις που περνάς (1): Niederhofstraße.\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗ 2η: Wien Meidling\n\n🚆 09:59 (ή 10:29) - Τρένο RJ (Προς Flughafen Wien)\nΣτάσεις που περνάς (1): Wien Hauptbahnhof.\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗ 2η: Flughafen Wien (Αεροδρόμιο).", customMap: "https://www.google.com/maps/dir/Hampton+by+Hilton+Vienna+City+West/L%C3%A4ngenfeldgasse/" },
+            // --- ΑΦΙΞΗ / ΑΝΑΧΩΡΗΣΗ ---
+            { type: "arrival", name: "Αεροδρόμιο ➔ Ξενοδοχείο", cost: "🟢 2,10€", level: "cost-low", tip: "Το Μετρό U4 είναι 100% ΔΩΡΕΑΝ με την 7ήμερη κάρτα σου!", desc: "🚆 23:19 - Προαστιακός S7 (Προς Wien Floridsdorf)\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗΝ 9η: Wien Mitte\n🚇 23:47 - Μετρό U4 (Προς Wien Hütteldorf)\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗΝ 6η: Längenfeldgasse", customMap: "https://www.google.com/maps/dir/L%C3%A4ngenfeldgasse/Hampton+by+Hilton+Vienna+City+West/" },
+            { type: "departure", name: "Ξενοδοχείο ➔ Αεροδρόμιο", cost: "🟢 2,10€", level: "cost-low", tip: "Για το τρένο προς το αεροδρόμιο θα βγάλεις ξανά μόνο το εισιτήριο επέκτασης 2,10€.", desc: "🚇 09:30 - Μετρό U6 (Προς Siebenhirten)\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗ 2η: Wien Meidling\n🚆 09:59 (ή 10:29) - Τρένο RJ (Προς Flughafen)\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗ 2η: Flughafen", customMap: "https://www.google.com/maps/dir/Hampton+by+Hilton+Vienna+City+West/L%C3%A4ngenfeldgasse/" },
 
             // --- ΦΑΓΗΤΟ & ΣΝΙΤΣΕΛ ---
-            { type: "food", name: "Figlmüller", cost: "~20-25€", tip: "Πρέπει να κάνετε κράτηση μέρες πριν! Το διάσημο 'Figlmüller Schnitzel' είναι χοιρινό και βγαίνει έξω από το πιάτο.", desc: "Το πιο διάσημο όνομα στη Βιέννη για σνίτσελ. Έχουν δύο εστιατόρια στο κέντρο (Wollzeile & Bäckerstraße). Ετοιμαστείτε για ένα σνίτσελ-γίγαντα σε ένα πολύ παραδοσιακό περιβάλλον.", mapQuery: "Figlmuller Vienna" },
-            { type: "food", name: "Schnitzelwirt", cost: "~15-18€", tip: "Μια μερίδα έχει συνήθως 2 τεράστια κομμάτια κρέας, οπότε μπορείτε άνετα να μοιραστείτε μία!", desc: "Το απόλυτο στέκι για χορταστικό και οικονομικό σνίτσελ. Βρίσκεται στην 7η συνοικία, έχει ρουστίκ διακόσμηση, φασαρία, άφθονη μπύρα και μια πολύ αυθεντική 'ταβερνιάρικη' αίσθηση. Ιδανικό για ντόπιους και ψαγμένους ταξιδιώτες.", mapQuery: "Schnitzelwirt Vienna" },
-            { type: "food", name: "Meissl & Schadn", cost: "~28-30€", tip: "Εδώ το αυθεντικό Wiener Schnitzel (από μοσχάρι) τηγανίζεται παραδοσιακά σε καθαρό βούτυρο (Butterschmalz).", desc: "Αν ψάχνετε μια πιο premium και αρχοντική εμπειρία. Το καλύτερο; Έχουν ανοιχτή κουζίνα-βιτρίνα όπου βλέπετε τους σεφ να 'χτυπάνε' και να πανάρουν τα σνίτσελ ζωντανά μπροστά σας!", mapQuery: "Meissl & Schadn Vienna" },
-            { type: "food", name: "Leberkas-Pepi", cost: "~4€", tip: "Ζήτα το Pepi-Leberkäse με τυρί και λίγη μουστάρδα.", desc: "Το απόλυτο βρώμικο των ντόπιων. Ένα ζεστό, παχύ κομμάτι ψητού πατέ κρέατος (σαν χοντρή πάριζα) μέσα σε τραγανό ψωμάκι. Γρήγορο, χορταστικό και φθηνό.", mapQuery: "Leberkas-Pepi Vienna" },
-            { type: "food", name: "Würstelstand am Hohen Markt", cost: "~5€", tip: "Πάρε Käsekrainer κομμένο σε φέτες (geschnitten) με μαύρο ψωμί και φρέσκο χρένο.", desc: "Η πιο διάσημη καντίνα για λουκάνικα. Το Käsekrainer είναι χοντρό λουκάνικο γεμιστό με τυρί που λιώνει και πετάγεται.", mapQuery: "Wurstelstand am Hohen Markt Vienna" },
-            { type: "food", name: "Gasthaus Quell", cost: "~15-20€", tip: "Δοκίμασε το Schweinsbraten (χοιρινό ψητό με τραγανή πέτσα).", desc: "Αυθεντικό Wirtshaus στην 15η συνοικία. Ξύλινη επένδυση, καθόλου τουρίστες, μεγάλες μερίδες και εξαιρετική βαρελίσια μπύρα.", mapQuery: "Gasthaus Quell Vienna" },
-            { type: "food", name: "Steman", cost: "~18€", tip: "Εδώ θα φας εξαιρετικό παραδοσιακό φαγητό σε πολύ λογικές τιμές.", desc: "Κλασικό στέκι στην 6η συνοικία που υπάρχει πάνω από 100 χρόνια. Εξαιρετικό φαγητό, μακριά από τις εξωφρενικές τιμές του κέντρου.", mapQuery: "Steman Vienna" },
+            { type: "food", name: "Figlmüller", cost: "🔴 ~20-25€", level: "cost-high", tip: "Το διάσημο 'Figlmüller Schnitzel' είναι χοιρινό και βγαίνει έξω από το πιάτο.", desc: "Το πιο διάσημο όνομα στη Βιέννη για σνίτσελ (απαιτείται κράτηση).", mapQuery: "Figlmuller Vienna" },
+            { type: "food", name: "Schnitzelwirt", cost: "🟠 ~15-18€", level: "cost-med", tip: "Μια μερίδα έχει 2 τεράστια κομμάτια, μπορείτε άνετα να μοιραστείτε μία!", desc: "Το απόλυτο στέκι για χορταστικό και οικονομικό σνίτσελ στην 7η συνοικία.", mapQuery: "Schnitzelwirt Vienna" },
+            { type: "food", name: "Meissl & Schadn", cost: "🔴 ~28-30€", level: "cost-high", tip: "Τηγανίζεται παραδοσιακά σε καθαρό βούτυρο.", desc: "Premium εμπειρία, βλέπετε τους σεφ να πανάρουν τα σνίτσελ ζωντανά.", mapQuery: "Meissl & Schadn Vienna" },
+            { type: "food", name: "Leberkas-Pepi", cost: "🟢 ~4€", level: "cost-low", tip: "Ζήτα το Pepi-Leberkäse με τυρί και λίγη μουστάρδα.", desc: "Το απόλυτο βρώμικο των ντόπιων (πατέ κρέατος σε τραγανό ψωμάκι).", mapQuery: "Leberkas-Pepi Vienna" },
+            { type: "food", name: "Würstelstand am Hohen Markt", cost: "🟢 ~5€", level: "cost-low", tip: "Πάρε Käsekrainer κομμένο σε φέτες (geschnitten).", desc: "Η πιο διάσημη καντίνα για λουκάνικα γεμιστά με τυρί.", mapQuery: "Wurstelstand am Hohen Markt Vienna" },
+            { type: "food", name: "Gasthaus Quell", cost: "🟠 ~15-20€", level: "cost-med", tip: "Δοκίμασε το Schweinsbraten.", desc: "Αυθεντικό Wirtshaus στην 15η συνοικία, καθόλου τουρίστες.", mapQuery: "Gasthaus Quell Vienna" },
             
             // --- ΑΞΙΟΘΕΑΤΑ ---
-            { type: "sights", name: "Κήποι Schönbrunn", cost: "Δωρεάν", tip: "Ανέβα τον λόφο μέχρι την αψίδα Gloriette για πανοραμική θέα όλης της πόλης.", desc: "Η βόλτα στους αχανείς κήπους είναι μαγική και εντελώς δωρεάν.", mapQuery: "Schonbrunn Palace Vienna" },
-            { type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "Δωρεάν", tip: "Αν θες να δεις τη θέα, η ανάβαση στον Πύργο κοστίζει περίπου 6€.", desc: "Το σύμβολο της Βιέννης στο κέντρο της πόλης. Μπορείς να μπεις δωρεάν στον κεντρικό χώρο.", mapQuery: "Stephansdom Vienna" },
-            { type: "sights", name: "Hundertwasserhaus", cost: "Δωρεάν", tip: "Δες το από έξω. Ακριβώς απέναντι υπάρχει ένα μικρό 'χωριό' για καφέ.", desc: "Μια πολυκατοικία βγαλμένη από παραμύθι. Δεν έχει ίσιες γραμμές και είναι βαμμένη με έντονα χρώματα!", mapQuery: "Hundertwasserhaus Vienna" },
-            { type: "sights", name: "Naschmarkt", cost: "Δωρεάν", tip: "Το Σάββατο το πρωί, ακριβώς δίπλα, στήνεται το υπαίθριο παζάρι αντικών (Flohmarkt).", desc: "Περιπλάνηση στις αγορές της πόλης. Χάζεψε τους πάγκους με τα μπαχαρικά και τα τυριά.", mapQuery: "Naschmarkt Vienna" }
+            { type: "sights", name: "Κήποι Schönbrunn", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Ανέβα τον λόφο μέχρι την αψίδα Gloriette.", desc: "Η βόλτα στους αχανείς κήπους είναι μαγική και εντελώς δωρεάν.", mapQuery: "Schonbrunn Palace Vienna" },
+            { type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Αν θες να δεις τη θέα, η ανάβαση στον Πύργο κοστίζει περίπου 6€.", desc: "Το σύμβολο της Βιέννης. Μπορείς να μπεις δωρεάν στον κεντρικό χώρο.", mapQuery: "Stephansdom Vienna" },
+            { type: "sights", name: "Hundertwasserhaus", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Δες το από έξω.", desc: "Μια πολυκατοικία βγαλμένη από παραμύθι. Δεν έχει ίσιες γραμμές!", mapQuery: "Hundertwasserhaus Vienna" },
+            { type: "sights", name: "Naschmarkt", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Το Σάββατο στήνεται το υπαίθριο παζάρι αντικών (Flohmarkt).", desc: "Περιπλάνηση στις αγορές της πόλης με μπαχαρικά και τυριά.", mapQuery: "Naschmarkt Vienna" }
         ];
 
         let currentFilter = 'food';
@@ -283,7 +270,7 @@
                     <div class="card type-${item.type}">
                         <div class="card-header">
                             <h2 class="card-title">${emoji} ${item.name}</h2>
-                            <div class="card-cost">${item.cost}</div>
+                            <div class="card-cost ${item.level}">${item.cost}</div>
                         </div>
                         <div class="card-tip">💡 <b>Tip:</b> ${item.tip}</div>
                         <p class="card-desc">${item.desc}</p>
@@ -326,7 +313,7 @@
             }
         }
 
-        setFilter('food'); // Άλλαξα να ξεκινάει από το 'Φαγητό' για να δεις κατευθείαν το Figlmüller!
+        setFilter('food'); 
     </script>
 </body>
 </html>
