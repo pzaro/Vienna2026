@@ -154,9 +154,9 @@
             <button class="tab-btn ticket" onclick="setFilter('ticket')">🎫 Εισιτήρια</button>
             <button class="tab-btn arrival" onclick="setFilter('arrival')">🛬 Άφιξη</button>
             <button class="tab-btn departure" onclick="setFilter('departure')">🛫 Αναχώρ.</button>
-            <button class="tab-btn food active" onclick="setFilter('food')">🍔 Φαγητό</button>
+            <button class="tab-btn food" onclick="setFilter('food')">🍔 Φαγητό</button>
             <button class="tab-btn sweets" onclick="setFilter('sweets')">🍩 Γλυκά</button>
-            <button class="tab-btn sights" onclick="setFilter('sights')">🏛️ Αξιοθέατα</button>
+            <button class="tab-btn sights active" onclick="setFilter('sights')">🏛️ Αξιοθέατα</button>
         </div>
     </div>
 
@@ -182,9 +182,54 @@
             { type: "sweets", name: "Aida Café-Konditorei", cost: "🟢 ~4-6€", level: "cost-low", tip: "Δοκιμάστε το Apfelstrudel ή το χαρακτηριστικό ροζ Punschkrapfen.", desc: "Ρετρό αλυσίδα ζαχαροπλαστείων της πόλης, πολύ πιο τίμιες τιμές από τα πολυτελή καφέ.", mapQuery: "Aida Cafe Vienna" },
             { type: "sweets", name: "Vollpension", cost: "🟢 ~5-7€", level: "cost-low", tip: "Συνδυάστε το γλυκό σας με ζεστή σοκολάτα ή Melange.", desc: "Ένα στέκι όπου τα γλυκά τα φτιάχνουν και τα σερβίρουν πραγματικές Βιεννέζες γιαγιάδες!", mapQuery: "Vollpension Vienna" },
 
-            // --- ΑΦΙΞΗ / ΑΝΑΧΩΡΗΣΗ ---
-            { type: "arrival", name: "Αεροδρόμιο ➔ Ξενοδοχείο", cost: "🟢 2,10€", level: "cost-low", tip: "Το Μετρό U4 είναι 100% ΔΩΡΕΑΝ με την 7ήμερη κάρτα σου!", desc: "🚆 23:19 - Προαστιακός S7 (Προς Wien Floridsdorf)\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗΝ 9η: Wien Mitte\n🚇 23:47 - Μετρό U4 (Προς Wien Hütteldorf)\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗΝ 6η: Längenfeldgasse", customMap: "https://www.google.com/maps/dir/L%C3%A4ngenfeldgasse/Hampton+by+Hilton+Vienna+City+West/" },
-            { type: "departure", name: "Ξενοδοχείο ➔ Αεροδρόμιο", cost: "🟢 2,10€", level: "cost-low", tip: "Για το τρένο προς το αεροδρόμιο θα βγάλεις ξανά μόνο το εισιτήριο επέκτασης 2,10€.", desc: "🚇 09:30 - Μετρό U6 (Προς Siebenhirten)\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗ 2η: Wien Meidling\n🚆 09:59 (ή 10:29) - Τρένο RJ (Προς Flughafen)\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗ 2η: Flughafen", customMap: "https://www.google.com/maps/dir/Hampton+by+Hilton+Vienna+City+West/L%C3%A4ngenfeldgasse/" },
+            // --- ΑΦΙΞΗ ΜΕ ΚΑΘΕ ΛΕΠΤΟΜΕΡΕΙΑ ---
+            { 
+                type: "arrival", 
+                name: "Βήμα 1: Εισιτήριο στο Αεροδρόμιο", 
+                cost: "🟢 2,10€", 
+                level: "cost-low", 
+                tip: "ΠΡΟΣΟΧΗ: Το εισιτήριο δεν χρειάζεται ακύρωση, ισχύει από τη στιγμή που βγαίνει.", 
+                desc: "Προσγειώνεστε στο <strong>Flughafen Wien</strong>.\n1. Ακολουθήστε τις πράσινες ταμπέλες <strong>S-Bahn / Züge</strong> (Τρένα).\n2. Βρείτε ένα <strong>κόκκινο μηχάνημα (ÖBB Ticketautomat)</strong>.\n3. Γυρίστε τη γλώσσα στα 🇬🇧 Αγγλικά.\n4. Επιλέξτε προορισμό: <strong>Wien Mitte</strong>.\n5. Το σύστημα θα βγάλει αρχική τιμή 4,40€. <strong>ΒΡΕΙΤΕ ΤΗΝ ΕΠΙΛΟΓΗ (Discount)</strong> που λέει ότι έχετε εισιτήριο πόλης: <strong>\"Ticket Stadtverkehr Wien\"</strong> (ή \"I have a ticket for Vienna zone\").\n6. Η τιμή πέφτει στα 2,10€! Πληρώστε με κάρτα ή μετρητά. Κρατήστε το χαρτάκι.", 
+                customMap: null 
+            },
+            { 
+                type: "arrival", 
+                name: "Βήμα 2: Το Τρένο (S-Bahn) για το κέντρο", 
+                cost: "🟢 Δωρεάν", 
+                level: "cost-low", 
+                tip: "Μην πάρετε το CAT (πράσινο τρένο), είναι πανάκριβο! Πάρτε το απλό S7.", 
+                desc: "Κατεβείτε στις αποβάθρες (<strong>Bahnsteig 1 ή 2</strong>).\n\n🚆 Παίρνετε τον προαστιακό <strong>S-Bahn Γραμμή S7</strong>.\nΠρέπει να γράφει κατεύθυνση: <strong>\"Wien Floridsdorf\"</strong>.\n\nΣτάσεις που θα περάσετε (8): Mannswörth, Schwechat, Kaiserebersdorf, Zentralfriedhof, Geiselbergstraße, St. Marx, Rennweg.\n\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΗΝ 9η ΣΤΑΣΗ: \"Wien Mitte - Landstraße\"</strong>.", 
+                customMap: null 
+            },
+            { 
+                type: "arrival", 
+                name: "Βήμα 3: Μετρό (U-Bahn) για ξενοδοχείο", 
+                cost: "🟢 Δωρεάν", 
+                level: "cost-low", 
+                tip: "Εδώ ξεκινάει η ισχύς της 7ήμερης ψηφιακής σας κάρτας. Το Μετρό (U-Bahn) είναι δωρεάν.", 
+                desc: "Μόλις κατεβείτε στο Wien Mitte, ακολουθήστε μέσα στον σταθμό τις <strong>πράσινες ταμπέλες U4</strong>.\n\n🚇 Παίρνετε το Μετρό <strong>U-Bahn Γραμμή U4</strong> (Πράσινη γραμμή).\nΠρέπει να γράφει κατεύθυνση: <strong>\"Wien Hütteldorf\"</strong>.\n\nΣτάσεις που περνάτε (5): Stadtpark, Karlsplatz, Kettenbrückengasse, Pilgramgasse, Margaretengürtel.\n\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΗΝ 6η ΣΤΑΣΗ: \"Längenfeldgasse\"</strong>.\n\nΒγαίνετε από τον σταθμό και το ξενοδοχείο είναι 7 λεπτά περπάτημα!", 
+                customMap: "https://www.google.com/maps/dir/L%C3%A4ngenfeldgasse/Hampton+by+Hilton+Vienna+City+West/" 
+            },
+
+            // --- ΑΝΑΧΩΡΗΣΗ ΜΕ ΚΑΘΕ ΛΕΠΤΟΜΕΡΕΙΑ ---
+            { 
+                type: "departure", 
+                name: "Βήμα 1: Ξενοδοχείο ➔ Μετρό", 
+                cost: "🟢 Δωρεάν", 
+                level: "cost-low", 
+                tip: "Ελέγξτε αν τα ψηφιακά σας εισιτήρια είναι ακόμα ενεργά στο κινητό.", 
+                desc: "Περπατάτε στον σταθμό του Μετρό Längenfeldgasse ή Niederhofstraße (ανάλογα τι σας βολεύει).\n\n🚇 Παίρνετε το Μετρό <strong>U-Bahn Γραμμή U6</strong> (Καφέ γραμμή).\nΠρέπει να γράφει κατεύθυνση: <strong>\"Siebenhirten\"</strong> ή <strong>\"Alterlaa\"</strong>.\n\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΗ ΣΤΑΣΗ: \"Wien Meidling\"</strong> (Bahnhof Meidling).", 
+                customMap: null 
+            },
+            { 
+                type: "departure", 
+                name: "Βήμα 2: Εισιτήριο & Τρένο για Αεροδρόμιο", 
+                cost: "🟢 2,10€", 
+                level: "cost-low", 
+                tip: "Αυτή τη φορά παίρνετε το Railjet (RJ) που είναι υπερσύγχρονο τρένο ταχείας!", 
+                desc: "Μέσα στον σταθμό <strong>Wien Meidling</strong>, βρείτε ένα <strong>κόκκινο μηχάνημα ÖBB</strong>.\n1. Βγάλτε το εισιτήριο επέκτασης 2,10€, επιλέγοντας προορισμό <strong>\"Flughafen Wien\"</strong> και δηλώνοντας την έκπτωση (Ticket Stadtverkehr Wien).\n\n2. Πηγαίνετε στην αποβάθρα (<strong>Bahnsteig</strong>).\n🚆 Παίρνετε το γρήγορο τρένο <strong>Railjet (RJ)</strong>.\nΠρέπει να γράφει κατεύθυνση: <strong>\"Flughafen Wien\"</strong>.\n\nΗ διαδρομή είναι περίπου 25 λεπτά.\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΟ ΤΕΡΜΑ: \"Flughafen Wien\"</strong> (Αεροδρόμιο).", 
+                customMap: "https://www.google.com/maps/dir/Hampton+by+Hilton+Vienna+City+West/L%C3%A4ngenfeldgasse/" 
+            },
 
             // --- ΦΑΓΗΤΟ & ΣΝΙΤΣΕΛ ---
             { type: "food", name: "Figlmüller", cost: "🔴 ~20-25€", level: "cost-high", tip: "Το διάσημο 'Figlmüller Schnitzel' είναι χοιρινό και βγαίνει έξω από το πιάτο.", desc: "Το πιο διάσημο όνομα στη Βιέννη για σνίτσελ (απαιτείται κράτηση).", mapQuery: "Figlmuller Vienna" },
@@ -195,13 +240,15 @@
             { type: "food", name: "Gasthaus Quell", cost: "🟠 ~15-20€", level: "cost-med", tip: "Δοκίμασε το Schweinsbraten.", desc: "Αυθεντικό Wirtshaus στην 15η συνοικία, καθόλου τουρίστες.", mapQuery: "Gasthaus Quell Vienna" },
             
             // --- ΑΞΙΟΘΕΑΤΑ ---
+            { type: "sights", name: "Στήλη της Πανώλης (Pestsäule)", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Βρίσκεται στην καρδιά της Graben, του πιο διάσημου πεζόδρομου. Ιδανικό για φωτογραφίες!", desc: "Ένα εντυπωσιακό χρυσό και μαρμάρινο μπαρόκ μνημείο (συχνά το αποκαλούν και συντριβάνι). Χτίστηκε τον 17ο αιώνα μετά το τέλος της μεγάλης επιδημίας πανώλης και κοσμεί το κέντρο του πιο πολυτελούς δρόμου της Βιέννης.", mapQuery: "Pestsaule Vienna" },
+            { type: "sights", name: "Ελληνικό Προξενείο (Πρεσβεία)", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Χρήσιμο να γνωρίζετε πού βρίσκεται σε περίπτωση ανάγκης (Argentinierstraße 14).", desc: "Το κτίριο της Ελληνικής Πρεσβείας και του Προξενείου στη Βιέννη. Βρίσκεται στην περιοχή Wieden (4η συνοικία), σχετικά κοντά στην εκκλησία Karlskirche.", mapQuery: "Greek Embassy Vienna" },
             { type: "sights", name: "Κήποι Schönbrunn", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Ανέβα τον λόφο μέχρι την αψίδα Gloriette.", desc: "Η βόλτα στους αχανείς κήπους είναι μαγική και εντελώς δωρεάν.", mapQuery: "Schonbrunn Palace Vienna" },
             { type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Αν θες να δεις τη θέα, η ανάβαση στον Πύργο κοστίζει περίπου 6€.", desc: "Το σύμβολο της Βιέννης. Μπορείς να μπεις δωρεάν στον κεντρικό χώρο.", mapQuery: "Stephansdom Vienna" },
             { type: "sights", name: "Hundertwasserhaus", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Δες το από έξω.", desc: "Μια πολυκατοικία βγαλμένη από παραμύθι. Δεν έχει ίσιες γραμμές!", mapQuery: "Hundertwasserhaus Vienna" },
             { type: "sights", name: "Naschmarkt", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Το Σάββατο στήνεται το υπαίθριο παζάρι αντικών (Flohmarkt).", desc: "Περιπλάνηση στις αγορές της πόλης με μπαχαρικά και τυριά.", mapQuery: "Naschmarkt Vienna" }
         ];
 
-        let currentFilter = 'food';
+        let currentFilter = 'sights';
         let synth = window.speechSynthesis;
         let currentUtterance = null;
         let playingIndex = -1;
@@ -228,92 +275,4 @@
         }
 
         function closeModal() {
-            document.getElementById('imageModal').style.display = 'none';
-        }
-
-        function renderCards() {
-            const container = document.getElementById('content');
-            container.innerHTML = '';
-            
-            currentFilteredData = placesData.filter(item => item.type === currentFilter);
-
-            currentFilteredData.forEach((item, index) => {
-                let emoji = '📍';
-                let actionContent = '';
-                
-                if(item.type === 'ticket') {
-                    emoji = '🎫';
-                    actionContent = `
-                        <div class="qr-image-container" onclick="openModal('${item.qrUrl}')">
-                            <div class="qr-hint">🔍 Πάτα την εικόνα για πλήρη οθόνη</div>
-                            <img src="${item.qrUrl}" alt="QR Code ${item.name}">
-                        </div>
-                    `;
-                } else {
-                    if(item.type === 'food') emoji = '🍔';
-                    if(item.type === 'sweets') emoji = '🍩';
-                    if(item.type === 'sights') emoji = '🏛️';
-                    if(item.type === 'arrival') emoji = '🛬';
-                    if(item.type === 'departure') emoji = '🛫';
-                    
-                    const mapLink = item.customMap ? item.customMap : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
-                    
-                    actionContent = `
-                        <div class="actions">
-                            <button id="audio-btn-${index}" class="btn btn-audio" onclick="toggleAudio(${index})">🔊 Ακρόαση</button>
-                            <a href="${mapLink}" target="_blank" class="btn btn-map">📍 Χάρτης</a>
-                        </div>
-                    `;
-                }
-
-                container.innerHTML += `
-                    <div class="card type-${item.type}">
-                        <div class="card-header">
-                            <h2 class="card-title">${emoji} ${item.name}</h2>
-                            <div class="card-cost ${item.level}">${item.cost}</div>
-                        </div>
-                        <div class="card-tip">💡 <b>Tip:</b> ${item.tip}</div>
-                        <p class="card-desc">${item.desc}</p>
-                        ${actionContent}
-                    </div>
-                `;
-            });
-        }
-
-        function toggleAudio(index) {
-            if (playingIndex === index && synth.speaking) {
-                stopAudio();
-            } else {
-                stopAudio();
-                playingIndex = index;
-                document.getElementById(`audio-btn-${index}`).classList.add('playing');
-                document.getElementById(`audio-btn-${index}`).innerText = "⏹️ Stop";
-                
-                let textToSpeak = currentFilteredData[index].desc.replace(/\n/g, ". ");
-                textToSpeak = textToSpeak.replace(/<[^>]*>?/gm, '');
-                
-                currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
-                currentUtterance.lang = 'el-GR';
-                currentUtterance.rate = 0.95;
-                
-                currentUtterance.onend = () => { stopAudio(); };
-                synth.speak(currentUtterance);
-            }
-        }
-
-        function stopAudio() {
-            if (synth.speaking) synth.cancel();
-            if (playingIndex !== -1) {
-                const btn = document.getElementById(`audio-btn-${playingIndex}`);
-                if (btn) {
-                    btn.classList.remove('playing');
-                    btn.innerHTML = "🔊 Ακρόαση";
-                }
-                playingIndex = -1;
-            }
-        }
-
-        setFilter('food'); 
-    </script>
-</body>
-</html>
+            document.getElementById('im
