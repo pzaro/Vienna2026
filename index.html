@@ -152,11 +152,11 @@
         <h1>🇦🇹 Vienna Local Guide</h1>
         <div class="tabs">
             <button class="tab-btn ticket" onclick="setFilter('ticket')">🎫 Εισιτήρια</button>
-            <button class="tab-btn arrival" onclick="setFilter('arrival')">🛬 Άφιξη</button>
+            <button class="tab-btn arrival active" onclick="setFilter('arrival')">🛬 Άφιξη</button>
             <button class="tab-btn departure" onclick="setFilter('departure')">🛫 Αναχώρ.</button>
             <button class="tab-btn food" onclick="setFilter('food')">🍔 Φαγητό</button>
             <button class="tab-btn sweets" onclick="setFilter('sweets')">🍩 Γλυκά</button>
-            <button class="tab-btn sights active" onclick="setFilter('sights')">🏛️ Αξιοθέατα</button>
+            <button class="tab-btn sights" onclick="setFilter('sights')">🏛️ Αξιοθέατα</button>
         </div>
     </div>
 
@@ -190,7 +190,7 @@
                 level: "cost-low", 
                 tip: "ΠΡΟΣΟΧΗ: Το εισιτήριο δεν χρειάζεται ακύρωση, ισχύει από τη στιγμή που βγαίνει.", 
                 desc: "Προσγειώνεστε στο <strong>Flughafen Wien</strong>.\n1. Ακολουθήστε τις πράσινες ταμπέλες <strong>S-Bahn / Züge</strong> (Τρένα).\n2. Βρείτε ένα <strong>κόκκινο μηχάνημα (ÖBB Ticketautomat)</strong>.\n3. Γυρίστε τη γλώσσα στα 🇬🇧 Αγγλικά.\n4. Επιλέξτε προορισμό: <strong>Wien Mitte</strong>.\n5. Το σύστημα θα βγάλει αρχική τιμή 4,40€. <strong>ΒΡΕΙΤΕ ΤΗΝ ΕΠΙΛΟΓΗ (Discount)</strong> που λέει ότι έχετε εισιτήριο πόλης: <strong>\"Ticket Stadtverkehr Wien\"</strong> (ή \"I have a ticket for Vienna zone\").\n6. Η τιμή πέφτει στα 2,10€! Πληρώστε με κάρτα ή μετρητά. Κρατήστε το χαρτάκι.", 
-                customMap: null 
+                customMap: "https://www.google.com/maps/search/?api=1&query=Flughafen+Wien"
             },
             { 
                 type: "arrival", 
@@ -208,7 +208,7 @@
                 level: "cost-low", 
                 tip: "Εδώ ξεκινάει η ισχύς της 7ήμερης ψηφιακής σας κάρτας. Το Μετρό (U-Bahn) είναι δωρεάν.", 
                 desc: "Μόλις κατεβείτε στο Wien Mitte, ακολουθήστε μέσα στον σταθμό τις <strong>πράσινες ταμπέλες U4</strong>.\n\n🚇 Παίρνετε το Μετρό <strong>U-Bahn Γραμμή U4</strong> (Πράσινη γραμμή).\nΠρέπει να γράφει κατεύθυνση: <strong>\"Wien Hütteldorf\"</strong>.\n\nΣτάσεις που περνάτε (5): Stadtpark, Karlsplatz, Kettenbrückengasse, Pilgramgasse, Margaretengürtel.\n\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΗΝ 6η ΣΤΑΣΗ: \"Längenfeldgasse\"</strong>.\n\nΒγαίνετε από τον σταθμό και το ξενοδοχείο είναι 7 λεπτά περπάτημα!", 
-                customMap: "https://www.google.com/maps/dir/L%C3%A4ngenfeldgasse/Hampton+by+Hilton+Vienna+City+West/" 
+                customMap: "https://www.google.com/maps/search/?api=1&query=Längenfeldgasse+Vienna" 
             },
 
             // --- ΑΝΑΧΩΡΗΣΗ ΜΕ ΚΑΘΕ ΛΕΠΤΟΜΕΡΕΙΑ ---
@@ -228,7 +228,7 @@
                 level: "cost-low", 
                 tip: "Αυτή τη φορά παίρνετε το Railjet (RJ) που είναι υπερσύγχρονο τρένο ταχείας!", 
                 desc: "Μέσα στον σταθμό <strong>Wien Meidling</strong>, βρείτε ένα <strong>κόκκινο μηχάνημα ÖBB</strong>.\n1. Βγάλτε το εισιτήριο επέκτασης 2,10€, επιλέγοντας προορισμό <strong>\"Flughafen Wien\"</strong> και δηλώνοντας την έκπτωση (Ticket Stadtverkehr Wien).\n\n2. Πηγαίνετε στην αποβάθρα (<strong>Bahnsteig</strong>).\n🚆 Παίρνετε το γρήγορο τρένο <strong>Railjet (RJ)</strong>.\nΠρέπει να γράφει κατεύθυνση: <strong>\"Flughafen Wien\"</strong>.\n\nΗ διαδρομή είναι περίπου 25 λεπτά.\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΟ ΤΕΡΜΑ: \"Flughafen Wien\"</strong> (Αεροδρόμιο).", 
-                customMap: "https://www.google.com/maps/dir/Hampton+by+Hilton+Vienna+City+West/L%C3%A4ngenfeldgasse/" 
+                customMap: "https://www.google.com/maps/search/?api=1&query=Flughafen+Wien+Bahnhof" 
             },
 
             // --- ΦΑΓΗΤΟ & ΣΝΙΤΣΕΛ ---
@@ -240,7 +240,7 @@
             { type: "food", name: "Gasthaus Quell", cost: "🟠 ~15-20€", level: "cost-med", tip: "Δοκίμασε το Schweinsbraten.", desc: "Αυθεντικό Wirtshaus στην 15η συνοικία, καθόλου τουρίστες.", mapQuery: "Gasthaus Quell Vienna" },
             
             // --- ΑΞΙΟΘΕΑΤΑ ---
-            { type: "sights", name: "Στήλη της Πανώλης (Pestsäule)", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Βρίσκεται στην καρδιά της Graben, του πιο διάσημου πεζόδρομου. Ιδανικό για φωτογραφίες!", desc: "Ένα εντυπωσιακό χρυσό και μαρμάρινο μπαρόκ μνημείο (συχνά το αποκαλούν και συντριβάνι). Χτίστηκε τον 17ο αιώνα μετά το τέλος της μεγάλης επιδημίας πανώλης και κοσμεί το κέντρο του πιο πολυτελούς δρόμου της Βιέννης.", mapQuery: "Pestsaule Vienna" },
+            { type: "sights", name: "Στήλη της Πανώλης (Pestsäule)", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Βρίσκεται στην καρδιά της Graben, του πιο διάσημου πεζόδρομου. Ιδανικό για φωτογραφίες!", desc: "Ένα εντυπωσιακό χρυσό και μαρμάρινο μπαρόκ μνημείο (συχνά το αποκαλούν και συντριβάνι). Χτίστηκε τον 17ο αιώνα μετά το τέλος της μεγάλη επιδημίας πανώλης και κοσμεί το κέντρο του πιο πολυτελούς δρόμου της Βιέννης.", mapQuery: "Pestsaule Vienna" },
             { type: "sights", name: "Ελληνικό Προξενείο (Πρεσβεία)", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Χρήσιμο να γνωρίζετε πού βρίσκεται σε περίπτωση ανάγκης (Argentinierstraße 14).", desc: "Το κτίριο της Ελληνικής Πρεσβείας και του Προξενείου στη Βιέννη. Βρίσκεται στην περιοχή Wieden (4η συνοικία), σχετικά κοντά στην εκκλησία Karlskirche.", mapQuery: "Greek Embassy Vienna" },
             { type: "sights", name: "Κήποι Schönbrunn", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Ανέβα τον λόφο μέχρι την αψίδα Gloriette.", desc: "Η βόλτα στους αχανείς κήπους είναι μαγική και εντελώς δωρεάν.", mapQuery: "Schonbrunn Palace Vienna" },
             { type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Αν θες να δεις τη θέα, η ανάβαση στον Πύργο κοστίζει περίπου 6€.", desc: "Το σύμβολο της Βιέννης. Μπορείς να μπεις δωρεάν στον κεντρικό χώρο.", mapQuery: "Stephansdom Vienna" },
@@ -248,7 +248,7 @@
             { type: "sights", name: "Naschmarkt", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Το Σάββατο στήνεται το υπαίθριο παζάρι αντικών (Flohmarkt).", desc: "Περιπλάνηση στις αγορές της πόλης με μπαχαρικά και τυριά.", mapQuery: "Naschmarkt Vienna" }
         ];
 
-        let currentFilter = 'sights';
+        let currentFilter = 'arrival';
         let synth = window.speechSynthesis;
         let currentUtterance = null;
         let playingIndex = -1;
@@ -305,6 +305,7 @@
                     
                     let mapButton = '';
                     if (item.customMap || item.mapQuery) {
+                        // Διορθωμένο link για το Google Maps με τη σωστή χρήση της μεταβλητής!
                         const mapLink = item.customMap ? item.customMap : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
                         mapButton = `<a href="${mapLink}" target="_blank" class="btn btn-map">📍 Χάρτης</a>`;
                     }
@@ -364,7 +365,7 @@
             }
         }
 
-        setFilter('sights'); // Εκκίνηση από τα αξιοθέατα για να δεις κατευθείαν τις προσθήκες
+        setFilter('arrival'); 
     </script>
 </body>
 </html>
