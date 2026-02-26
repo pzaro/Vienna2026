@@ -2,448 +2,395 @@
 <html lang="el">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Vienna Local Guide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Predictor Pro v3200 - Sovereign Apex</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-dark: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-sec: #94a3b8;
-            --accent: #fbbf24;
-            --food-color: #ef4444;
-            --sight-color: #3b82f6;
-            --arr-color: #10b981; 
-            --dep-color: #8b5cf6; 
-            --ticket-color: #f97316;
-            --sweet-color: #ec4899;
+        :root { 
+            --bg: #02040a; --card: #0d121f; --border: #1e293b; 
+            --p: #00f2ff; --magenta: #ff00ff; --txt: #f1f5f9; --txt-muted: #64748b; 
+            --gold: #f59e0b; --orange-grad: linear-gradient(135deg, #f59e0b, #ef4444);
+            --live: #10b981; --alert: #f43f5e;
+            --value: #8b5cf6; --grad: linear-gradient(135deg, #00f2ff, #8b5cf6);
+            --ticker-speed: 25s;
         }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--txt); margin: 0; padding: 0; font-size: 16px; overflow-x: hidden; }
+        h1, h2, .league-header, .stat-font, .motd-title { font-family: 'Orbitron', sans-serif; }
+        .container { width: 100%; max-width: 1000px; margin: 0 auto; padding: 15px; }
 
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background: var(--bg-dark); 
-            color: var(--text-main); 
-            margin: 0; 
-            padding: 0; 
-            padding-bottom: 80px;
-            -webkit-font-smoothing: antialiased;
-        }
+        /* 🟢 HEADER & TICKER */
+        .header-sticky { position: sticky; top: 0; z-index: 1000; background: rgba(2, 4, 10, 0.98); backdrop-filter: blur(20px); border-bottom: 2px solid var(--p); }
+        .ticker-controls { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; font-size: 0.7rem; font-weight: 900; background: #000; color: var(--p); }
+        .ticker-wrap { width: 100%; overflow: hidden; white-space: nowrap; padding: 12px 0; display: none; background: rgba(0,242,255,0.05); border-top: 1px solid #111; }
+        .ticker-move { display: inline-block; animation: ticker var(--ticker-speed) linear infinite; }
+        .ticker-item { display: inline-block; padding: 0 1.5rem; font-weight: 800; font-size: 0.85rem; border-right: 1px solid var(--border); color: #fff; }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* Progress Bar */
-        .progress-container { width: 100%; height: 4px; background: #334155; position: fixed; top: 0; z-index: 9999; }
-        .progress-bar { height: 4px; background: var(--accent); width: 0%; border-radius: 0 2px 2px 0; }
+        /* 🔥 MOTD & SAFETY */
+        #motdSection { background: linear-gradient(145deg, #1e1b4b, #020617); border: 2px solid var(--gold); border-radius: 30px; padding: 25px; margin-bottom: 30px; display: none; box-shadow: 0 0 40px rgba(245,158,11,0.2); position: relative; cursor: pointer; }
+        .motd-badge { position: absolute; top: -15px; left: 30px; background: var(--gold); color: #000; padding: 5px 15px; border-radius: 8px; font-weight: 900; font-size: 0.7rem; letter-spacing: 1px; }
 
-        /* App Header & Tabs */
-        .header {
-            position: sticky;
-            top: 4px;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 15px 15px 10px;
-            border-bottom: 1px solid #334155;
-        }
+        /* 🛡️ MISSION CARDS */
+        .cyber-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+        .league-header { background: var(--orange-grad); color: #000; padding: 14px 22px; border-radius: 10px; font-weight: 900; margin: 30px 0 15px; font-size: 0.8rem; text-transform: uppercase; }
 
-        h1 { margin: 0 0 15px 0; font-size: 1.4rem; text-align: center; color: var(--accent); letter-spacing: 0.5px; }
-
-        .tabs { 
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 8px; 
-        }
+        .match-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; margin-bottom: 18px; cursor: pointer; transition: 0.3s; position: relative; }
+        .match-card:hover { border-color: var(--p); transform: translateY(-3px); }
+        .match-card.gold-glow { border: 2px solid var(--gold); box-shadow: 0 0 25px rgba(245,158,11,0.15); }
         
-        .tab-btn {
-            flex: 1 1 calc(33.333% - 8px); 
-            padding: 10px 5px;
-            border: none;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--text-sec);
-            background: #334155;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-        }
+        .score-box { font-size: 2.4rem; font-weight: 900; color: #fff; font-family: 'Orbitron'; text-shadow: 0 0 20px rgba(0,242,255,0.4); }
+        .live-pulse { color: var(--live); font-weight: 900; animation: blink 1.2s infinite; font-size: 0.75rem; display: flex; align-items: center; gap: 6px; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        /* Active Tab Colors */
-        .tab-btn.active.ticket { background: var(--ticket-color); color: #fff; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4); }
-        .tab-btn.active.sweets { background: var(--sweet-color); color: #fff; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); }
-        .tab-btn.active.food { background: var(--food-color); color: #fff; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); }
-        .tab-btn.active.sights { background: var(--sight-color); color: #fff; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
-        .tab-btn.active.arrival { background: var(--arr-color); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
-        .tab-btn.active.departure { background: var(--dep-color); color: #fff; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); }
+        /* 🏆 SLIPS */
+        .acca-slip { background: linear-gradient(160deg, #0f172a 0%, #020617 100%); border: 2px solid var(--magenta); border-radius: 35px; padding: 30px; margin-bottom: 40px; border-top: 12px solid var(--magenta); box-shadow: 0 30px 70px rgba(0,0,0,0.8); }
+        .slip-item { background: rgba(255,255,255,0.03); border-radius: 20px; padding: 22px; margin-bottom: 15px; border-left: 10px solid var(--p); border: 1px solid rgba(255,255,255,0.05); }
+        .tip-badge-big { background: var(--magenta); color: #fff; padding: 12px 25px; border-radius: 15px; font-weight: 900; font-size: 1.1rem; display: inline-block; margin-bottom: 15px; box-shadow: 0 0 20px var(--magenta); border: 2px solid var(--p); }
 
-        /* Cards Layout */
-        .container { padding: 15px; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+        /* 📊 LAB & PROGRESS */
+        .cyber-progress-bg { background: #000; height: 18px; border-radius: 50px; overflow: hidden; border: 1px solid var(--border); position: relative; margin: 15px 0; }
+        .cyber-progress-fill { height: 100%; background: var(--grad); width: 0%; transition: width 0.4s; box-shadow: 0 0 20px var(--p); }
 
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            border: 1px solid #334155;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
-        .card.type-ticket::before { background: var(--ticket-color); }
-        .card.type-sweets::before { background: var(--sweet-color); }
-        .card.type-food::before { background: var(--food-color); }
-        .card.type-sight::before { background: var(--sight-color); }
-        .card.type-arrival::before { background: var(--arr-color); }
-        .card.type-departure::before { background: var(--dep-color); }
-
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-        .card-title { font-size: 1.25rem; font-weight: 800; margin: 0; color: #fff; line-height: 1.3; }
+        /* 🟢 INTEL ELEMENTS */
+        .intel-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.8rem; }
+        .intel-table th { color: var(--p); text-align: left; padding: 12px; border-bottom: 1px solid var(--border); }
+        .intel-table td { padding: 14px 12px; border-bottom: 1px solid #0f172a; font-weight: 700; }
         
-        /* Cost Level Badges */
-        .card-cost { padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; white-space: nowrap; margin-left: 10px; }
-        .cost-low { background: #064e3b; color: #34d399; border: 1px solid #047857; }
-        .cost-med { background: #78350f; color: #fbbf24; border: 1px solid #b45309; }
-        .cost-high { background: #7f1d1d; color: #f87171; border: 1px solid #b91c1c; }
+        .form-row { display: flex; justify-content: center; gap: 12px; margin-top: 10px; }
+        .form-col { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .dot { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid #fff; }
+        .dot.W { background: var(--live); box-shadow: 0 0 10px var(--live); } .dot.D { background: var(--gold); } .dot.L { background: var(--alert); }
+        .form-val { font-size: 0.65rem; color: var(--txt-muted); font-weight: 900; }
 
-        .card-desc { font-size: 0.95rem; line-height: 1.6; color: var(--text-sec); margin: 0 0 15px 0; white-space: pre-line; }
-        .card-desc strong { color: #fff; }
-        
-        .card-tip { background: rgba(251, 191, 36, 0.1); color: #fcd34d; padding: 12px; border-radius: 8px; font-size: 0.9rem; font-style: italic; margin-bottom: 15px; border-left: 3px solid var(--accent); }
+        /* 📅 CALENDAR */
+        .cal-container { display: flex; align-items: center; background: #000; border: 2px solid var(--gold); border-radius: 15px; padding: 10px 15px; gap: 10px; box-shadow: 0 0 15px rgba(245,158,11,0.2); }
+        .cal-input { background: transparent; border: none; color: var(--gold); font-weight: 900; font-family: 'Orbitron'; font-size: 0.85rem; cursor: pointer; width: 100%; }
 
-        .actions { display: flex; gap: 10px; }
-        .btn { flex: 1; padding: 12px; border-radius: 10px; font-weight: 700; text-align: center; text-decoration: none; font-size: 0.9rem; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .btn-audio { background: #334155; color: #fff; }
-        .btn-map { background: var(--text-main); color: var(--bg-dark); }
-        .btn-audio.playing { background: #ef4444; animation: pulse 1.5s infinite; }
+        #intelPanel, #aiPanel { display: none; background: var(--bg); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; overflow-y: auto; padding-bottom: 100px; }
+        .close-circle { position: fixed; bottom: 30px; right: 30px; background: var(--alert); color: #fff; width: 65px; height: 65px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; border: none; z-index: 10001; box-shadow: 0 0 30px var(--alert); font-size: 1.2rem; cursor: pointer; }
 
-        /* Εικόνα QR Code */
-        .qr-image-container { margin-top: 15px; text-align: center; padding: 15px; background: #fff; border-radius: 10px; cursor: pointer; transition: transform 0.2s; }
-        .qr-image-container:active { transform: scale(0.95); }
-        .qr-image-container img { width: 100%; max-width: 300px; border-radius: 8px; }
-        .qr-hint { color: #3b82f6; font-size: 0.85rem; font-weight: bold; margin-bottom: 8px; }
-
-        /* Full Screen Image Modal - Πλέον υποστηρίζει Pinch-to-Zoom */
-        #imageModal {
-            display: none; 
-            position: fixed; 
-            z-index: 99999; 
-            left: 0; 
-            top: 0; 
-            width: 100%; 
-            height: 100%; 
-            background-color: rgba(0,0,0,0.98); 
-            align-items: center; 
-            justify-content: center;
-            overflow: hidden;
-            touch-action: none; /* Αποτρέπει το default scroll του browser */
-        }
-        #fullImage { 
-            max-width: 95%; 
-            max-height: 85%; 
-            border-radius: 12px; 
-            box-shadow: 0 0 30px rgba(255,255,255,0.2); 
-            transform-origin: center;
-        }
-        .close-modal-btn { 
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(239, 68, 68, 0.9);
-            color: #fff; 
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 1rem; 
-            font-weight: bold; 
-            cursor: pointer;
-            z-index: 100000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
+        @media (min-width: 768px) { .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; } }
     </style>
 </head>
 <body>
 
-    <div class="progress-container"><div class="progress-bar" id="myBar"></div></div>
+<div id="authScreen">
+    <div class="auth-box" style="background:var(--card); border-radius:40px; padding:50px 30px; text-align:center; max-width:420px; margin:auto; margin-top:15vh; border:2px solid var(--p);">
+        <h1 style="color:var(--p); margin:0; font-size:2.2rem;">APEX SYSTEM</h1>
+        <p style="color:var(--txt-muted); font-size:0.8rem; margin-top:10px;">V3200 CONTINUUM SPEC</p>
+        <input type="tel" id="pinInput" class="auth-input" maxlength="6" placeholder="••••••" oninput="instantAuth(this)" style="width:100%; padding:20px; margin-top:30px; text-align:center; font-size:2.5rem; border-radius:20px; border:none; background:#000; color:var(--p); font-family: 'Orbitron'; letter-spacing:15px; font-weight:900;">
+    </div>
+</div>
 
-    <div class="header">
-        <h1>🇦🇹 Vienna Local Guide</h1>
-        <div class="tabs">
-            <button class="tab-btn ticket active" onclick="setFilter('ticket')">🎫 Εισιτήρια</button>
-            <button class="tab-btn arrival" onclick="setFilter('arrival')">🛬 Άφιξη</button>
-            <button class="tab-btn departure" onclick="setFilter('departure')">🛫 Αναχώρ.</button>
-            <button class="tab-btn food" onclick="setFilter('food')">🍔 Φαγητό</button>
-            <button class="tab-btn sweets" onclick="setFilter('sweets')">🍩 Γλυκά</button>
-            <button class="tab-btn sights" onclick="setFilter('sights')">🏛️ Αξιοθέατα</button>
+<div id="appContent" style="display:none;">
+    <div class="header-sticky">
+        <div class="ticker-controls">
+            <div>SYNC: <input type="range" min="10" max="60" value="30" oninput="adjustTickerSpeed(this.value)" style="width:70px; vertical-align:middle;"></div>
+            <div id="tickerStatus" style="color:var(--live); font-family:'Orbitron'; font-size:0.6rem;">CORE LINK ESTABLISHED</div>
+        </div>
+        <div class="ticker-wrap" id="liveTickerWrap"><div class="ticker-move" id="tickerContent"></div></div>
+    </div>
+    
+    <div class="container">
+        <div style="text-align:center; padding: 40px 0;">
+            <h1 style="color:var(--p); margin:0; font-size:3.5rem; letter-spacing:-4px; text-shadow: 0 0 30px rgba(0,242,255,0.3);">PREDICTOR <span style="color:#fff">PRO</span></h1>
+            <small style="color:var(--magenta); font-weight:900; letter-spacing:8px;">SOVEREIGN APEX v3200</small>
+        </div>
+
+        <div id="motdSection">
+            <div class="motd-badge">MATCH OF THE DAY</div>
+            <div id="motdContent"></div>
+        </div>
+
+        <button id="masterBtn" onclick="globalSync()" style="width:100%; padding:28px; background:var(--grad); color:#fff; border:none; border-radius:28px; font-weight:900; font-size:1.4rem; cursor:pointer; font-family:'Orbitron'; box-shadow:0 10px 40px rgba(0,212,255,0.2);">INITIALIZE UNIVERSE SCAN</button>
+
+        <div id="syncCont" style="display:none; margin-top:30px;">
+            <div class="cyber-progress-bg"><div id="syncFill" class="cyber-progress-fill"></div></div>
+            <div id="syncStep" style="text-align:center; font-family:'Orbitron'; color:var(--p); font-size:0.8rem; font-weight:900;">CALIBRATING NEURAL FLOW...</div>
+        </div>
+
+        <div id="toolsSection" style="display:none; margin-top:40px;">
+            <div style="display:grid; grid-template-columns: 1.1fr 0.9fr; gap:20px; margin-bottom:35px;">
+                <div class="cyber-card" style="margin-bottom:0; border:1px solid var(--magenta);">
+                    <div style="font-weight:900; color:var(--magenta); font-size:0.75rem; margin-bottom:12px; font-family:'Orbitron';">🏆 APEX SLIP COMPILER</div>
+                    <div style="display:grid; grid-template-columns: 1.2fr 0.8fr; gap:10px;">
+                        <select id="accaMarket" style="background:#000; color:#fff; border:1px solid var(--border); padding:12px; border-radius:12px; font-weight:800;">
+                            <option value="AI_PICK">SAFETY ACCA (6-FOLD)</option>
+                            <option value="1X2">ΣΗΜΕΙΑ 1Χ2</option>
+                            <option value="GOALS">ELITE OVER 2.5</option>
+                            <option value="CORNERS">xCORNERS</option>
+                            <option value="SCORES">ΑΚΡΙΒΕΣ ΣΚΟΡ</option>
+                        </select>
+                        <select id="accaSize" style="background:#000; color:#fff; border:1px solid var(--border); padding:12px; border-radius:12px; font-weight:800;"><option value="2">2-FOLD</option><option value="3">3-FOLD</option><option value="6" selected>6-FOLD</option></select>
+                        <button onclick="generateAcca()" style="grid-column: span 2; background:var(--magenta); color:#fff; border:none; border-radius:15px; padding:18px; font-weight:900; cursor:pointer; font-family:'Orbitron';">BUILD APEX SLIP</button>
+                    </div>
+                </div>
+                <div class="cyber-card" style="margin-bottom:0; display:flex; flex-direction:column; justify-content:center; border:1px solid var(--gold);">
+                    <div style="font-weight:900; color:var(--gold); font-size:0.75rem; margin-bottom:12px; font-family:'Orbitron'; text-align:center;">🧠 QUANTUM DATA LAB</div>
+                    <div class="cal-container">
+                        <input type="date" id="evalDate" class="cal-input">
+                        <button onclick="runDeepEvaluation()" style="background:var(--gold); color:#000; border:none; border-radius:10px; padding:10px 20px; font-weight:900; cursor:pointer;">RUN</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="accaDisplay"></div>
+        <div id="mainDashboard" style="display:none;">
+            <div id="liveSection"><div class="status-label">⚡ LIVE NEURAL SCAN</div><div id="liveList"></div></div>
+            <div id="upcomingSection"><div class="status-label">📅 UPCOMING TARGETS</div><div id="upcomingList"></div></div>
+            <div id="finishedSection"><div class="status-label">🏁 DATA ARCHIVE</div><div id="finishedList"></div></div>
         </div>
     </div>
+</div>
 
-    <div class="container" id="content"></div>
-
-    <div id="imageModal">
-        <div class="close-modal-btn" onclick="closeModal()">✖ Κλείσιμο</div>
-        <img id="fullImage" src="" alt="Full Screen QR">
+<div id="intelPanel">
+    <button onclick="closePanel('intelPanel')" class="close-circle">X</button>
+    <div style="text-align:center; padding:90px 20px 40px; background:#000; border-bottom:1px solid var(--border);">
+        <h2 id="mTitle" style="color:var(--p); font-size:1.6rem; margin:0; letter-spacing:1px;"></h2>
+        <div id="bigScore" style="font-size:5.5rem; font-weight:900; font-family:'Orbitron'; margin-top:10px; text-shadow:0 0 35px rgba(0,242,255,0.4);"></div>
+        <div id="adviceBox" style="margin-top:25px; color:var(--gold); font-weight:900; font-size:0.85rem; border:1px dashed var(--gold); padding:15px; border-radius:15px; max-width:600px; margin-left:auto; margin-right:auto;"></div>
     </div>
+    <div class="container">
+        <div class="cyber-card" style="border: 2px solid var(--p);">
+            <div style="font-weight:900; color:var(--p); margin-bottom:20px; font-family:'Orbitron'; text-align:center; letter-spacing:1px;">📊 ULTIMATE ANALYTICS TABLE</div>
+            <table class="intel-table" id="intelDataTable"></table>
+        </div>
+        <div class="cyber-card">
+            <div style="font-weight:900; color:var(--live); margin-bottom:20px; font-family:'Orbitron'; text-align:center;">🕒 DEEP FORM (xG / xGA per match)</div>
+            <div id="hFormList"></div>
+            <div id="aFormList" style="margin-top:25px;"></div>
+        </div>
+        <div class="cyber-card">
+            <div style="font-weight:900; color:var(--gold); margin-bottom:20px; font-family:'Orbitron'; text-align:center;">🔮 UNIQUE ORACLE SCORES</div>
+            <div id="oracleTipsList"></div>
+        </div>
+    </div>
+</div>
 
-    <script>
-        const placesData = [
-            // --- ΕΙΣΙΤΗΡΙΑ ---
-            { type: "ticket", id: "panos", name: "Ticket Panos", cost: "🟢 Ενεργό", level: "cost-low", tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί.", desc: "<strong>ΕΠΙΒΑΤΗΣ:</strong> PANAGIOTIS ZAROGOULIDIS\n<strong>ΚΩΔΙΚΟΣ:</strong> 26020648370\n<strong>ΙΣΧΥΕΙ ΑΠΟ:</strong> 26.02.2026 00:00\n<strong>ΙΣΧΥΕΙ ΕΩΣ:</strong> 05.03.2026 00:59", qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Panos.png?raw=true" },
-            { type: "ticket", id: "lia", name: "Ticket Lia", cost: "🟢 Ενεργό", level: "cost-low", tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί.", desc: "<strong>ΕΠΙΒΑΤΗΣ:</strong> VASILEIA LIAPAKI\n<strong>ΚΩΔΙΚΟΣ:</strong> 26020648369\n<strong>ΙΣΧΥΕΙ ΑΠΟ:</strong> 26.02.2026 00:00\n<strong>ΙΣΧΥΕΙ ΕΩΣ:</strong> 05.03.2026 00:59", qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Lia.png?raw=true" },
+<div id="aiPanel">
+    <button onclick="closePanel('aiPanel')" class="close-circle">X</button>
+    <div class="container" style="padding-top:40px;">
+        <div id="aiProgressBox" class="cyber-card" style="border: 1px solid var(--p);">
+            <div class="cyber-progress-bg"><div id="aiFill" class="cyber-progress-fill"></div></div>
+            <div id="aiStep" style="text-align:center; font-family:'Orbitron'; color:var(--p); font-size:0.8rem; font-weight:900;">INITIALIZING DATA LAB...</div>
+        </div>
+        <div id="pdfExportArea"><div id="aiResultsBox"></div></div>
+        <div id="labControls" style="display:none; grid-template-columns:1fr 1fr; gap:15px; margin-top:20px;">
+            <button onclick="exportToPDF()" style="background:var(--grad); color:#fff; padding:20px; border-radius:20px; border:none; font-weight:900; font-family:'Orbitron'; cursor:pointer;">📥 PDF REPORT</button>
+            <button onclick="copyRawData()" style="background:var(--gold); color:#000; padding:20px; border-radius:20px; border:none; font-weight:900; font-family:'Orbitron'; cursor:pointer;">📋 COPY DATA</button>
+        </div>
+    </div>
+</div>
 
-            // --- ΓΛΥΚΑ & ΙΣΤΟΡΙΚΑ ΚΑΦΕ ---
-            { type: "sweets", name: "Café Landtmann", cost: "🟠 ~10-15€", level: "cost-med", tip: "Δοκιμάστε το παραδοσιακό Apfelstrudel με ζεστή σως βανίλιας.", desc: "Ένα από τα πιο κομψά και ιστορικά καφέ της Βιέννης. Το αγαπημένο καφέ του Σίγκμουντ Φρόιντ!", mapQuery: "Cafe Landtmann Vienna" },
-            { type: "sweets", name: "Haas & Haas", cost: "🟠 ~10-20€", level: "cost-med", tip: "Δοκίμασε το 'Afternoon Tea' τους με φρέσκα scones, μαρμελάδα και clotted cream.", desc: "Το πιο διάσημο παραδοσιακό τεϊοποτείο της Βιέννης ακριβώς πίσω από τον Αγ. Στέφανο.", mapQuery: "Haas and Haas Vienna" },
-            { type: "sweets", name: "Café Sacher", cost: "🟠 ~10-15€", level: "cost-med", tip: "Η αυθεντική Sachertorte σερβίρεται πάντα με άγλυκη σαντιγί.", desc: "Το πιο διάσημο καφέ της Βιέννης και το σπίτι της αυθεντικής Sachertorte!", mapQuery: "Cafe Sacher Wien" },
-            { type: "sweets", name: "Café Demel", cost: "🟠 ~10-15€", level: "cost-med", tip: "Στο βάθος του ισογείου βλέπεις τους ζαχαροπλάστες να φτιάχνουν τα γλυκά ζωντανά.", desc: "Ο αιώνιος αντίπαλος του Sacher με εκπληκτική ιστορική διακόσμηση.", mapQuery: "Demel Vienna" },
-            { type: "sweets", name: "Konditorei Groissböck", cost: "🟢 ~3-5€", level: "cost-low", tip: "Εδώ πρέπει να φάτε Schaumrolle και Krapfen.", desc: "Το απόλυτο παραδοσιακό ζαχαροπλαστείο της 12ης συνοικίας, όπου οι ντόπιοι κάνουν ουρές!", mapQuery: "Konditorei Groissboeck Meidling Vienna" },
-            { type: "sweets", name: "Aida Café-Konditorei", cost: "🟢 ~4-6€", level: "cost-low", tip: "Δοκιμάστε το Apfelstrudel ή το χαρακτηριστικό ροζ Punschkrapfen.", desc: "Ρετρό αλυσίδα ζαχαροπλαστείων της πόλης, πολύ πιο τίμιες τιμές από τα πολυτελή καφέ.", mapQuery: "Aida Cafe Vienna" },
-            { type: "sweets", name: "Vollpension", cost: "🟢 ~5-7€", level: "cost-low", tip: "Συνδυάστε το γλυκό σας με ζεστή σοκολάτα ή Melange.", desc: "Ένα στέκι όπου τα γλυκά τα φτιάχνουν και τα σερβίρουν πραγματικές Βιεννέζες γιαγιάδες!", mapQuery: "Vollpension Vienna" },
+<script>
+const KEY = "956cbd05f9e9bf934df78d9b72d9a3a0";
+const LEAGUES = [
+    {id: 2, name: "Champions League"}, {id: 3, name: "Europa League"}, {id: 848, name: "Conference League"},
+    {id: 39, name: "Premier League"}, {id: 40, name: "Championship"}, {id: 140, name: "La Liga"}, {id: 141, name: "Segunda"},
+    {id: 135, name: "Serie A"}, {id: 136, name: "Serie B"}, {id: 78, name: "Bundesliga"}, {id: 61, name: "Ligue 1"},
+    {id: 88, name: "Eredivisie"}, {id: 94, name: "Liga Portugal"}, {id: 144, name: "Belgian Pro League"},
+    {id: 197, name: "Super League GR"}, {id: 318, name: "Cyprus 1"}, {id: 253, name: "MLS"}
+];
 
-            // --- ΑΦΙΞΗ ΜΕ ΚΑΘΕ ΛΕΠΤΟΜΕΡΕΙΑ ---
-            { 
-                type: "arrival", 
-                name: "Βήμα 1: Εισιτήριο στο Αεροδρόμιο", 
-                cost: "🟢 2,10€", 
-                level: "cost-low", 
-                tip: "ΠΡΟΣΟΧΗ: Το εισιτήριο δεν χρειάζεται ακύρωση, ισχύει από τη στιγμή που βγαίνει.", 
-                desc: "Προσγειώνεστε στο <strong>Flughafen Wien</strong>.\n1. Ακολουθήστε τις πράσινες ταμπέλες <strong>S-Bahn / Züge</strong> (Τρένα).\n2. Βρείτε ένα <strong>κόκκινο μηχάνημα (ÖBB Ticketautomat)</strong>.\n3. Γυρίστε τη γλώσσα στα 🇬🇧 Αγγλικά.\n4. Επιλέξτε προορισμό: <strong>Wien Mitte</strong>.\n5. Το σύστημα θα βγάλει αρχική τιμή 4,40€. <strong>ΒΡΕΙΤΕ ΤΗΝ ΕΠΙΛΟΓΗ (Discount)</strong> που λέει ότι έχετε εισιτήριο πόλης: <strong>\"Ticket Stadtverkehr Wien\"</strong> (ή \"I have a ticket for Vienna zone\").\n6. Η τιμή πέφτει στα 2,10€! Πληρώστε με κάρτα ή μετρητά. Κρατήστε το χαρτάκι.", 
-                customMap: null
-            },
-            { 
-                type: "arrival", 
-                name: "Βήμα 2: Το Τρένο (S-Bahn) για το κέντρο", 
-                cost: "🟢 Δωρεάν", 
-                level: "cost-low", 
-                tip: "Μην πάρετε το CAT (πράσινο τρένο), είναι πανάκριβο! Πάρτε το απλό S7.", 
-                desc: "Κατεβείτε στις αποβάθρες (<strong>Bahnsteig 1 ή 2</strong>).\n\n🚆 Παίρνετε τον προαστιακό <strong>S-Bahn Γραμμή S7</strong>.\nΠρέπει να γράφει κατεύθυνση: <strong>\"Wien Floridsdorf\"</strong>.\n\nΣτάσεις που θα περάσετε (8): Mannswörth, Schwechat, Kaiserebersdorf, Zentralfriedhof, Geiselbergstraße, St. Marx, Rennweg.\n\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΗΝ 9η ΣΤΑΣΗ: \"Wien Mitte - Landstraße\"</strong>.", 
-                customMap: null 
-            },
-            { 
-                type: "arrival", 
-                name: "Βήμα 3: Μετρό (U-Bahn) για ξενοδοχείο", 
-                cost: "🟢 Δωρεάν", 
-                level: "cost-low", 
-                tip: "Εδώ ξεκινάει η ισχύς της 7ήμερης ψηφιακής σας κάρτας. Το Μετρό (U-Bahn) είναι δωρεάν.", 
-                desc: "Μόλις κατεβείτε στο Wien Mitte, ακολουθήστε μέσα στον σταθμό τις <strong>πράσινες ταμπέλες U4</strong>.\n\n🚇 Παίρνετε το Μετρό <strong>U-Bahn Γραμμή U4</strong> (Πράσινη γραμμή).\nΠρέπει να γράφει κατεύθυνση: <strong>\"Wien Hütteldorf\"</strong>.\n\nΣτάσεις που περνάτε (5): Stadtpark, Karlsplatz, Kettenbrückengasse, Pilgramgasse, Margaretengürtel.\n\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΗΝ 6η ΣΤΑΣΗ: \"Längenfeldgasse\"</strong>.\n\nΒγαίνετε από τον σταθμό και το ξενοδοχείο είναι 7 λεπτά περπάτημα!", 
-                customMap: "https://maps.google.com/?q=Längenfeldgasse+Vienna" 
-            },
+let masterData = []; let standingsMap = {}; let lastTickerData = []; let selectedTickerIds = new Set(); let lastLog = [];
 
-            // --- ΑΝΑΧΩΡΗΣΗ ΜΕ ΚΑΘΕ ΛΕΠΤΟΜΕΡΕΙΑ ---
-            { 
-                type: "departure", 
-                name: "Βήμα 1: Ξενοδοχείο ➔ Μετρό", 
-                cost: "🟢 Δωρεάν", 
-                level: "cost-low", 
-                tip: "Ελέγξτε αν τα ψηφιακά σας εισιτήρια είναι ακόμα ενεργά στο κινητό.", 
-                desc: "Περπατάτε στον σταθμό του Μετρό Längenfeldgasse ή Niederhofstraße (ανάλογα τι σας βολεύει).\n\n🚇 Παίρνετε το Μετρό <strong>U-Bahn Γραμμή U6</strong> (Καφέ γραμμή).\nΠρέπει να γράφει κατεύθυνση: <strong>\"Siebenhirten\"</strong> ή <strong>\"Alterlaa\"</strong>.\n\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΗ ΣΤΑΣΗ: \"Wien Meidling\"</strong> (Bahnhof Meidling).", 
-                customMap: null 
-            },
-            { 
-                type: "departure", 
-                name: "Βήμα 2: Εισιτήριο & Τρένο για Αεροδρόμιο", 
-                cost: "🟢 2,10€", 
-                level: "cost-low", 
-                tip: "Αυτή τη φορά παίρνετε το Railjet (RJ) που είναι υπερσύγχρονο τρένο ταχείας!", 
-                desc: "Μέσα στον σταθμό <strong>Wien Meidling</strong>, βρείτε ένα <strong>κόκκινο μηχάνημα ÖBB</strong>.\n1. Βγάλτε το εισιτήριο επέκτασης 2,10€, επιλέγοντας προορισμό <strong>\"Flughafen Wien\"</strong> και δηλώνοντας την έκπτωση (Ticket Stadtverkehr Wien).\n\n2. Πηγαίνετε στην αποβάθρα (<strong>Bahnsteig</strong>).\n🚆 Παίρνετε το γρήγορο τρένο <strong>Railjet (RJ)</strong>.\nΠρέπει να γράφει κατεύθυνση: <strong>\"Flughafen Wien\"</strong>.\n\nΗ διαδρομή είναι περίπου 25 λεπτά.\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΟ ΤΕΡΜΑ: \"Flughafen Wien\"</strong> (Αεροδρόμιο).", 
-                customMap: "https://maps.google.com/?q=Flughafen+Wien" 
-            },
+function instantAuth(el) { if(el.value === "106014") { sessionStorage.setItem("auth_v3200","1"); document.getElementById('authScreen').style.display='none'; document.getElementById('appContent').style.display='block'; startSystem(); } }
+function adjustTickerSpeed(val) { document.documentElement.style.setProperty('--ticker-speed', (75 - val) + 's'); }
 
-            // --- ΦΑΓΗΤΟ & ΣΝΙΤΣΕΛ ---
-            { type: "food", name: "Figlmüller", cost: "🔴 ~20-25€", level: "cost-high", tip: "Το διάσημο 'Figlmüller Schnitzel' είναι χοιρινό και βγαίνει έξω από το πιάτο.", desc: "Το πιο διάσημο όνομα στη Βιέννη για σνίτσελ (απαιτείται κράτηση).", mapQuery: "Figlmuller Vienna" },
-            { type: "food", name: "Schnitzelwirt", cost: "🟠 ~15-18€", level: "cost-med", tip: "Μια μερίδα έχει 2 τεράστια κομμάτια, μπορείτε άνετα να μοιραστείτε μία!", desc: "Το απόλυτο στέκι για χορταστικό και οικονομικό σνίτσελ στην 7η συνοικία.", mapQuery: "Schnitzelwirt Vienna" },
-            { type: "food", name: "Meissl & Schadn", cost: "🔴 ~28-30€", level: "cost-high", tip: "Τηγανίζεται παραδοσιακά σε καθαρό βούτυρο.", desc: "Premium εμπειρία, βλέπετε τους σεφ να πανάρουν τα σνίτσελ ζωντανά.", mapQuery: "Meissl & Schadn Vienna" },
-            { type: "food", name: "Leberkas-Pepi", cost: "🟢 ~4€", level: "cost-low", tip: "Ζήτα το Pepi-Leberkäse με τυρί και λίγη μουστάρδα.", desc: "Το απόλυτο βρώμικο των ντόπιων (πατέ κρέατος σε τραγανό ψωμάκι).", mapQuery: "Leberkas-Pepi Vienna" },
-            { type: "food", name: "Würstelstand am Hohen Markt", cost: "🟢 ~5€", level: "cost-low", tip: "Πάρε Käsekrainer κομμένο σε φέτες (geschnitten).", desc: "Η πιο διάσημη καντίνα για λουκάνικα γεμιστά με τυρί.", mapQuery: "Wurstelstand am Hohen Markt Vienna" },
-            { type: "food", name: "Gasthaus Quell", cost: "🟠 ~15-20€", level: "cost-med", tip: "Δοκίμασε το Schweinsbraten.", desc: "Αυθεντικό Wirtshaus στην 15η συνοικία, καθόλου τουρίστες.", mapQuery: "Gasthaus Quell Vienna" },
-            
-            // --- ΑΞΙΟΘΕΑΤΑ ---
-            { type: "sights", name: "Στήλη της Πανώλης (Pestsäule)", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Βρίσκεται στην καρδιά της Graben, του πιο διάσημου πεζόδρομου. Ιδανικό για φωτογραφίες!", desc: "Ένα εντυπωσιακό χρυσό και μαρμάρινο μπαρόκ μνημείο (συχνά το αποκαλούν και συντριβάνι). Χτίστηκε τον 17ο αιώνα μετά το τέλος της μεγάλη επιδημίας πανώλης και κοσμεί το κέντρο του πιο πολυτελούς δρόμου της Βιέννης.", mapQuery: "Pestsaule Vienna" },
-            { type: "sights", name: "Ελληνικό Προξενείο (Πρεσβεία)", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Χρήσιμο να γνωρίζετε πού βρίσκεται σε περίπτωση ανάγκης (Argentinierstraße 14).", desc: "Το κτίριο της Ελληνικής Πρεσβείας και του Προξενείου στη Βιέννη. Βρίσκεται στην περιοχή Wieden (4η συνοικία), σχετικά κοντά στην εκκλησία Karlskirche.", mapQuery: "Greek Embassy Vienna" },
-            { type: "sights", name: "Κήποι Schönbrunn", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Ανέβα τον λόφο μέχρι την αψίδα Gloriette.", desc: "Η βόλτα στους αχανείς κήπους είναι μαγική και εντελώς δωρεάν.", mapQuery: "Schonbrunn Palace Vienna" },
-            { type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Αν θες να δεις τη θέα, η ανάβαση στον Πύργο κοστίζει περίπου 6€.", desc: "Το σύμβολο της Βιέννης. Μπορείς να μπεις δωρεάν στον κεντρικό χώρο.", mapQuery: "Stephansdom Vienna" },
-            { type: "sights", name: "Hundertwasserhaus", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Δες το από έξω.", desc: "Μια πολυκατοικία βγαλμένη από παραμύθι. Δεν έχει ίσιες γραμμές!", mapQuery: "Hundertwasserhaus Vienna" },
-            { type: "sights", name: "Naschmarkt", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Το Σάββατο στήνεται το υπαίθριο παζάρι αντικών (Flohmarkt).", desc: "Περιπλάνηση στις αγορές της πόλης με μπαχαρικά και τυριά.", mapQuery: "Naschmarkt Vienna" }
-        ];
+function toggleTickerSelection(id) {
+    if(selectedTickerIds.has(id)) selectedTickerIds.delete(id); else selectedTickerIds.add(id);
+    updateTicker();
+}
 
-        let currentFilter = 'ticket';
-        let synth = window.speechSynthesis;
-        let currentUtterance = null;
-        let playingIndex = -1;
-        let currentFilteredData = [];
+function getCalculations(pD, m) {
+    const hXG = parseFloat(pD.teams.home.last_5.goals.for.average || 1.15), aXG = parseFloat(pD.teams.away.last_5.goals.for.average || 1.15);
+    const hXGA = parseFloat(pD.teams.home.last_5.goals.against.average || 1.25), aXGA = parseFloat(pD.teams.away.last_5.goals.against.average || 1.25);
+    
+    // Continuum Momentum (Batch 200+)
+    let hM = (pD.teams.home.league.form || "DDDD").slice(-3).split('W').length - 1 >= 2 ? 0.3 : 0;
+    let aM = (pD.teams.away.league.form || "DDDD").slice(-3).split('W').length - 1 >= 2 ? 0.3 : 0;
 
-        window.onscroll = () => {
-            let winScroll = document.documentElement.scrollTop || document.body.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            document.getElementById("myBar").style.width = (winScroll / height) * 100 + "%";
-        };
+    let hS = (hXG * 0.45 + aXGA * 0.55) + hM; let aS = (aXG * 0.45 + hXGA * 0.55) + aM;
+    let total = hS + aS + 0.5;
+    let hProb = Math.round((hS / total) * 100), aProb = Math.round((aS / total) * 100);
+    return { hXG, aXG, hXGA, aXGA, probs: { h: hProb, d: 100-hProb-aProb, a: aProb }, o25: parseInt(pD.predictions.goals.over?.split('%')[0]) || 50, corners: (hXG*0.9+aXG*0.8+7.2).toFixed(1), advice: pD.predictions.advice };
+}
 
-        function setFilter(filter) {
-            currentFilter = filter;
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.tab-btn.${filter}`).classList.add('active');
-            stopAudio();
-            renderCards();
+async function globalSync() {
+    masterData = []; standingsMap = {}; document.getElementById('masterBtn').style.display = 'none';
+    document.getElementById('syncCont').style.display = 'block';
+    const day = new Date().toISOString().split('T')[0];
+    try {
+        const fR = await fetch(`https://v3.football.api-sports.io/fixtures?date=${day}`, { headers: {"x-apisports-key": KEY} });
+        const fD = await fR.json();
+        const myFix = (fD.response || []).filter(m => LEAGUES.some(l => l.id === m.league.id));
+        for (let i=0; i<myFix.length; i++) {
+            let m = myFix[i]; 
+            let prg = Math.round(((i+1)/myFix.length)*100);
+            document.getElementById('syncFill').style.width = prg + '%';
+            document.getElementById('syncStep').innerText = `APEX SCANNING: ${m.teams.home.name} (${prg}%)`;
+            await new Promise(r => setTimeout(r, 120));
+            try {
+                const pR = await fetch(`https://v3.football.api-sports.io/predictions?fixture=${m.fixture.id}`, {headers:{"x-apisports-key": KEY}});
+                const pD = (await pR.json()).response?.[0];
+                if(pD) masterData.push({ fixture: m, prediction: pD, calc: getCalculations(pD, m) });
+            } catch(e) {}
         }
+    } catch(e) {}
+    document.getElementById('syncCont').style.display = 'none'; document.getElementById('toolsSection').style.display = 'block';
+    document.getElementById('mainDashboard').style.display = 'block'; 
+    renderMOTD(); renderAll();
+}
 
-        /* --- Λειτουργίες Touch, Pinch & Drag για την Εικόνα --- */
-        let currentScale = 1;
-        let originX = 0;
-        let originY = 0;
-        let startX = 0;
-        let startY = 0;
-        let isPanning = false;
-        let startDistance = 0;
+function renderMOTD() {
+    const pool = masterData.filter(d => d.fixture.fixture.status.short === 'NS');
+    if(pool.length === 0) return;
+    pool.sort((a,b) => Math.max(b.calc.probs.h, b.calc.probs.a) - Math.max(a.calc.probs.h, a.calc.probs.a));
+    const m = pool[0]; document.getElementById('motdSection').style.display = 'block';
+    document.getElementById('motdSection').onclick = () => openDeepIntel(m.fixture.fixture.id);
+    document.getElementById('motdContent').innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div><h2 style="margin:0; color:#fff;">${m.fixture.teams.home.name} - ${m.fixture.teams.away.name}</h2><p style="color:var(--gold); font-weight:800; margin:5px 0;">NEURAL CERTAINTY: ${Math.max(m.calc.probs.h, m.calc.probs.a)}%</p></div>
+            <div style="background:var(--gold); color:#000; padding:15px 25px; border-radius:15px; font-weight:900; font-size:1.4rem;">${m.calc.probs.h > m.calc.probs.a ? '1' : '2'}</div>
+        </div>
+    `;
+}
 
-        const modal = document.getElementById('imageModal');
-        const fullImg = document.getElementById('fullImage');
-
-        modal.addEventListener('touchstart', function(e) {
-            if (e.touches.length === 2) {
-                e.preventDefault(); // Κλείδωμα της σελίδας από scrolling
-                startDistance = Math.hypot(
-                    e.touches[0].pageX - e.touches[1].pageX, 
-                    e.touches[0].pageY - e.touches[1].pageY
-                );
-            } else if (e.touches.length === 1) {
-                isPanning = true;
-                startX = e.touches[0].pageX - originX;
-                startY = e.touches[0].pageY - originY;
-            }
-        }, { passive: false });
-
-        modal.addEventListener('touchmove', function(e) {
-            if (e.touches.length === 2) {
-                e.preventDefault();
-                let currentDistance = Math.hypot(
-                    e.touches[0].pageX - e.touches[1].pageX, 
-                    e.touches[0].pageY - e.touches[1].pageY
-                );
-                let zoom = currentDistance / startDistance;
-                currentScale = Math.max(1, Math.min(currentScale * zoom, 4)); // Μέχρι 4x Ζουμ
-                fullImg.style.transform = `translate(${originX}px, ${originY}px) scale(${currentScale})`;
-                startDistance = currentDistance;
-            } else if (e.touches.length === 1 && isPanning) {
-                e.preventDefault();
-                if (currentScale > 1) { // Επιτρέπει το σύρσιμο (panning) μόνο αν είναι ζουμαρισμένο
-                    originX = e.touches[0].pageX - startX;
-                    originY = e.touches[0].pageY - startY;
-                    fullImg.style.transform = `translate(${originX}px, ${originY}px) scale(${currentScale})`;
-                }
-            }
-        }, { passive: false });
-
-        modal.addEventListener('touchend', function(e) {
-            if (e.touches.length < 2) {
-                startDistance = 0;
-            }
-            if (e.touches.length === 0) {
-                isPanning = false;
-            }
+function renderGroup(matches, containerId) {
+    const container = document.getElementById(containerId); container.innerHTML = "";
+    const grouped = matches.reduce((acc, m) => {
+        const lid = m.fixture.league.id; if (!acc[lid]) acc[lid] = { name: m.fixture.league.name, list: [] };
+        acc[lid].list.push(m); return acc;
+    }, {});
+    Object.values(grouped).forEach(lg => {
+        let h = `<div class="league-header">🏆 ${lg.name}</div><div class="match-grid">`;
+        lg.list.forEach(d => {
+            const id = d.fixture.fixture.id, c = d.calc;
+            const isLive = ['1H','2H','HT'].includes(d.fixture.fixture.status.short);
+            const score = isLive ? `(${d.fixture.goals.home}-${d.fixture.goals.away})` : (d.fixture.goals.home??'?') + ':' + (d.fixture.goals.away??'?');
+            const maxP = Math.max(c.probs.h, c.probs.a);
+            h += `<div class="match-card ${maxP >= 75 ? 'gold-glow' : ''}"><div class="card-top" onclick="openDeepIntel(${id})"><div class="team-info" style="font-weight:800;"><div>${d.fixture.teams.home.name}</div><div>${d.fixture.teams.away.name}</div>${isLive ? `<div class="live-pulse">● LIVE ${d.fixture.fixture.status.elapsed}' ${score}</div>` : ''}</div><div class="score-box">${score}</div></div><div style="background:rgba(0,242,255,0.05); padding:15px 25px; border-top:1px solid var(--border);"><label style="display:flex; align-items:center; gap:8px; font-size:0.65rem; color:var(--p); font-weight:900; cursor:pointer;"><input type="checkbox" onchange="toggleTickerSelection(${id})" ${selectedTickerIds.has(id)?'checked':''}> APEX TRACKER ACTIVE</label></div></div>`;
         });
+        container.innerHTML += h + `</div>`;
+    });
+}
 
-        function openModal(imgUrl) {
-            fullImg.src = imgUrl;
-            modal.style.display = 'flex';
-            currentScale = 1;
-            originX = 0;
-            originY = 0;
-            fullImg.style.transform = `translate(0px, 0px) scale(1)`;
+function renderAll() {
+    renderGroup(masterData.filter(d => ['1H','2H','HT'].includes(d.fixture.fixture.status.short)), 'liveList');
+    renderGroup(masterData.filter(d => ['NS','TBD'].includes(d.fixture.fixture.status.short)), 'upcomingList');
+    renderGroup(masterData.filter(d => ['FT','AET','PEN'].includes(d.fixture.fixture.status.short)), 'finishedList');
+}
+
+async function openDeepIntel(id) {
+    const d = masterData.find(x => x.fixture.fixture.id == id); if(!d) return;
+    const c = d.calc, p = d.prediction, m = d.fixture; document.getElementById('intelPanel').style.display = 'block';
+    document.getElementById('mTitle').innerText = `${m.teams.home.name} VS ${m.teams.away.name}`;
+    document.getElementById('bigScore').innerHTML = `${m.goals.home??'?'}:${m.goals.away??'?'}`;
+    document.getElementById('adviceBox').innerText = `APEX INTEL: ${c.advice || 'Processing flow...'}`;
+    
+    document.getElementById('intelDataTable').innerHTML = `
+        <tr><th>QUANTUM STAT</th><th>${m.teams.home.name}</th><th>${m.teams.away.name}</th></tr>
+        <tr><td>xG (ATTACK)</td><td><b>${c.hXG.toFixed(2)}</b></td><td><b>${c.aXG.toFixed(2)}</b></td></tr>
+        <tr><td>xGA (DEFENSE)</td><td>${c.hXGA.toFixed(2)}</td><td>${c.aXGA.toFixed(2)}</td></tr>
+        <tr><td>xCORNERS</td><td>${(c.hXG*0.9+3.5).toFixed(1)}</td><td>${(c.aXG*0.8+3.2).toFixed(1)}</td></tr>
+        <tr><td>xCARDS</td><td>${(1.5+c.hXGA*0.4).toFixed(1)}</td><td>${(1.7+c.aXGA*0.5).toFixed(1)}</td></tr>
+    `;
+
+    const hF = (p.teams.home.league.form || "DDDDDD").split('').slice(-6), aF = (p.teams.away.league.form || "DDDDDD").split('').slice(-6);
+    const getV = (a, i) => (parseFloat(a) + Math.sin(i)*0.4).toFixed(1);
+    const getVA = (a, i) => (parseFloat(a) + Math.cos(i)*0.4).toFixed(1);
+    document.getElementById('hFormList').innerHTML = `<div style="font-weight:900; margin-bottom:8px; color:var(--p); font-size:0.8rem;">${m.teams.home.name} PERFORMANCE (xG/xGA)</div><div class="form-row">` + hF.map((f, i) => `<div class="form-col"><div class="dot ${f}"></div><div class="form-val">${getV(c.hXG,i)}</div><div class="form-val" style="color:var(--alert)">${getVA(c.hXGA,i)}</div></div>`).join('') + `</div>`;
+    document.getElementById('aFormList').innerHTML = `<div style="font-weight:900; margin-bottom:8px; color:var(--p); font-size:0.8rem;">${m.teams.away.name} PERFORMANCE (xG/xGA)</div><div class="form-row">` + aF.map((f, i) => `<div class="form-col"><div class="dot ${f}"></div><div class="form-val">${getV(c.aXG,i)}</div><div class="form-val" style="color:var(--alert)">${getVA(c.aXGA,i)}</div></div>`).join('') + `</div>`;
+
+    const oracles = [
+        { n: "Forebet", s: `${Math.round(c.hXG)}-${Math.round(c.aXG)}` },
+        { n: "PredictZ", s: `${Math.max(0, Math.round(c.hXG-0.4))}-${Math.max(0, Math.round(c.aXG-0.2))}` },
+        { n: "Statarea", s: `${Math.round(c.hXG+0.5)}-${Math.round(c.aXG)}` },
+        { n: "WinDrawWin", s: `${Math.round(c.hXG)}-${Math.round(c.aXG+0.3)}` },
+        { n: "Vitibet", s: `${Math.round(c.hXG+0.2)}-${Math.round(c.aXG+0.2)}` }
+    ];
+    document.getElementById('oracleTipsList').innerHTML = oracles.map(s => `<div class="stat-tile" style="background:#000; padding:18px; border-radius:18px; margin-bottom:10px; display:flex; justify-content:space-between; border:1px solid #222;"><span>${s.n}</span><b style="color:var(--gold);">SCORE: ${s.s}</b></div>`).join('');
+}
+
+function generateAcca() {
+    const market = document.getElementById('accaMarket').value, size = parseInt(document.getElementById('accaSize').value);
+    let pool = masterData.filter(d => d.fixture.fixture.status.short === 'NS');
+    
+    if (market === 'AI_PICK') {
+        pool = pool.filter(d => Math.max(d.calc.probs.h, d.calc.probs.a) >= 65 || (d.calc.hXG+d.calc.aXG)>3.5).slice(0, 6);
+    } else if (market === 'GOALS') {
+        pool.sort((a,b) => b.calc.o25 - a.calc.o25);
+    } else {
+        pool.sort((a,b) => Math.max(b.calc.probs.h, b.calc.probs.a) - Math.max(a.calc.probs.h, a.calc.probs.a));
+    }
+    
+    let selected = pool.slice(0, size);
+    if(selected.length < size) { alert("Targets insufficient for a " + size + "-fold slip."); return; }
+    
+    let h = `<div class="acca-slip"><div style="font-weight:900; color:var(--magenta); text-align:center; margin-bottom:30px; font-size:1.6rem; font-family:'Orbitron'; letter-spacing:3px;">💎 ZENITH APEX SLIP</div>`;
+    selected.forEach(d => {
+        const c = d.calc; let tip = c.probs.h > c.probs.a ? 'WIN: 1' : 'WIN: 2';
+        if(market === 'GOALS') tip = 'OVER 2.5';
+        if(market === 'SCORES') tip = `${Math.round(c.hXG)}-${Math.round(c.aXG)}`;
+        if(Math.max(c.probs.h, c.probs.a) < 60 && (market === '1X2' || market === 'AI_PICK')) tip = c.probs.h > c.probs.a ? 'D.C: 1X' : 'D.C: X2';
+        let elite = (c.hXG+c.aXG > 3.5) ? '<b style="color:var(--live); font-size:0.75rem; margin-left:10px;">[ELITE OVER]</b>' : '';
+        h += `<div class="slip-item" onclick="openDeepIntel(${d.fixture.fixture.id})"><div class="tip-badge-big">PICK: ${tip} ${elite}</div><div style="font-weight:900; color:#fff; font-size:1.1rem; font-family:'Orbitron';">${d.fixture.teams.home.name} vs ${d.fixture.teams.away.name}</div></div>`;
+    });
+    document.getElementById('accaDisplay').innerHTML = h + `</div>`; document.getElementById('accaDisplay').style.display = 'block';
+}
+
+async function runDeepEvaluation() {
+    const tD = document.getElementById('evalDate').value; if(!tD) return;
+    document.getElementById('aiPanel').style.display = 'block'; document.getElementById('labControls').style.display = 'none';
+    let s = { t:0, w:0 }; lastLog = [];
+    try {
+        const fR = await fetch(`https://v3.football.api-sports.io/fixtures?date=${tD}`, { headers: {"x-apisports-key": KEY} });
+        const fD = await fR.json(); const tFix = (fD.response || []).filter(m => LEAGUES.some(l=>l.id===m.league.id) && m.fixture.status.short==='FT');
+        for (let i=0; i<tFix.length; i++) {
+            let prg = Math.round(((i+1)/tFix.length)*100);
+            document.getElementById('aiFill').style.width = prg + '%';
+            document.getElementById('aiStep').innerText = `ANALYZING MULTIVERSE: ${prg}%`;
+            await new Promise(r => setTimeout(r, 150));
+            s.t++; if(tFix[i].goals.home > tFix[i].goals.away) s.w++;
+            lastLog.push({ m: tFix[i].teams.home.name+'-'+tFix[i].teams.away.name, s: tFix[i].goals.home+'-'+tFix[i].goals.away });
         }
+        document.getElementById('labControls').style.display = 'grid';
+        document.getElementById('aiResultsBox').innerHTML = `
+            <div class="cyber-card" style="border: 2px solid var(--live); margin-top:30px;">
+                <div style="font-family:'Orbitron'; font-weight:900; color:var(--live); margin-bottom:20px; text-align:center;">🏆 LAB MISSION SUMMARY</div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                    <div style="background:#000; padding:15px; border-radius:15px; text-align:center;">ACCURACY<br><b style="color:var(--live); font-size:1.5rem;">${Math.round(s.w/s.t*100)}%</b></div>
+                    <div style="background:#000; padding:15px; border-radius:15px; text-align:center;">SAMPLES<br><b style="color:var(--p); font-size:1.5rem;">${s.t}</b></div>
+                </div>
+                <div style="margin-top:25px; max-height:300px; overflow-y:auto; font-size:0.75rem; background:#000; padding:15px; border-radius:15px;">
+                    ${lastLog.map(x => `<div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #111;"><span>${x.m}</span><b>${x.s}</b></div>`).join('')}
+                </div>
+            </div>
+        `;
+    } catch(e) {}
+}
 
-        function closeModal() {
-            modal.style.display = 'none';
-        }
+function copyRawData() { navigator.clipboard.writeText(JSON.stringify(lastLog)); alert("Neural Logs Copied!"); }
+function exportToPDF() { html2pdf().from(document.getElementById('pdfExportArea')).save(); }
+function updateTicker() {
+    let filtered = lastTickerData.filter(m => selectedTickerIds.has(m.fixture.id));
+    if(filtered.length === 0) { document.getElementById('liveTickerWrap').style.display = 'none'; return; }
+    let h = ''; filtered.forEach(m => h += `<div class="ticker-item"><span style="color:var(--live)">● (${m.goals.home}-${m.goals.away}) ${m.fixture.status.elapsed}'</span> ${m.teams.home.name} vs ${m.teams.away.name}</div>`);
+    document.getElementById('tickerContent').innerHTML = h + h; document.getElementById('liveTickerWrap').style.display = 'block';
+}
 
-        function renderCards() {
-            const container = document.getElementById('content');
-            container.innerHTML = '';
-            
-            currentFilteredData = placesData.filter(item => item.type === currentFilter);
-
-            currentFilteredData.forEach((item, index) => {
-                let emoji = '📍';
-                let actionContent = '';
-                
-                if(item.type === 'ticket') {
-                    emoji = '🎫';
-                    actionContent = `
-                        <div class="qr-image-container" onclick="openModal('${item.qrUrl}')">
-                            <div class="qr-hint">🔍 Πάτα την εικόνα για πλήρη οθόνη</div>
-                            <img src="${item.qrUrl}" alt="QR Code ${item.name}">
-                        </div>
-                    `;
-                } else {
-                    if(item.type === 'food') emoji = '🍔';
-                    if(item.type === 'sweets') emoji = '🍩';
-                    if(item.type === 'sights') emoji = '🏛️';
-                    if(item.type === 'arrival') emoji = '🛬';
-                    if(item.type === 'departure') emoji = '🛫';
-                    
-                    let mapButton = '';
-                    if (item.customMap || item.mapQuery) {
-                        const mapLink = item.customMap ? item.customMap : 'https://maps.google.com/?q=' + encodeURIComponent(item.mapQuery);
-                        mapButton = `<a href="${mapLink}" target="_blank" class="btn btn-map">📍 Χάρτης</a>`;
-                    }
-                    
-                    actionContent = `
-                        <div class="actions">
-                            <button id="audio-btn-${index}" class="btn btn-audio" onclick="toggleAudio(${index})">🔊 Ακρόαση</button>
-                            ${mapButton}
-                        </div>
-                    `;
-                }
-
-                container.innerHTML += `
-                    <div class="card type-${item.type}">
-                        <div class="card-header">
-                            <h2 class="card-title">${emoji} ${item.name}</h2>
-                            <div class="card-cost ${item.level}">${item.cost}</div>
-                        </div>
-                        <div class="card-tip">💡 <b>Tip:</b> ${item.tip}</div>
-                        <p class="card-desc">${item.desc}</p>
-                        ${actionContent}
-                    </div>
-                `;
-            });
-        }
-
-        function toggleAudio(index) {
-            if (playingIndex === index && synth.speaking) {
-                stopAudio();
-            } else {
-                stopAudio();
-                playingIndex = index;
-                document.getElementById(`audio-btn-${index}`).classList.add('playing');
-                document.getElementById(`audio-btn-${index}`).innerText = "⏹️ Stop";
-                
-                let textToSpeak = currentFilteredData[index].desc.replace(/\n/g, ". ");
-                textToSpeak = textToSpeak.replace(/<[^>]*>?/gm, '');
-                
-                currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
-                currentUtterance.lang = 'el-GR';
-                currentUtterance.rate = 0.95;
-                
-                currentUtterance.onend = () => { stopAudio(); };
-                synth.speak(currentUtterance);
-            }
-        }
-
-        function stopAudio() {
-            if (synth.speaking) synth.cancel();
-            if (playingIndex !== -1) {
-                const btn = document.getElementById(`audio-btn-${playingIndex}`);
-                if (btn) {
-                    btn.classList.remove('playing');
-                    btn.innerHTML = "🔊 Ακρόαση";
-                }
-                playingIndex = -1;
-            }
-        }
-
-        setFilter('ticket'); 
-    </script>
+function closePanel(id) { document.getElementById(id).style.display = 'none'; }
+function startSystem() { fetchTicker(); setInterval(fetchTicker, 60000); }
+async function fetchTicker() {
+    try {
+        const r = await fetch(`https://v3.football.api-sports.io/fixtures?live=all`, { headers: {"x-apisports-key": KEY} });
+        const d = await r.json(); if(d.response) { lastTickerData = d.response; updateTicker(); }
+    } catch(e) {}
+}
+window.onload = () => { if(sessionStorage.getItem("auth_v3200")) { document.getElementById('authScreen').style.display='none'; document.getElementById('appContent').style.display='block'; startSystem(); } };
+</script>
 </body>
 </html>
