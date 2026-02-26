@@ -149,8 +149,8 @@
             <button class="tab-btn ticket" onclick="setFilter('ticket')">🎫 Εισιτήρια</button>
             <button class="tab-btn arrival" onclick="setFilter('arrival')">🛬 Άφιξη</button>
             <button class="tab-btn departure" onclick="setFilter('departure')">🛫 Αναχώρ.</button>
-            <button class="tab-btn food active" onclick="setFilter('food')">🍔 Φαγητό</button>
-            <button class="tab-btn sweets" onclick="setFilter('sweets')">🍩 Γλυκά</button>
+            <button class="tab-btn food" onclick="setFilter('food')">🍔 Φαγητό</button>
+            <button class="tab-btn sweets active" onclick="setFilter('sweets')">🍩 Γλυκά</button>
             <button class="tab-btn sights" onclick="setFilter('sights')">🏛️ Αξιοθέατα</button>
         </div>
     </div>
@@ -164,7 +164,7 @@
 
     <script>
         const placesData = [
-            // --- ΕΙΣΙΤΗΡΙΑ ---
+            // --- ΕΙΣΙΤΗΡΙΑ ΜΕ ΕΝΣΩΜΑΤΩΜΕΝΑ LINKS ΑΠΟ GITHUB ---
             { 
                 type: "ticket", 
                 id: "panos",
@@ -184,20 +184,22 @@
                 qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Lia.png?raw=true" 
             },
 
-            // --- ΓΛΥΚΑ ΝΤΟΠΙΩΝ ---
-            { type: "sweets", name: "Konditorei Groissböck", cost: "~3-5€", tip: "Εδώ πρέπει να φάτε Schaumrolle (ρολό με αφράτη κρέμα) και Krapfen (παραδοσιακός λουκουμάς με μαρμελάδα).", desc: "Μακριά από το ακριβό κέντρο. Αυτό είναι το απόλυτο παραδοσιακό ζαχαροπλαστείο της 12ης συνοικίας, όπου οι ντόπιοι κάνουν ουρές για τα γλυκά τους! Βρίσκεται μόλις 1 στάση μακριά από τον σταθμό Meidling (με το U6).", mapQuery: "Konditorei Groissböck Meidling Vienna" },
+            // --- ΓΛΥΚΑ & ΙΣΤΟΡΙΚΑ ΚΑΦΕ ---
+            { type: "sweets", name: "Café Sacher", cost: "~10-15€", tip: "Οπλίσου με υπομονή γιατί συχνά έχει ουρά. Η αυθεντική Sachertorte σερβίρεται πάντα με άγλυκη σαντιγί.", desc: "Το πιο διάσημο καφέ της Βιέννης και το σπίτι της αυθεντικής Sachertorte! Είναι τουριστικό και οι τιμές είναι 'τσιμπημένες', αλλά αποτελεί την απόλυτη κλασική εμπειρία του ταξιδιού.", mapQuery: "Cafe Sacher Wien" },
+            { type: "sweets", name: "Café Demel", cost: "~10-15€", tip: "Πήγαινε στο βάθος του ισογείου! Έχουν ένα γυάλινο τοίχο όπου μπορείς να δεις τους ζαχαροπλάστες να φτιάχνουν τα γλυκά ζωντανά.", desc: "Ο αιώνιος αντίπαλος του Sacher. Αυτό το πρώην αυτοκρατορικό ζαχαροπλαστείο διαθέτει εκπληκτική ιστορική διακόσμηση. Δοκίμασε την δική τους εκδοχή της Sachertorte ή το Kaiserschmarrn.", mapQuery: "Demel Vienna" },
+            { type: "sweets", name: "Konditorei Groissböck", cost: "~3-5€", tip: "Εδώ πρέπει να φάτε Schaumrolle (ρολό με αφράτη κρέμα) και Krapfen (παραδοσιακός λουκουμάς με μαρμελάδα).", desc: "Μακριά από το ακριβό κέντρο. Αυτό είναι το απόλυτο παραδοσιακό ζαχαροπλαστείο της 12ης συνοικίας, όπου οι ντόπιοι κάνουν ουρές για τα γλυκά τους! Βρίσκεται μόλις 1 στάση μακριά από τον σταθμό Meidling (με το U6).", mapQuery: "Konditorei Groissboeck Meidling Vienna" },
             { type: "sweets", name: "Aida Café-Konditorei", cost: "~4-6€", tip: "Δοκιμάστε το Apfelstrudel (Μηλόπιτα) ή το χαρακτηριστικό ροζ Punschkrapfen.", desc: "Η πιο ιστορική και ρετρό αλυσίδα ζαχαροπλαστείων της πόλης. Ξεχωρίζουν από μακριά χάρη στο χαρακτηριστικό ροζ χρώμα τους που θυμίζει δεκαετία του '50. Έχουν υποκαταστήματα παντού και οι τιμές είναι πολύ πιο τίμιες από τα πολυτελή καφέ.", mapQuery: "Aida Cafe Vienna" },
             { type: "sweets", name: "Vollpension", cost: "~5-7€", tip: "Συνδυάστε το γλυκό σας με ζεστή σοκολάτα ή βιεννέζικο Melange.", desc: "Ένα μοναδικό, ζεστό στέκι που μοιάζει με σαλόνι γιαγιάς! Ο λόγος; Τα γλυκά εδώ τα φτιάχνουν και τα σερβίρουν... πραγματικές Βιεννέζες γιαγιάδες και παππούδες! Απίστευτη ατμόσφαιρα, πεντανόστιμα σπιτικά κέικ (Buchteln) και εξαιρετικές τιμές.", mapQuery: "Vollpension Vienna" },
 
             // --- ΑΦΙΞΗ ---
-            { type: "arrival", name: "Αεροδρόμιο ➔ Ξενοδοχείο", cost: "2,10€", tip: "Εισιτήρια: Το πρώτο τρένο χρειάζεται την 'Επέκταση' (2,10€). Μετά, το Μετρό U4 είναι 100% ΔΩΡΕΑΝ με την 7ήμερη κάρτα σου!", desc: "🚆 23:19 - Προαστιακός S7 (Προς Wien Floridsdorf)\nΣτάσεις που περνάς (8): Mannswörth, Schwechat, Kaiserebersdorf, Zentralfriedhof, Geiselbergstraße, St. Marx, Rennweg.\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗΝ 9η: Wien Mitte-Landstraße\n\n🚇 23:47 - Μετρό U4 (Προς Wien Hütteldorf) - [ΔΩΡΕΑΝ με την 7ήμερη]\nΣτάσεις που περνάς (5): Stadtpark, Karlsplatz, Kettenbrückengasse, Pilgramgasse, Margaretengürtel.\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗΝ 6η: Längenfeldgasse\n\n🚶‍♂️ 00:04 - Στο ξενοδοχείο: 7 λεπτά περπάτημα (375μ).", customMap: "https://www.google.com/maps/dir/Längenfeldgasse,+1120+Vienna,+Austria/Hampton+by+Hilton+Vienna+City+West,+Diefenbachgasse+1-3,+1150+Wien,+Austria" },
+            { type: "arrival", name: "Αεροδρόμιο ➔ Ξενοδοχείο", cost: "2,10€", tip: "Εισιτήρια: Το πρώτο τρένο χρειάζεται την 'Επέκταση' (2,10€). Μετά, το Μετρό U4 είναι 100% ΔΩΡΕΑΝ με την 7ήμερη κάρτα σου!", desc: "🚆 23:19 - Προαστιακός S7 (Προς Wien Floridsdorf)\nΣτάσεις που περνάς (8): Mannswörth, Schwechat, Kaiserebersdorf, Zentralfriedhof, Geiselbergstraße, St. Marx, Rennweg.\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗΝ 9η: Wien Mitte-Landstraße\n\n🚇 23:47 - Μετρό U4 (Προς Wien Hütteldorf) - [ΔΩΡΕΑΝ με την 7ήμερη]\nΣτάσεις που περνάς (5): Stadtpark, Karlsplatz, Kettenbrückengasse, Pilgramgasse, Margaretengürtel.\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗΝ 6η: Längenfeldgasse\n\n🚶‍♂️ 00:04 - Στο ξενοδοχείο: 7 λεπτά περπάτημα (375μ).", customMap: "https://www.google.com/maps/dir/L%C3%A4ngenfeldgasse/Hampton+by+Hilton+Vienna+City+West/" },
 
             // --- ΑΝΑΧΩΡΗΣΗ ---
-            { type: "departure", name: "Ξενοδοχείο ➔ Αεροδρόμιο", cost: "2,10€", tip: "Εισιτήρια: Το Μετρό είναι ΔΩΡΕΑΝ. Για το τρένο προς το αεροδρόμιο θα βγάλεις ξανά μόνο το εισιτήριο επέκτασης 2,10€.", desc: "🚇 09:30 - Μετρό U6 (Προς Siebenhirten/Alterlaa) - [ΔΩΡΕΑΝ με την 7ήμερη]\nΣτάσεις που περνάς (1): Niederhofstraße.\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗ 2η: Wien Meidling\n\n🚆 09:59 (ή 10:29) - Τρένο RJ (Προς Flughafen Wien)\nΣτάσεις που περνάς (1): Wien Hauptbahnhof.\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗ 2η: Flughafen Wien (Αεροδρόμιο).", customMap: "https://www.google.com/maps/dir/Hampton+by+Hilton+Vienna+City+West,+Diefenbachgasse+1-3,+1150+Wien,+Austria/Flughafen+Wien+(VIE),+1300+Schwechat,+Austria" },
+            { type: "departure", name: "Ξενοδοχείο ➔ Αεροδρόμιο", cost: "2,10€", tip: "Εισιτήρια: Το Μετρό είναι ΔΩΡΕΑΝ. Για το τρένο προς το αεροδρόμιο θα βγάλεις ξανά μόνο το εισιτήριο επέκτασης 2,10€.", desc: "🚇 09:30 - Μετρό U6 (Προς Siebenhirten/Alterlaa) - [ΔΩΡΕΑΝ με την 7ήμερη]\nΣτάσεις που περνάς (1): Niederhofstraße.\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗ 2η: Wien Meidling\n\n🚆 09:59 (ή 10:29) - Τρένο RJ (Προς Flughafen Wien)\nΣτάσεις που περνάς (1): Wien Hauptbahnhof.\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗ 2η: Flughafen Wien (Αεροδρόμιο).", customMap: "https://www.google.com/maps/dir/Hampton+by+Hilton+Vienna+City+West/L%C3%A4ngenfeldgasse/" },
 
             // --- ΦΑΓΗΤΟ ---
             { type: "food", name: "Leberkas-Pepi", cost: "~4€", tip: "Ζήτα το Pepi-Leberkäse με τυρί και λίγη μουστάρδα.", desc: "Το απόλυτο βρώμικο των ντόπιων. Ένα ζεστό, παχύ κομμάτι ψητού πατέ κρέατος (σαν χοντρή πάριζα) μέσα σε τραγανό ψωμάκι. Γρήγορο, χορταστικό και φθηνό.", mapQuery: "Leberkas-Pepi Vienna" },
-            { type: "food", name: "Würstelstand am Hohen Markt", cost: "~5€", tip: "Πάρε Käsekrainer κομμένο σε φέτες (geschnitten) με μαύρο ψωμί και φρέσκο χρένο.", desc: "Η πιο διάσημη καντίνα για λουκάνικα. Το Käsekrainer είναι χοντρό λουκάνικο γεμιστό με τυρί που λιώνει και πετάγεται.", mapQuery: "Würstelstand am Hohen Markt Vienna" },
+            { type: "food", name: "Würstelstand am Hohen Markt", cost: "~5€", tip: "Πάρε Käsekrainer κομμένο σε φέτες (geschnitten) με μαύρο ψωμί και φρέσκο χρένο.", desc: "Η πιο διάσημη καντίνα για λουκάνικα. Το Käsekrainer είναι χοντρό λουκάνικο γεμιστό με τυρί που λιώνει και πετάγεται.", mapQuery: "Wurstelstand am Hohen Markt Vienna" },
             { type: "food", name: "Gasthaus Quell", cost: "~15-20€", tip: "Δοκίμασε το Schweinsbraten (χοιρινό ψητό με τραγανή πέτσα).", desc: "Αυθεντικό Wirtshaus στην 15η συνοικία. Ξύλινη επένδυση, καθόλου τουρίστες, μεγάλες μερίδες και εξαιρετική βαρελίσια μπύρα.", mapQuery: "Gasthaus Quell Vienna" },
             { type: "food", name: "Steman", cost: "~18€", tip: "Εδώ θα φας το πιο 'τίμιο' μοσχαρίσιο Wiener Schnitzel.", desc: "Κλασικό στέκι στην 6η συνοικία που υπάρχει πάνω από 100 χρόνια. Εξαιρετικό φαγητό, μακριά από τις εξωφρενικές τιμές του κέντρου.", mapQuery: "Steman Vienna" },
             
@@ -208,7 +210,7 @@
             { type: "sights", name: "Naschmarkt", cost: "Δωρεάν", tip: "Το Σάββατο το πρωί, ακριβώς δίπλα, στήνεται το υπαίθριο παζάρι αντικών (Flohmarkt).", desc: "Περιπλάνηση στις αγορές της πόλης. Χάζεψε τους πάγκους με τα μπαχαρικά και τα τυριά.", mapQuery: "Naschmarkt Vienna" }
         ];
 
-        let currentFilter = 'ticket';
+        let currentFilter = 'sweets';
         let synth = window.speechSynthesis;
         let currentUtterance = null;
         let playingIndex = -1;
@@ -250,7 +252,6 @@
                 
                 if(item.type === 'ticket') {
                     emoji = '🎫';
-                    // Προστέθηκε το onclick για να ανοίγει η εικόνα σε Modal (Full Screen)
                     actionContent = `
                         <div class="qr-image-container" onclick="openModal('${item.qrUrl}')">
                             <div class="qr-hint">🔍 Πάτα την εικόνα για πλήρη οθόνη</div>
@@ -264,7 +265,9 @@
                     if(item.type === 'arrival') emoji = '🛬';
                     if(item.type === 'departure') emoji = '🛫';
                     
-                    const mapLink = item.customMap ? item.customMap : `https://www.google.com/maps/search/?api=1&query=$${encodeURIComponent(item.mapQuery)}`;
+                    // Διόρθωσα το link του Google Maps για να ανοίγει 100% σωστά στην εφαρμογή του κινητού
+                    const mapLink = item.customMap ? item.customMap : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
+                    
                     actionContent = `
                         <div class="actions">
                             <button id="audio-btn-${index}" class="btn btn-audio" onclick="toggleAudio(${index})">🔊 Ακρόαση</button>
@@ -320,7 +323,7 @@
             }
         }
 
-        setFilter('ticket'); // Ξεκινάει δείχνοντας τα εισιτήρια
+        setFilter('sweets'); // Να ξεκινάει δείχνοντας την καρτέλα με τα Γλυκά
     </script>
 </body>
 </html>
