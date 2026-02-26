@@ -114,8 +114,27 @@
         .btn-audio.playing { background: #ef4444; animation: pulse 1.5s infinite; }
 
         /* Εικόνα QR Code */
-        .qr-image-container { margin-top: 15px; text-align: center; padding: 10px; background: #fff; border-radius: 10px; }
+        .qr-image-container { margin-top: 15px; text-align: center; padding: 15px; background: #fff; border-radius: 10px; cursor: pointer; transition: transform 0.2s; }
+        .qr-image-container:active { transform: scale(0.95); }
         .qr-image-container img { width: 100%; max-width: 300px; border-radius: 8px; }
+        .qr-hint { color: #3b82f6; font-size: 0.85rem; font-weight: bold; margin-bottom: 8px; }
+
+        /* Full Screen Image Modal */
+        #imageModal {
+            display: none; 
+            position: fixed; 
+            z-index: 99999; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0,0,0,0.95); 
+            align-items: center; 
+            justify-content: center;
+            flex-direction: column;
+        }
+        #fullImage { max-width: 95%; max-height: 85%; border-radius: 12px; box-shadow: 0 0 30px rgba(255,255,255,0.2); }
+        .close-modal-text { color: #fff; margin-top: 20px; font-size: 1.1rem; font-weight: bold; opacity: 0.7; }
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
     </style>
@@ -138,9 +157,14 @@
 
     <div class="container" id="content"></div>
 
+    <div id="imageModal" onclick="closeModal()">
+        <img id="fullImage" src="" alt="Full Screen QR">
+        <div class="close-modal-text">Πατήστε οπουδήποτε για κλείσιμο ✖</div>
+    </div>
+
     <script>
         const placesData = [
-            // --- ΕΙΣΙΤΗΡΙΑ ΜΕ ΕΝΣΩΜΑΤΩΜΕΝΑ LINKS ΑΠΟ GITHUB ---
+            // --- ΕΙΣΙΤΗΡΙΑ ---
             { 
                 type: "ticket", 
                 id: "panos",
@@ -204,6 +228,16 @@
             renderCards();
         }
 
+        /* --- Λειτουργίες Full Screen Εικόνας --- */
+        function openModal(imgUrl) {
+            document.getElementById('fullImage').src = imgUrl;
+            document.getElementById('imageModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
         function renderCards() {
             const container = document.getElementById('content');
             container.innerHTML = '';
@@ -216,9 +250,10 @@
                 
                 if(item.type === 'ticket') {
                     emoji = '🎫';
-                    // Τραβάει απευθείας τη φωτογραφία από το GitHub σου!
+                    // Προστέθηκε το onclick για να ανοίγει η εικόνα σε Modal (Full Screen)
                     actionContent = `
-                        <div class="qr-image-container">
+                        <div class="qr-image-container" onclick="openModal('${item.qrUrl}')">
+                            <div class="qr-hint">🔍 Πάτα την εικόνα για πλήρη οθόνη</div>
                             <img src="${item.qrUrl}" alt="QR Code ${item.name}">
                         </div>
                     `;
