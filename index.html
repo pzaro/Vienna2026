@@ -113,12 +113,9 @@
         .btn-map { background: var(--text-main); color: var(--bg-dark); }
         .btn-audio.playing { background: #ef4444; animation: pulse 1.5s infinite; }
 
-        /* QR Upload Styling */
-        .qr-section { margin-top: 15px; padding-top: 15px; border-top: 1px dashed #475569; text-align: center; }
-        .qr-img { width: 100%; border-radius: 8px; margin-top: 10px; display: none; }
-        .qr-input-label { display: inline-block; background: #3b82f6; color: white; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; font-weight: bold; }
-        input[type="file"] { display: none; }
-        .delete-qr-btn { background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 6px; margin-top: 10px; cursor: pointer; font-weight: bold; display: none; }
+        /* Εικόνα QR Code */
+        .qr-image-container { margin-top: 15px; text-align: center; padding: 10px; background: #fff; border-radius: 10px; }
+        .qr-image-container img { width: 100%; max-width: 300px; border-radius: 8px; }
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
     </style>
@@ -143,7 +140,7 @@
 
     <script>
         const placesData = [
-            // --- ΕΙΣΙΤΗΡΙΑ ---
+            // --- ΕΙΣΙΤΗΡΙΑ ΜΕ ΕΝΣΩΜΑΤΩΜΕΝΑ LINKS ΑΠΟ GITHUB ---
             { 
                 type: "ticket", 
                 id: "panos",
@@ -151,7 +148,7 @@
                 cost: "Ενεργό", 
                 tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου.", 
                 desc: "<strong>ΕΠΙΒΑΤΗΣ:</strong> PANAGIOTIS ZAROGOULIDIS\n<strong>ΚΩΔΙΚΟΣ:</strong> 26020648370\n<strong>ΙΣΧΥΕΙ ΑΠΟ:</strong> 26.02.2026 00:00\n<strong>ΙΣΧΥΕΙ ΕΩΣ:</strong> 05.03.2026 00:59", 
-                customMap: null 
+                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Panos.png?raw=true" 
             },
             { 
                 type: "ticket", 
@@ -160,10 +157,10 @@
                 cost: "Ενεργό", 
                 tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου.", 
                 desc: "<strong>ΕΠΙΒΑΤΗΣ:</strong> VASILEIA LIAPAKI\n<strong>ΚΩΔΙΚΟΣ:</strong> 26020648369\n<strong>ΙΣΧΥΕΙ ΑΠΟ:</strong> 26.02.2026 00:00\n<strong>ΙΣΧΥΕΙ ΕΩΣ:</strong> 05.03.2026 00:59", 
-                customMap: null 
+                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Lia.png?raw=true" 
             },
 
-            // --- ΓΛΥΚΑ ΝΤΟΠΙΩΝ (ΝΕΟ) ---
+            // --- ΓΛΥΚΑ ΝΤΟΠΙΩΝ ---
             { type: "sweets", name: "Konditorei Groissböck", cost: "~3-5€", tip: "Εδώ πρέπει να φάτε Schaumrolle (ρολό με αφράτη κρέμα) και Krapfen (παραδοσιακός λουκουμάς με μαρμελάδα).", desc: "Μακριά από το ακριβό κέντρο. Αυτό είναι το απόλυτο παραδοσιακό ζαχαροπλαστείο της 12ης συνοικίας, όπου οι ντόπιοι κάνουν ουρές για τα γλυκά τους! Βρίσκεται μόλις 1 στάση μακριά από τον σταθμό Meidling (με το U6).", mapQuery: "Konditorei Groissböck Meidling Vienna" },
             { type: "sweets", name: "Aida Café-Konditorei", cost: "~4-6€", tip: "Δοκιμάστε το Apfelstrudel (Μηλόπιτα) ή το χαρακτηριστικό ροζ Punschkrapfen.", desc: "Η πιο ιστορική και ρετρό αλυσίδα ζαχαροπλαστείων της πόλης. Ξεχωρίζουν από μακριά χάρη στο χαρακτηριστικό ροζ χρώμα τους που θυμίζει δεκαετία του '50. Έχουν υποκαταστήματα παντού και οι τιμές είναι πολύ πιο τίμιες από τα πολυτελή καφέ.", mapQuery: "Aida Cafe Vienna" },
             { type: "sweets", name: "Vollpension", cost: "~5-7€", tip: "Συνδυάστε το γλυκό σας με ζεστή σοκολάτα ή βιεννέζικο Melange.", desc: "Ένα μοναδικό, ζεστό στέκι που μοιάζει με σαλόνι γιαγιάς! Ο λόγος; Τα γλυκά εδώ τα φτιάχνουν και τα σερβίρουν... πραγματικές Βιεννέζες γιαγιάδες και παππούδες! Απίστευτη ατμόσφαιρα, πεντανόστιμα σπιτικά κέικ (Buchteln) και εξαιρετικές τιμές.", mapQuery: "Vollpension Vienna" },
@@ -207,38 +204,6 @@
             renderCards();
         }
 
-        // Αποθήκευση της φωτογραφίας QR στη μνήμη του browser (localStorage)
-        function saveQR(id, input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const dataUrl = e.target.result;
-                    localStorage.setItem('qr_' + id, dataUrl);
-                    showQR(id, dataUrl);
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function showQR(id, dataUrl) {
-            const img = document.getElementById('qr-img-' + id);
-            const label = document.getElementById('qr-label-' + id);
-            const delBtn = document.getElementById('qr-del-' + id);
-            
-            img.src = dataUrl;
-            img.style.display = 'block';
-            label.style.display = 'none';
-            delBtn.style.display = 'inline-block';
-        }
-
-        function deleteQR(id) {
-            localStorage.removeItem('qr_' + id);
-            document.getElementById('qr-img-' + id).style.display = 'none';
-            document.getElementById('qr-label-' + id).style.display = 'inline-block';
-            document.getElementById('qr-del-' + id).style.display = 'none';
-            document.getElementById('qr-input-' + id).value = '';
-        }
-
         function renderCards() {
             const container = document.getElementById('content');
             container.innerHTML = '';
@@ -247,19 +212,14 @@
 
             currentFilteredData.forEach((item, index) => {
                 let emoji = '📍';
-                let actionButtons = '';
+                let actionContent = '';
                 
                 if(item.type === 'ticket') {
                     emoji = '🎫';
-                    // Ειδική ενότητα για να αποθηκεύει τα QR Codes
-                    actionButtons = `
-                        <div class="qr-section">
-                            <label id="qr-label-${item.id}" class="qr-input-label">
-                                📸 Προσθήκη Φωτογραφίας QR
-                                <input type="file" id="qr-input-${item.id}" accept="image/*" onchange="saveQR('${item.id}', this)">
-                            </label>
-                            <img id="qr-img-${item.id}" class="qr-img">
-                            <button id="qr-del-${item.id}" class="delete-qr-btn" onclick="deleteQR('${item.id}')">Διαγραφή Φωτογραφίας</button>
+                    // Τραβάει απευθείας τη φωτογραφία από το GitHub σου!
+                    actionContent = `
+                        <div class="qr-image-container">
+                            <img src="${item.qrUrl}" alt="QR Code ${item.name}">
                         </div>
                     `;
                 } else {
@@ -270,7 +230,7 @@
                     if(item.type === 'departure') emoji = '🛫';
                     
                     const mapLink = item.customMap ? item.customMap : `https://www.google.com/maps/search/?api=1&query=$${encodeURIComponent(item.mapQuery)}`;
-                    actionButtons = `
+                    actionContent = `
                         <div class="actions">
                             <button id="audio-btn-${index}" class="btn btn-audio" onclick="toggleAudio(${index})">🔊 Ακρόαση</button>
                             <a href="${mapLink}" target="_blank" class="btn btn-map">📍 Χάρτης</a>
@@ -286,20 +246,10 @@
                         </div>
                         <div class="card-tip">💡 <b>Tip:</b> ${item.tip}</div>
                         <p class="card-desc">${item.desc}</p>
-                        ${actionButtons}
+                        ${actionContent}
                     </div>
                 `;
             });
-
-            // Αν είμαστε στα εισιτήρια, ελέγχουμε αν υπάρχει ήδη αποθηκευμένο QR Code
-            if(currentFilter === 'ticket') {
-                currentFilteredData.forEach(item => {
-                    const savedQR = localStorage.getItem('qr_' + item.id);
-                    if (savedQR) {
-                        showQR(item.id, savedQR);
-                    }
-                });
-            }
         }
 
         function toggleAudio(index) {
@@ -312,7 +262,6 @@
                 document.getElementById(`audio-btn-${index}`).innerText = "⏹️ Stop";
                 
                 let textToSpeak = currentFilteredData[index].desc.replace(/\n/g, ". ");
-                // Καθαρισμός των HTML tags (π.χ. <strong>) για την ομιλία
                 textToSpeak = textToSpeak.replace(/<[^>]*>?/gm, '');
                 
                 currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
