@@ -149,8 +149,8 @@
             <button class="tab-btn ticket" onclick="setFilter('ticket')">🎫 Εισιτήρια</button>
             <button class="tab-btn arrival" onclick="setFilter('arrival')">🛬 Άφιξη</button>
             <button class="tab-btn departure" onclick="setFilter('departure')">🛫 Αναχώρ.</button>
-            <button class="tab-btn food" onclick="setFilter('food')">🍔 Φαγητό</button>
-            <button class="tab-btn sweets active" onclick="setFilter('sweets')">🍩 Γλυκά</button>
+            <button class="tab-btn food active" onclick="setFilter('food')">🍔 Φαγητό</button>
+            <button class="tab-btn sweets" onclick="setFilter('sweets')">🍩 Γλυκά</button>
             <button class="tab-btn sights" onclick="setFilter('sights')">🏛️ Αξιοθέατα</button>
         </div>
     </div>
@@ -164,7 +164,7 @@
 
     <script>
         const placesData = [
-            // --- ΕΙΣΙΤΗΡΙΑ ΜΕ ΕΝΣΩΜΑΤΩΜΕΝΑ LINKS ΑΠΟ GITHUB ---
+            // --- ΕΙΣΙΤΗΡΙΑ ---
             { 
                 type: "ticket", 
                 id: "panos",
@@ -185,6 +185,7 @@
             },
 
             // --- ΓΛΥΚΑ & ΙΣΤΟΡΙΚΑ ΚΑΦΕ ---
+            { type: "sweets", name: "Haas & Haas", cost: "~10-20€", tip: "Δοκίμασε το 'Afternoon Tea' τους με φρέσκα scones, μαρμελάδα και clotted cream. Βρίσκεται ακριβώς πίσω από τον Αγ. Στέφανο!", desc: "Το πιο διάσημο παραδοσιακό τεϊοποτείο (Teehaus) της Βιέννης. Αντί για τον κλασικό καφέ, εδώ θα βρεις τεράστια ποικιλία από κορυφαία τσάγια, σερβιρισμένα με παραδοσιακά γλυκά και αλμυρά σνακ σε ένα υπέροχο, αρχοντικό περιβάλλον.", mapQuery: "Haas and Haas Vienna" },
             { type: "sweets", name: "Café Sacher", cost: "~10-15€", tip: "Οπλίσου με υπομονή γιατί συχνά έχει ουρά. Η αυθεντική Sachertorte σερβίρεται πάντα με άγλυκη σαντιγί.", desc: "Το πιο διάσημο καφέ της Βιέννης και το σπίτι της αυθεντικής Sachertorte! Είναι τουριστικό και οι τιμές είναι 'τσιμπημένες', αλλά αποτελεί την απόλυτη κλασική εμπειρία του ταξιδιού.", mapQuery: "Cafe Sacher Wien" },
             { type: "sweets", name: "Café Demel", cost: "~10-15€", tip: "Πήγαινε στο βάθος του ισογείου! Έχουν ένα γυάλινο τοίχο όπου μπορείς να δεις τους ζαχαροπλάστες να φτιάχνουν τα γλυκά ζωντανά.", desc: "Ο αιώνιος αντίπαλος του Sacher. Αυτό το πρώην αυτοκρατορικό ζαχαροπλαστείο διαθέτει εκπληκτική ιστορική διακόσμηση. Δοκίμασε την δική τους εκδοχή της Sachertorte ή το Kaiserschmarrn.", mapQuery: "Demel Vienna" },
             { type: "sweets", name: "Konditorei Groissböck", cost: "~3-5€", tip: "Εδώ πρέπει να φάτε Schaumrolle (ρολό με αφράτη κρέμα) και Krapfen (παραδοσιακός λουκουμάς με μαρμελάδα).", desc: "Μακριά από το ακριβό κέντρο. Αυτό είναι το απόλυτο παραδοσιακό ζαχαροπλαστείο της 12ης συνοικίας, όπου οι ντόπιοι κάνουν ουρές για τα γλυκά τους! Βρίσκεται μόλις 1 στάση μακριά από τον σταθμό Meidling (με το U6).", mapQuery: "Konditorei Groissboeck Meidling Vienna" },
@@ -197,11 +198,14 @@
             // --- ΑΝΑΧΩΡΗΣΗ ---
             { type: "departure", name: "Ξενοδοχείο ➔ Αεροδρόμιο", cost: "2,10€", tip: "Εισιτήρια: Το Μετρό είναι ΔΩΡΕΑΝ. Για το τρένο προς το αεροδρόμιο θα βγάλεις ξανά μόνο το εισιτήριο επέκτασης 2,10€.", desc: "🚇 09:30 - Μετρό U6 (Προς Siebenhirten/Alterlaa) - [ΔΩΡΕΑΝ με την 7ήμερη]\nΣτάσεις που περνάς (1): Niederhofstraße.\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗ 2η: Wien Meidling\n\n🚆 09:59 (ή 10:29) - Τρένο RJ (Προς Flughafen Wien)\nΣτάσεις που περνάς (1): Wien Hauptbahnhof.\n👉 ΚΑΤΕΒΑΙΝΕΙΣ ΣΤΗ 2η: Flughafen Wien (Αεροδρόμιο).", customMap: "https://www.google.com/maps/dir/Hampton+by+Hilton+Vienna+City+West/L%C3%A4ngenfeldgasse/" },
 
-            // --- ΦΑΓΗΤΟ ---
+            // --- ΦΑΓΗΤΟ & ΣΝΙΤΣΕΛ ---
+            { type: "food", name: "Figlmüller", cost: "~20-25€", tip: "Πρέπει να κάνετε κράτηση μέρες πριν! Το διάσημο 'Figlmüller Schnitzel' είναι χοιρινό και βγαίνει έξω από το πιάτο.", desc: "Το πιο διάσημο όνομα στη Βιέννη για σνίτσελ. Έχουν δύο εστιατόρια στο κέντρο (Wollzeile & Bäckerstraße). Ετοιμαστείτε για ένα σνίτσελ-γίγαντα σε ένα πολύ παραδοσιακό περιβάλλον.", mapQuery: "Figlmuller Vienna" },
+            { type: "food", name: "Schnitzelwirt", cost: "~15-18€", tip: "Μια μερίδα έχει συνήθως 2 τεράστια κομμάτια κρέας, οπότε μπορείτε άνετα να μοιραστείτε μία!", desc: "Το απόλυτο στέκι για χορταστικό και οικονομικό σνίτσελ. Βρίσκεται στην 7η συνοικία, έχει ρουστίκ διακόσμηση, φασαρία, άφθονη μπύρα και μια πολύ αυθεντική 'ταβερνιάρικη' αίσθηση. Ιδανικό για ντόπιους και ψαγμένους ταξιδιώτες.", mapQuery: "Schnitzelwirt Vienna" },
+            { type: "food", name: "Meissl & Schadn", cost: "~28-30€", tip: "Εδώ το αυθεντικό Wiener Schnitzel (από μοσχάρι) τηγανίζεται παραδοσιακά σε καθαρό βούτυρο (Butterschmalz).", desc: "Αν ψάχνετε μια πιο premium και αρχοντική εμπειρία. Το καλύτερο; Έχουν ανοιχτή κουζίνα-βιτρίνα όπου βλέπετε τους σεφ να 'χτυπάνε' και να πανάρουν τα σνίτσελ ζωντανά μπροστά σας!", mapQuery: "Meissl & Schadn Vienna" },
             { type: "food", name: "Leberkas-Pepi", cost: "~4€", tip: "Ζήτα το Pepi-Leberkäse με τυρί και λίγη μουστάρδα.", desc: "Το απόλυτο βρώμικο των ντόπιων. Ένα ζεστό, παχύ κομμάτι ψητού πατέ κρέατος (σαν χοντρή πάριζα) μέσα σε τραγανό ψωμάκι. Γρήγορο, χορταστικό και φθηνό.", mapQuery: "Leberkas-Pepi Vienna" },
             { type: "food", name: "Würstelstand am Hohen Markt", cost: "~5€", tip: "Πάρε Käsekrainer κομμένο σε φέτες (geschnitten) με μαύρο ψωμί και φρέσκο χρένο.", desc: "Η πιο διάσημη καντίνα για λουκάνικα. Το Käsekrainer είναι χοντρό λουκάνικο γεμιστό με τυρί που λιώνει και πετάγεται.", mapQuery: "Wurstelstand am Hohen Markt Vienna" },
             { type: "food", name: "Gasthaus Quell", cost: "~15-20€", tip: "Δοκίμασε το Schweinsbraten (χοιρινό ψητό με τραγανή πέτσα).", desc: "Αυθεντικό Wirtshaus στην 15η συνοικία. Ξύλινη επένδυση, καθόλου τουρίστες, μεγάλες μερίδες και εξαιρετική βαρελίσια μπύρα.", mapQuery: "Gasthaus Quell Vienna" },
-            { type: "food", name: "Steman", cost: "~18€", tip: "Εδώ θα φας το πιο 'τίμιο' μοσχαρίσιο Wiener Schnitzel.", desc: "Κλασικό στέκι στην 6η συνοικία που υπάρχει πάνω από 100 χρόνια. Εξαιρετικό φαγητό, μακριά από τις εξωφρενικές τιμές του κέντρου.", mapQuery: "Steman Vienna" },
+            { type: "food", name: "Steman", cost: "~18€", tip: "Εδώ θα φας εξαιρετικό παραδοσιακό φαγητό σε πολύ λογικές τιμές.", desc: "Κλασικό στέκι στην 6η συνοικία που υπάρχει πάνω από 100 χρόνια. Εξαιρετικό φαγητό, μακριά από τις εξωφρενικές τιμές του κέντρου.", mapQuery: "Steman Vienna" },
             
             // --- ΑΞΙΟΘΕΑΤΑ ---
             { type: "sights", name: "Κήποι Schönbrunn", cost: "Δωρεάν", tip: "Ανέβα τον λόφο μέχρι την αψίδα Gloriette για πανοραμική θέα όλης της πόλης.", desc: "Η βόλτα στους αχανείς κήπους είναι μαγική και εντελώς δωρεάν.", mapQuery: "Schonbrunn Palace Vienna" },
@@ -210,7 +214,7 @@
             { type: "sights", name: "Naschmarkt", cost: "Δωρεάν", tip: "Το Σάββατο το πρωί, ακριβώς δίπλα, στήνεται το υπαίθριο παζάρι αντικών (Flohmarkt).", desc: "Περιπλάνηση στις αγορές της πόλης. Χάζεψε τους πάγκους με τα μπαχαρικά και τα τυριά.", mapQuery: "Naschmarkt Vienna" }
         ];
 
-        let currentFilter = 'sweets';
+        let currentFilter = 'food';
         let synth = window.speechSynthesis;
         let currentUtterance = null;
         let playingIndex = -1;
@@ -265,7 +269,6 @@
                     if(item.type === 'arrival') emoji = '🛬';
                     if(item.type === 'departure') emoji = '🛫';
                     
-                    // Διόρθωσα το link του Google Maps για να ανοίγει 100% σωστά στην εφαρμογή του κινητού
                     const mapLink = item.customMap ? item.customMap : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
                     
                     actionContent = `
@@ -282,48 +285,4 @@
                             <h2 class="card-title">${emoji} ${item.name}</h2>
                             <div class="card-cost">${item.cost}</div>
                         </div>
-                        <div class="card-tip">💡 <b>Tip:</b> ${item.tip}</div>
-                        <p class="card-desc">${item.desc}</p>
-                        ${actionContent}
-                    </div>
-                `;
-            });
-        }
-
-        function toggleAudio(index) {
-            if (playingIndex === index && synth.speaking) {
-                stopAudio();
-            } else {
-                stopAudio();
-                playingIndex = index;
-                document.getElementById(`audio-btn-${index}`).classList.add('playing');
-                document.getElementById(`audio-btn-${index}`).innerText = "⏹️ Stop";
-                
-                let textToSpeak = currentFilteredData[index].desc.replace(/\n/g, ". ");
-                textToSpeak = textToSpeak.replace(/<[^>]*>?/gm, '');
-                
-                currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
-                currentUtterance.lang = 'el-GR';
-                currentUtterance.rate = 0.95;
-                
-                currentUtterance.onend = () => { stopAudio(); };
-                synth.speak(currentUtterance);
-            }
-        }
-
-        function stopAudio() {
-            if (synth.speaking) synth.cancel();
-            if (playingIndex !== -1) {
-                const btn = document.getElementById(`audio-btn-${playingIndex}`);
-                if (btn) {
-                    btn.classList.remove('playing');
-                    btn.innerHTML = "🔊 Ακρόαση";
-                }
-                playingIndex = -1;
-            }
-        }
-
-        setFilter('sweets'); // Να ξεκινάει δείχνοντας την καρτέλα με τα Γλυκά
-    </script>
-</body>
-</html>
+                        <div class="card-tip">💡 <b>T
