@@ -124,7 +124,7 @@
         .qr-image-container img { width: 100%; max-width: 300px; border-radius: 8px; }
         .qr-hint { color: #3b82f6; font-size: 0.85rem; font-weight: bold; margin-bottom: 8px; }
 
-        /* Full Screen Image Modal */
+        /* Full Screen Image Modal - Πλέον υποστηρίζει Pinch-to-Zoom */
         #imageModal {
             display: none; 
             position: fixed; 
@@ -133,13 +133,33 @@
             top: 0; 
             width: 100%; 
             height: 100%; 
-            background-color: rgba(0,0,0,0.95); 
+            background-color: rgba(0,0,0,0.98); 
             align-items: center; 
             justify-content: center;
-            flex-direction: column;
+            overflow: hidden;
+            touch-action: none; /* Αποτρέπει το default scroll του browser */
         }
-        #fullImage { max-width: 95%; max-height: 85%; border-radius: 12px; box-shadow: 0 0 30px rgba(255,255,255,0.2); }
-        .close-modal-text { color: #fff; margin-top: 20px; font-size: 1.1rem; font-weight: bold; opacity: 0.7; }
+        #fullImage { 
+            max-width: 95%; 
+            max-height: 85%; 
+            border-radius: 12px; 
+            box-shadow: 0 0 30px rgba(255,255,255,0.2); 
+            transform-origin: center;
+        }
+        .close-modal-btn { 
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(239, 68, 68, 0.9);
+            color: #fff; 
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 1rem; 
+            font-weight: bold; 
+            cursor: pointer;
+            z-index: 100000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
     </style>
@@ -151,8 +171,8 @@
     <div class="header">
         <h1>🇦🇹 Vienna Local Guide</h1>
         <div class="tabs">
-            <button class="tab-btn ticket" onclick="setFilter('ticket')">🎫 Εισιτήρια</button>
-            <button class="tab-btn arrival active" onclick="setFilter('arrival')">🛬 Άφιξη</button>
+            <button class="tab-btn ticket active" onclick="setFilter('ticket')">🎫 Εισιτήρια</button>
+            <button class="tab-btn arrival" onclick="setFilter('arrival')">🛬 Άφιξη</button>
             <button class="tab-btn departure" onclick="setFilter('departure')">🛫 Αναχώρ.</button>
             <button class="tab-btn food" onclick="setFilter('food')">🍔 Φαγητό</button>
             <button class="tab-btn sweets" onclick="setFilter('sweets')">🍩 Γλυκά</button>
@@ -162,9 +182,9 @@
 
     <div class="container" id="content"></div>
 
-    <div id="imageModal" onclick="closeModal()">
+    <div id="imageModal">
+        <div class="close-modal-btn" onclick="closeModal()">✖ Κλείσιμο</div>
         <img id="fullImage" src="" alt="Full Screen QR">
-        <div class="close-modal-text">Πατήστε οπουδήποτε για κλείσιμο ✖</div>
     </div>
 
     <script>
@@ -190,7 +210,7 @@
                 level: "cost-low", 
                 tip: "ΠΡΟΣΟΧΗ: Το εισιτήριο δεν χρειάζεται ακύρωση, ισχύει από τη στιγμή που βγαίνει.", 
                 desc: "Προσγειώνεστε στο <strong>Flughafen Wien</strong>.\n1. Ακολουθήστε τις πράσινες ταμπέλες <strong>S-Bahn / Züge</strong> (Τρένα).\n2. Βρείτε ένα <strong>κόκκινο μηχάνημα (ÖBB Ticketautomat)</strong>.\n3. Γυρίστε τη γλώσσα στα 🇬🇧 Αγγλικά.\n4. Επιλέξτε προορισμό: <strong>Wien Mitte</strong>.\n5. Το σύστημα θα βγάλει αρχική τιμή 4,40€. <strong>ΒΡΕΙΤΕ ΤΗΝ ΕΠΙΛΟΓΗ (Discount)</strong> που λέει ότι έχετε εισιτήριο πόλης: <strong>\"Ticket Stadtverkehr Wien\"</strong> (ή \"I have a ticket for Vienna zone\").\n6. Η τιμή πέφτει στα 2,10€! Πληρώστε με κάρτα ή μετρητά. Κρατήστε το χαρτάκι.", 
-                customMap: "https://www.google.com/maps/search/?api=1&query=Flughafen+Wien"
+                customMap: null
             },
             { 
                 type: "arrival", 
@@ -208,7 +228,7 @@
                 level: "cost-low", 
                 tip: "Εδώ ξεκινάει η ισχύς της 7ήμερης ψηφιακής σας κάρτας. Το Μετρό (U-Bahn) είναι δωρεάν.", 
                 desc: "Μόλις κατεβείτε στο Wien Mitte, ακολουθήστε μέσα στον σταθμό τις <strong>πράσινες ταμπέλες U4</strong>.\n\n🚇 Παίρνετε το Μετρό <strong>U-Bahn Γραμμή U4</strong> (Πράσινη γραμμή).\nΠρέπει να γράφει κατεύθυνση: <strong>\"Wien Hütteldorf\"</strong>.\n\nΣτάσεις που περνάτε (5): Stadtpark, Karlsplatz, Kettenbrückengasse, Pilgramgasse, Margaretengürtel.\n\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΗΝ 6η ΣΤΑΣΗ: \"Längenfeldgasse\"</strong>.\n\nΒγαίνετε από τον σταθμό και το ξενοδοχείο είναι 7 λεπτά περπάτημα!", 
-                customMap: "https://www.google.com/maps/search/?api=1&query=Längenfeldgasse+Vienna" 
+                customMap: "https://maps.google.com/?q=Längenfeldgasse+Vienna" 
             },
 
             // --- ΑΝΑΧΩΡΗΣΗ ΜΕ ΚΑΘΕ ΛΕΠΤΟΜΕΡΕΙΑ ---
@@ -228,7 +248,7 @@
                 level: "cost-low", 
                 tip: "Αυτή τη φορά παίρνετε το Railjet (RJ) που είναι υπερσύγχρονο τρένο ταχείας!", 
                 desc: "Μέσα στον σταθμό <strong>Wien Meidling</strong>, βρείτε ένα <strong>κόκκινο μηχάνημα ÖBB</strong>.\n1. Βγάλτε το εισιτήριο επέκτασης 2,10€, επιλέγοντας προορισμό <strong>\"Flughafen Wien\"</strong> και δηλώνοντας την έκπτωση (Ticket Stadtverkehr Wien).\n\n2. Πηγαίνετε στην αποβάθρα (<strong>Bahnsteig</strong>).\n🚆 Παίρνετε το γρήγορο τρένο <strong>Railjet (RJ)</strong>.\nΠρέπει να γράφει κατεύθυνση: <strong>\"Flughafen Wien\"</strong>.\n\nΗ διαδρομή είναι περίπου 25 λεπτά.\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΟ ΤΕΡΜΑ: \"Flughafen Wien\"</strong> (Αεροδρόμιο).", 
-                customMap: "https://www.google.com/maps/search/?api=1&query=Flughafen+Wien+Bahnhof" 
+                customMap: "https://maps.google.com/?q=Flughafen+Wien" 
             },
 
             // --- ΦΑΓΗΤΟ & ΣΝΙΤΣΕΛ ---
@@ -248,7 +268,7 @@
             { type: "sights", name: "Naschmarkt", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Το Σάββατο στήνεται το υπαίθριο παζάρι αντικών (Flohmarkt).", desc: "Περιπλάνηση στις αγορές της πόλης με μπαχαρικά και τυριά.", mapQuery: "Naschmarkt Vienna" }
         ];
 
-        let currentFilter = 'arrival';
+        let currentFilter = 'ticket';
         let synth = window.speechSynthesis;
         let currentUtterance = null;
         let playingIndex = -1;
@@ -268,14 +288,73 @@
             renderCards();
         }
 
-        /* --- Λειτουργίες Full Screen Εικόνας --- */
+        /* --- Λειτουργίες Touch, Pinch & Drag για την Εικόνα --- */
+        let currentScale = 1;
+        let originX = 0;
+        let originY = 0;
+        let startX = 0;
+        let startY = 0;
+        let isPanning = false;
+        let startDistance = 0;
+
+        const modal = document.getElementById('imageModal');
+        const fullImg = document.getElementById('fullImage');
+
+        modal.addEventListener('touchstart', function(e) {
+            if (e.touches.length === 2) {
+                e.preventDefault(); // Κλείδωμα της σελίδας από scrolling
+                startDistance = Math.hypot(
+                    e.touches[0].pageX - e.touches[1].pageX, 
+                    e.touches[0].pageY - e.touches[1].pageY
+                );
+            } else if (e.touches.length === 1) {
+                isPanning = true;
+                startX = e.touches[0].pageX - originX;
+                startY = e.touches[0].pageY - originY;
+            }
+        }, { passive: false });
+
+        modal.addEventListener('touchmove', function(e) {
+            if (e.touches.length === 2) {
+                e.preventDefault();
+                let currentDistance = Math.hypot(
+                    e.touches[0].pageX - e.touches[1].pageX, 
+                    e.touches[0].pageY - e.touches[1].pageY
+                );
+                let zoom = currentDistance / startDistance;
+                currentScale = Math.max(1, Math.min(currentScale * zoom, 4)); // Μέχρι 4x Ζουμ
+                fullImg.style.transform = `translate(${originX}px, ${originY}px) scale(${currentScale})`;
+                startDistance = currentDistance;
+            } else if (e.touches.length === 1 && isPanning) {
+                e.preventDefault();
+                if (currentScale > 1) { // Επιτρέπει το σύρσιμο (panning) μόνο αν είναι ζουμαρισμένο
+                    originX = e.touches[0].pageX - startX;
+                    originY = e.touches[0].pageY - startY;
+                    fullImg.style.transform = `translate(${originX}px, ${originY}px) scale(${currentScale})`;
+                }
+            }
+        }, { passive: false });
+
+        modal.addEventListener('touchend', function(e) {
+            if (e.touches.length < 2) {
+                startDistance = 0;
+            }
+            if (e.touches.length === 0) {
+                isPanning = false;
+            }
+        });
+
         function openModal(imgUrl) {
-            document.getElementById('fullImage').src = imgUrl;
-            document.getElementById('imageModal').style.display = 'flex';
+            fullImg.src = imgUrl;
+            modal.style.display = 'flex';
+            currentScale = 1;
+            originX = 0;
+            originY = 0;
+            fullImg.style.transform = `translate(0px, 0px) scale(1)`;
         }
 
         function closeModal() {
-            document.getElementById('imageModal').style.display = 'none';
+            modal.style.display = 'none';
         }
 
         function renderCards() {
@@ -305,8 +384,7 @@
                     
                     let mapButton = '';
                     if (item.customMap || item.mapQuery) {
-                        // Διορθωμένο link για το Google Maps με τη σωστή χρήση της μεταβλητής!
-                        const mapLink = item.customMap ? item.customMap : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
+                        const mapLink = item.customMap ? item.customMap : 'https://maps.google.com/?q=' + encodeURIComponent(item.mapQuery);
                         mapButton = `<a href="${mapLink}" target="_blank" class="btn btn-map">📍 Χάρτης</a>`;
                     }
                     
@@ -365,7 +443,7 @@
             }
         }
 
-        setFilter('arrival'); 
+        setFilter('ticket'); 
     </script>
 </body>
 </html>
