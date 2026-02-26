@@ -285,4 +285,48 @@
                             <h2 class="card-title">${emoji} ${item.name}</h2>
                             <div class="card-cost">${item.cost}</div>
                         </div>
-                        <div class="card-tip">💡 <b>T
+                        <div class="card-tip">💡 <b>Tip:</b> ${item.tip}</div>
+                        <p class="card-desc">${item.desc}</p>
+                        ${actionContent}
+                    </div>
+                `;
+            });
+        }
+
+        function toggleAudio(index) {
+            if (playingIndex === index && synth.speaking) {
+                stopAudio();
+            } else {
+                stopAudio();
+                playingIndex = index;
+                document.getElementById(`audio-btn-${index}`).classList.add('playing');
+                document.getElementById(`audio-btn-${index}`).innerText = "⏹️ Stop";
+                
+                let textToSpeak = currentFilteredData[index].desc.replace(/\n/g, ". ");
+                textToSpeak = textToSpeak.replace(/<[^>]*>?/gm, '');
+                
+                currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
+                currentUtterance.lang = 'el-GR';
+                currentUtterance.rate = 0.95;
+                
+                currentUtterance.onend = () => { stopAudio(); };
+                synth.speak(currentUtterance);
+            }
+        }
+
+        function stopAudio() {
+            if (synth.speaking) synth.cancel();
+            if (playingIndex !== -1) {
+                const btn = document.getElementById(`audio-btn-${playingIndex}`);
+                if (btn) {
+                    btn.classList.remove('playing');
+                    btn.innerHTML = "🔊 Ακρόαση";
+                }
+                playingIndex = -1;
+            }
+        }
+
+        setFilter('food'); // Άλλαξα να ξεκινάει από το 'Φαγητό' για να δεις κατευθείαν το Figlmüller!
+    </script>
+</body>
+</html>
