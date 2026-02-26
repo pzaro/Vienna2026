@@ -275,4 +275,96 @@
         }
 
         function closeModal() {
-            document.getElementById('im
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        function renderCards() {
+            const container = document.getElementById('content');
+            container.innerHTML = '';
+            
+            currentFilteredData = placesData.filter(item => item.type === currentFilter);
+
+            currentFilteredData.forEach((item, index) => {
+                let emoji = '📍';
+                let actionContent = '';
+                
+                if(item.type === 'ticket') {
+                    emoji = '🎫';
+                    actionContent = `
+                        <div class="qr-image-container" onclick="openModal('${item.qrUrl}')">
+                            <div class="qr-hint">🔍 Πάτα την εικόνα για πλήρη οθόνη</div>
+                            <img src="${item.qrUrl}" alt="QR Code ${item.name}">
+                        </div>
+                    `;
+                } else {
+                    if(item.type === 'food') emoji = '🍔';
+                    if(item.type === 'sweets') emoji = '🍩';
+                    if(item.type === 'sights') emoji = '🏛️';
+                    if(item.type === 'arrival') emoji = '🛬';
+                    if(item.type === 'departure') emoji = '🛫';
+                    
+                    let mapButton = '';
+                    if (item.customMap || item.mapQuery) {
+                        const mapLink = item.customMap ? item.customMap : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
+                        mapButton = `<a href="${mapLink}" target="_blank" class="btn btn-map">📍 Χάρτης</a>`;
+                    }
+                    
+                    actionContent = `
+                        <div class="actions">
+                            <button id="audio-btn-${index}" class="btn btn-audio" onclick="toggleAudio(${index})">🔊 Ακρόαση</button>
+                            ${mapButton}
+                        </div>
+                    `;
+                }
+
+                container.innerHTML += `
+                    <div class="card type-${item.type}">
+                        <div class="card-header">
+                            <h2 class="card-title">${emoji} ${item.name}</h2>
+                            <div class="card-cost ${item.level}">${item.cost}</div>
+                        </div>
+                        <div class="card-tip">💡 <b>Tip:</b> ${item.tip}</div>
+                        <p class="card-desc">${item.desc}</p>
+                        ${actionContent}
+                    </div>
+                `;
+            });
+        }
+
+        function toggleAudio(index) {
+            if (playingIndex === index && synth.speaking) {
+                stopAudio();
+            } else {
+                stopAudio();
+                playingIndex = index;
+                document.getElementById(`audio-btn-${index}`).classList.add('playing');
+                document.getElementById(`audio-btn-${index}`).innerText = "⏹️ Stop";
+                
+                let textToSpeak = currentFilteredData[index].desc.replace(/\n/g, ". ");
+                textToSpeak = textToSpeak.replace(/<[^>]*>?/gm, '');
+                
+                currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
+                currentUtterance.lang = 'el-GR';
+                currentUtterance.rate = 0.95;
+                
+                currentUtterance.onend = () => { stopAudio(); };
+                synth.speak(currentUtterance);
+            }
+        }
+
+        function stopAudio() {
+            if (synth.speaking) synth.cancel();
+            if (playingIndex !== -1) {
+                const btn = document.getElementById(`audio-btn-${playingIndex}`);
+                if (btn) {
+                    btn.classList.remove('playing');
+                    btn.innerHTML = "🔊 Ακρόαση";
+                }
+                playingIndex = -1;
+            }
+        }
+
+        setFilter('sights'); // Εκκίνηση από τα αξιοθέατα για να δεις κατευθείαν τις προσθήκες
+    </script>
+</body>
+</html>
