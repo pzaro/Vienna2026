@@ -13,10 +13,6 @@
             --accent: #fbbf24;
             --food-color: #ef4444;
             --sight-color: #3b82f6;
-            --arr-color: #10b981; 
-            --dep-color: #8b5cf6; 
-            --ticket-color: #f97316;
-            --sweet-color: #ec4899;
         }
 
         body { 
@@ -46,18 +42,14 @@
 
         h1 { margin: 0 0 15px 0; font-size: 1.4rem; text-align: center; color: var(--accent); letter-spacing: 0.5px; }
 
-        .tabs { 
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 8px; 
-        }
+        .tabs { display: flex; gap: 10px; }
         
         .tab-btn {
-            flex: 1 1 calc(33.333% - 8px); 
-            padding: 10px 5px;
+            flex: 1;
+            padding: 14px;
             border: none;
-            border-radius: 10px;
-            font-size: 0.9rem;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--text-sec);
             background: #334155;
@@ -66,16 +58,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 8px;
         }
 
-        /* Active Tab Colors */
-        .tab-btn.active.ticket { background: var(--ticket-color); color: #fff; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4); }
-        .tab-btn.active.sweets { background: var(--sweet-color); color: #fff; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); }
         .tab-btn.active.food { background: var(--food-color); color: #fff; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); }
         .tab-btn.active.sights { background: var(--sight-color); color: #fff; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
-        .tab-btn.active.arrival { background: var(--arr-color); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
-        .tab-btn.active.departure { background: var(--dep-color); color: #fff; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); }
 
         /* Cards Layout */
         .container { padding: 15px; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
@@ -88,78 +75,51 @@
             border: 1px solid #334155;
             position: relative;
             overflow: hidden;
+            transition: opacity 0.3s;
         }
 
-        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
-        .card.type-ticket::before { background: var(--ticket-color); }
-        .card.type-sweets::before { background: var(--sweet-color); }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+        }
         .card.type-food::before { background: var(--food-color); }
         .card.type-sight::before { background: var(--sight-color); }
-        .card.type-arrival::before { background: var(--arr-color); }
-        .card.type-departure::before { background: var(--dep-color); }
 
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-        .card-title { font-size: 1.25rem; font-weight: 800; margin: 0; color: #fff; line-height: 1.3; }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 10px; }
         
-        /* Cost Level Badges */
-        .card-cost { padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; white-space: nowrap; margin-left: 10px; }
-        .cost-low { background: #064e3b; color: #34d399; border: 1px solid #047857; }
-        .cost-med { background: #78350f; color: #fbbf24; border: 1px solid #b45309; }
-        .cost-high { background: #7f1d1d; color: #f87171; border: 1px solid #b91c1c; }
+        /* Checkbox Styling */
+        .title-group { display: flex; align-items: flex-start; gap: 12px; flex-grow: 1; }
+        input[type="checkbox"].visit-cb {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: var(--accent);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .card-title { font-size: 1.25rem; font-weight: 800; margin: 0; color: #fff; line-height: 1.3; transition: all 0.3s; }
+        .card-cost { background: #064e3b; color: #34d399; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; white-space: nowrap; margin-left: 10px; }
 
-        .card-desc { font-size: 0.95rem; line-height: 1.6; color: var(--text-sec); margin: 0 0 15px 0; white-space: pre-line; }
-        .card-desc strong { color: #fff; }
+        .card-desc { font-size: 0.95rem; line-height: 1.5; color: var(--text-sec); margin: 0 0 15px 0; }
         
-        .card-tip { background: rgba(251, 191, 36, 0.1); color: #fcd34d; padding: 12px; border-radius: 8px; font-size: 0.9rem; font-style: italic; margin-bottom: 15px; border-left: 3px solid var(--accent); }
+        .card-tip {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fcd34d;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--accent);
+        }
 
         .actions { display: flex; gap: 10px; }
-        .btn { flex: 1; padding: 12px; border-radius: 10px; font-weight: 700; text-align: center; text-decoration: none; font-size: 0.9rem; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn {
+            flex: 1; padding: 12px; border-radius: 10px; font-weight: 700; text-align: center; 
+            text-decoration: none; font-size: 0.9rem; border: none; cursor: pointer;
+        }
         .btn-audio { background: #334155; color: #fff; }
         .btn-map { background: var(--text-main); color: var(--bg-dark); }
         .btn-audio.playing { background: #ef4444; animation: pulse 1.5s infinite; }
-
-        /* Εικόνα QR Code */
-        .qr-image-container { margin-top: 15px; text-align: center; padding: 15px; background: #fff; border-radius: 10px; cursor: pointer; transition: transform 0.2s; }
-        .qr-image-container:active { transform: scale(0.95); }
-        .qr-image-container img { width: 100%; max-width: 300px; border-radius: 8px; }
-        .qr-hint { color: #3b82f6; font-size: 0.85rem; font-weight: bold; margin-bottom: 8px; }
-
-        /* Full Screen Image Modal - Πλέον υποστηρίζει Pinch-to-Zoom */
-        #imageModal {
-            display: none; 
-            position: fixed; 
-            z-index: 99999; 
-            left: 0; 
-            top: 0; 
-            width: 100%; 
-            height: 100%; 
-            background-color: rgba(0,0,0,0.98); 
-            align-items: center; 
-            justify-content: center;
-            overflow: hidden;
-            touch-action: none; /* Αποτρέπει το default scroll του browser */
-        }
-        #fullImage { 
-            max-width: 95%; 
-            max-height: 85%; 
-            border-radius: 12px; 
-            box-shadow: 0 0 30px rgba(255,255,255,0.2); 
-            transform-origin: center;
-        }
-        .close-modal-btn { 
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(239, 68, 68, 0.9);
-            color: #fff; 
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 1rem; 
-            font-weight: bold; 
-            cursor: pointer;
-            z-index: 100000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
     </style>
@@ -171,109 +131,46 @@
     <div class="header">
         <h1>🇦🇹 Vienna Local Guide</h1>
         <div class="tabs">
-            <button class="tab-btn ticket active" onclick="setFilter('ticket')">🎫 Εισιτήρια</button>
-            <button class="tab-btn arrival" onclick="setFilter('arrival')">🛬 Άφιξη</button>
-            <button class="tab-btn departure" onclick="setFilter('departure')">🛫 Αναχώρ.</button>
+            <button class="tab-btn sights active" onclick="setFilter('sights')">🏛️ Αξιοθέατα</button>
             <button class="tab-btn food" onclick="setFilter('food')">🍔 Φαγητό</button>
-            <button class="tab-btn sweets" onclick="setFilter('sweets')">🍩 Γλυκά</button>
-            <button class="tab-btn sights" onclick="setFilter('sights')">🏛️ Αξιοθέατα</button>
         </div>
     </div>
 
     <div class="container" id="content"></div>
 
-    <div id="imageModal">
-        <div class="close-modal-btn" onclick="closeModal()">✖ Κλείσιμο</div>
-        <img id="fullImage" src="" alt="Full Screen QR">
-    </div>
-
     <script>
+        // Δεδομένα με ΟΛΑ τα νέα αξιοθέατα, μεταφορές και μοναδικά IDs για τα checkboxes
         const placesData = [
-            // --- ΕΙΣΙΤΗΡΙΑ ---
-            { type: "ticket", id: "panos", name: "Ticket Panos", cost: "🟢 Ενεργό", level: "cost-low", tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί.", desc: "<strong>ΕΠΙΒΑΤΗΣ:</strong> PANAGIOTIS ZAROGOULIDIS\n<strong>ΚΩΔΙΚΟΣ:</strong> 26020648370\n<strong>ΙΣΧΥΕΙ ΑΠΟ:</strong> 26.02.2026 00:00\n<strong>ΙΣΧΥΕΙ ΕΩΣ:</strong> 05.03.2026 00:59", qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Panos.png?raw=true" },
-            { type: "ticket", id: "lia", name: "Ticket Lia", cost: "🟢 Ενεργό", level: "cost-low", tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί.", desc: "<strong>ΕΠΙΒΑΤΗΣ:</strong> VASILEIA LIAPAKI\n<strong>ΚΩΔΙΚΟΣ:</strong> 26020648369\n<strong>ΙΣΧΥΕΙ ΑΠΟ:</strong> 26.02.2026 00:00\n<strong>ΙΣΧΥΕΙ ΕΩΣ:</strong> 05.03.2026 00:59", qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Lia.png?raw=true" },
-
-            // --- ΓΛΥΚΑ & ΙΣΤΟΡΙΚΑ ΚΑΦΕ ---
-            { type: "sweets", name: "Café Landtmann", cost: "🟠 ~10-15€", level: "cost-med", tip: "Δοκιμάστε το παραδοσιακό Apfelstrudel με ζεστή σως βανίλιας.", desc: "Ένα από τα πιο κομψά και ιστορικά καφέ της Βιέννης. Το αγαπημένο καφέ του Σίγκμουντ Φρόιντ!", mapQuery: "Cafe Landtmann Vienna" },
-            { type: "sweets", name: "Haas & Haas", cost: "🟠 ~10-20€", level: "cost-med", tip: "Δοκίμασε το 'Afternoon Tea' τους με φρέσκα scones, μαρμελάδα και clotted cream.", desc: "Το πιο διάσημο παραδοσιακό τεϊοποτείο της Βιέννης ακριβώς πίσω από τον Αγ. Στέφανο.", mapQuery: "Haas and Haas Vienna" },
-            { type: "sweets", name: "Café Sacher", cost: "🟠 ~10-15€", level: "cost-med", tip: "Η αυθεντική Sachertorte σερβίρεται πάντα με άγλυκη σαντιγί.", desc: "Το πιο διάσημο καφέ της Βιέννης και το σπίτι της αυθεντικής Sachertorte!", mapQuery: "Cafe Sacher Wien" },
-            { type: "sweets", name: "Café Demel", cost: "🟠 ~10-15€", level: "cost-med", tip: "Στο βάθος του ισογείου βλέπεις τους ζαχαροπλάστες να φτιάχνουν τα γλυκά ζωντανά.", desc: "Ο αιώνιος αντίπαλος του Sacher με εκπληκτική ιστορική διακόσμηση.", mapQuery: "Demel Vienna" },
-            { type: "sweets", name: "Konditorei Groissböck", cost: "🟢 ~3-5€", level: "cost-low", tip: "Εδώ πρέπει να φάτε Schaumrolle και Krapfen.", desc: "Το απόλυτο παραδοσιακό ζαχαροπλαστείο της 12ης συνοικίας, όπου οι ντόπιοι κάνουν ουρές!", mapQuery: "Konditorei Groissboeck Meidling Vienna" },
-            { type: "sweets", name: "Aida Café-Konditorei", cost: "🟢 ~4-6€", level: "cost-low", tip: "Δοκιμάστε το Apfelstrudel ή το χαρακτηριστικό ροζ Punschkrapfen.", desc: "Ρετρό αλυσίδα ζαχαροπλαστείων της πόλης, πολύ πιο τίμιες τιμές από τα πολυτελή καφέ.", mapQuery: "Aida Cafe Vienna" },
-            { type: "sweets", name: "Vollpension", cost: "🟢 ~5-7€", level: "cost-low", tip: "Συνδυάστε το γλυκό σας με ζεστή σοκολάτα ή Melange.", desc: "Ένα στέκι όπου τα γλυκά τα φτιάχνουν και τα σερβίρουν πραγματικές Βιεννέζες γιαγιάδες!", mapQuery: "Vollpension Vienna" },
-
-            // --- ΑΦΙΞΗ ΜΕ ΚΑΘΕ ΛΕΠΤΟΜΕΡΕΙΑ ---
-            { 
-                type: "arrival", 
-                name: "Βήμα 1: Εισιτήριο στο Αεροδρόμιο", 
-                cost: "🟢 2,10€", 
-                level: "cost-low", 
-                tip: "ΠΡΟΣΟΧΗ: Το εισιτήριο δεν χρειάζεται ακύρωση, ισχύει από τη στιγμή που βγαίνει.", 
-                desc: "Προσγειώνεστε στο <strong>Flughafen Wien</strong>.\n1. Ακολουθήστε τις πράσινες ταμπέλες <strong>S-Bahn / Züge</strong> (Τρένα).\n2. Βρείτε ένα <strong>κόκκινο μηχάνημα (ÖBB Ticketautomat)</strong>.\n3. Γυρίστε τη γλώσσα στα 🇬🇧 Αγγλικά.\n4. Επιλέξτε προορισμό: <strong>Wien Mitte</strong>.\n5. Το σύστημα θα βγάλει αρχική τιμή 4,40€. <strong>ΒΡΕΙΤΕ ΤΗΝ ΕΠΙΛΟΓΗ (Discount)</strong> που λέει ότι έχετε εισιτήριο πόλης: <strong>\"Ticket Stadtverkehr Wien\"</strong> (ή \"I have a ticket for Vienna zone\").\n6. Η τιμή πέφτει στα 2,10€! Πληρώστε με κάρτα ή μετρητά. Κρατήστε το χαρτάκι.", 
-                customMap: null
-            },
-            { 
-                type: "arrival", 
-                name: "Βήμα 2: Το Τρένο (S-Bahn) για το κέντρο", 
-                cost: "🟢 Δωρεάν", 
-                level: "cost-low", 
-                tip: "Μην πάρετε το CAT (πράσινο τρένο), είναι πανάκριβο! Πάρτε το απλό S7.", 
-                desc: "Κατεβείτε στις αποβάθρες (<strong>Bahnsteig 1 ή 2</strong>).\n\n🚆 Παίρνετε τον προαστιακό <strong>S-Bahn Γραμμή S7</strong>.\nΠρέπει να γράφει κατεύθυνση: <strong>\"Wien Floridsdorf\"</strong>.\n\nΣτάσεις που θα περάσετε (8): Mannswörth, Schwechat, Kaiserebersdorf, Zentralfriedhof, Geiselbergstraße, St. Marx, Rennweg.\n\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΗΝ 9η ΣΤΑΣΗ: \"Wien Mitte - Landstraße\"</strong>.", 
-                customMap: null 
-            },
-            { 
-                type: "arrival", 
-                name: "Βήμα 3: Μετρό (U-Bahn) για ξενοδοχείο", 
-                cost: "🟢 Δωρεάν", 
-                level: "cost-low", 
-                tip: "Εδώ ξεκινάει η ισχύς της 7ήμερης ψηφιακής σας κάρτας. Το Μετρό (U-Bahn) είναι δωρεάν.", 
-                desc: "Μόλις κατεβείτε στο Wien Mitte, ακολουθήστε μέσα στον σταθμό τις <strong>πράσινες ταμπέλες U4</strong>.\n\n🚇 Παίρνετε το Μετρό <strong>U-Bahn Γραμμή U4</strong> (Πράσινη γραμμή).\nΠρέπει να γράφει κατεύθυνση: <strong>\"Wien Hütteldorf\"</strong>.\n\nΣτάσεις που περνάτε (5): Stadtpark, Karlsplatz, Kettenbrückengasse, Pilgramgasse, Margaretengürtel.\n\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΗΝ 6η ΣΤΑΣΗ: \"Längenfeldgasse\"</strong>.\n\nΒγαίνετε από τον σταθμό και το ξενοδοχείο είναι 7 λεπτά περπάτημα!", 
-                customMap: "https://maps.google.com/?q=Längenfeldgasse+Vienna" 
-            },
-
-            // --- ΑΝΑΧΩΡΗΣΗ ΜΕ ΚΑΘΕ ΛΕΠΤΟΜΕΡΕΙΑ ---
-            { 
-                type: "departure", 
-                name: "Βήμα 1: Ξενοδοχείο ➔ Μετρό", 
-                cost: "🟢 Δωρεάν", 
-                level: "cost-low", 
-                tip: "Ελέγξτε αν τα ψηφιακά σας εισιτήρια είναι ακόμα ενεργά στο κινητό.", 
-                desc: "Περπατάτε στον σταθμό του Μετρό Längenfeldgasse ή Niederhofstraße (ανάλογα τι σας βολεύει).\n\n🚇 Παίρνετε το Μετρό <strong>U-Bahn Γραμμή U6</strong> (Καφέ γραμμή).\nΠρέπει να γράφει κατεύθυνση: <strong>\"Siebenhirten\"</strong> ή <strong>\"Alterlaa\"</strong>.\n\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΗ ΣΤΑΣΗ: \"Wien Meidling\"</strong> (Bahnhof Meidling).", 
-                customMap: null 
-            },
-            { 
-                type: "departure", 
-                name: "Βήμα 2: Εισιτήριο & Τρένο για Αεροδρόμιο", 
-                cost: "🟢 2,10€", 
-                level: "cost-low", 
-                tip: "Αυτή τη φορά παίρνετε το Railjet (RJ) που είναι υπερσύγχρονο τρένο ταχείας!", 
-                desc: "Μέσα στον σταθμό <strong>Wien Meidling</strong>, βρείτε ένα <strong>κόκκινο μηχάνημα ÖBB</strong>.\n1. Βγάλτε το εισιτήριο επέκτασης 2,10€, επιλέγοντας προορισμό <strong>\"Flughafen Wien\"</strong> και δηλώνοντας την έκπτωση (Ticket Stadtverkehr Wien).\n\n2. Πηγαίνετε στην αποβάθρα (<strong>Bahnsteig</strong>).\n🚆 Παίρνετε το γρήγορο τρένο <strong>Railjet (RJ)</strong>.\nΠρέπει να γράφει κατεύθυνση: <strong>\"Flughafen Wien\"</strong>.\n\nΗ διαδρομή είναι περίπου 25 λεπτά.\n👉 <strong>ΚΑΤΕΒΑΙΝΕΤΕ ΣΤΟ ΤΕΡΜΑ: \"Flughafen Wien\"</strong> (Αεροδρόμιο).", 
-                customMap: "https://maps.google.com/?q=Flughafen+Wien" 
-            },
-
-            // --- ΦΑΓΗΤΟ & ΣΝΙΤΣΕΛ ---
-            { type: "food", name: "Figlmüller", cost: "🔴 ~20-25€", level: "cost-high", tip: "Το διάσημο 'Figlmüller Schnitzel' είναι χοιρινό και βγαίνει έξω από το πιάτο.", desc: "Το πιο διάσημο όνομα στη Βιέννη για σνίτσελ (απαιτείται κράτηση).", mapQuery: "Figlmuller Vienna" },
-            { type: "food", name: "Schnitzelwirt", cost: "🟠 ~15-18€", level: "cost-med", tip: "Μια μερίδα έχει 2 τεράστια κομμάτια, μπορείτε άνετα να μοιραστείτε μία!", desc: "Το απόλυτο στέκι για χορταστικό και οικονομικό σνίτσελ στην 7η συνοικία.", mapQuery: "Schnitzelwirt Vienna" },
-            { type: "food", name: "Meissl & Schadn", cost: "🔴 ~28-30€", level: "cost-high", tip: "Τηγανίζεται παραδοσιακά σε καθαρό βούτυρο.", desc: "Premium εμπειρία, βλέπετε τους σεφ να πανάρουν τα σνίτσελ ζωντανά.", mapQuery: "Meissl & Schadn Vienna" },
-            { type: "food", name: "Leberkas-Pepi", cost: "🟢 ~4€", level: "cost-low", tip: "Ζήτα το Pepi-Leberkäse με τυρί και λίγη μουστάρδα.", desc: "Το απόλυτο βρώμικο των ντόπιων (πατέ κρέατος σε τραγανό ψωμάκι).", mapQuery: "Leberkas-Pepi Vienna" },
-            { type: "food", name: "Würstelstand am Hohen Markt", cost: "🟢 ~5€", level: "cost-low", tip: "Πάρε Käsekrainer κομμένο σε φέτες (geschnitten).", desc: "Η πιο διάσημη καντίνα για λουκάνικα γεμιστά με τυρί.", mapQuery: "Wurstelstand am Hohen Markt Vienna" },
-            { type: "food", name: "Gasthaus Quell", cost: "🟠 ~15-20€", level: "cost-med", tip: "Δοκίμασε το Schweinsbraten.", desc: "Αυθεντικό Wirtshaus στην 15η συνοικία, καθόλου τουρίστες.", mapQuery: "Gasthaus Quell Vienna" },
+            // --- ΑΞΙΟΘΕΑΤΑ & ΔΙΑΔΡΟΜΕΣ ---
+            { id: "opera", type: "sights", name: "Κρατική Όπερα (Staatsoper)", cost: "Δωρεάν εξωτερικά", tip: "🚇 <b>Μετρό:</b> Στάση Karlsplatz (Γραμμές U1, U2, U4). <br>🚃 <b>Τραμ:</b> Γραμμές 1 ή 2.", desc: "Ένα από τα πιο διάσημα κτίρια όπερας στον κόσμο. Εξωτερικά μαγευτικό, μπορείτε να το δείτε κάνοντας και τον γύρο της Ringstrasse.", mapQuery: "Vienna State Opera" },
+            { id: "parlament", type: "sights", name: "Αυστριακό Κοινοβούλιο", cost: "Δωρεάν", tip: "🚇 <b>Μετρό:</b> Στάση Rathaus (U2) ή Volkstheater (U2, U3). <br>🚃 <b>Τραμ:</b> Γραμμές 1 ή 2.", desc: "Εντυπωσιακό κτίριο σε νεοκλασικό στυλ που θυμίζει αρχαίο ελληνικό ναό με το εντυπωσιακό άγαλμα της Αθηνάς μπροστά.", mapQuery: "Austrian Parliament Building" },
+            { id: "rathaus", type: "sights", name: "Δημαρχείο (Rathaus)", cost: "Δωρεάν", tip: "🚇 <b>Μετρό:</b> Στάση Rathaus (Γραμμή U2).", desc: "Γοτθικό αριστούργημα. Την τεράστια πλατεία του αξίζει να τη δείτε, καθώς συχνά φιλοξενεί εκδηλώσεις (όπως το παγοδρόμιο Eistraum).", mapQuery: "Rathaus Vienna" },
+            { id: "hofburg", type: "sights", name: "Παλάτι Hofburg", cost: "Δωρεάν εξωτερικά", tip: "🚇 <b>Μετρό:</b> Στάση Herrengasse (U3) ή Stephansplatz (U1, U3).", desc: "Η χειμερινή έδρα των Αψβούργων και το παλάτι της Σίσσυ. Περιπλανηθείτε ελεύθερα στις μεγάλες αυλές του παλατιού και την Michaelerplatz.", mapQuery: "Hofburg Vienna" },
+            { id: "museums", type: "sights", name: "Μουσεία Τέχνης & Φυσικής Ιστορίας", cost: "Δωρεάν η πλατεία", tip: "🚇 <b>Μετρό:</b> Στάση Volkstheater (Γραμμές U2, U3).", desc: "Δύο πανομοιότυπα, τεράστια κτίρια που στέκονται το ένα απέναντι από το άλλο στην πλατεία Maria-Theresien-Platz. Εξαιρετικό σημείο για φωτογραφίες.", mapQuery: "Maria-Theresien-Platz Vienna" },
+            { id: "karlskirche", type: "sights", name: "Ναός Αγίου Καρόλου (Karlskirche)", cost: "Δωρεάν εξωτερικά", tip: "🚇 <b>Μετρό:</b> Στάση Karlsplatz (Γραμμές U1, U2, U4) έξοδος Resselpark.", desc: "Ίσως η πιο εντυπωσιακή μπαρόκ εκκλησία της πόλης με τον τεράστιο τρούλο της και τις δύο στήλες. Βρίσκεται μέσα στο πάρκο.", mapQuery: "Karlskirche Vienna" },
+            { id: "belvedere", type: "sights", name: "Ανάκτορα Belvedere", cost: "Δωρεάν (Κήποι)", tip: "🚇 <b>Μετρό:</b> U1 (Hauptbahnhof) <br>🚃 <b>Τραμ:</b> Γραμμή D (Στάση Schloss Belvedere).", desc: "Η βόλτα ανάμεσα στο Πάνω (Upper) και το Κάτω (Lower) παλάτι Belvedere είναι εκπληκτική. Οι κήποι είναι ανοιχτοί για το κοινό εντελώς δωρεάν.", mapQuery: "Belvedere Palace Vienna" },
+            { id: "stephansdom", type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "Δωρεάν κεντρικός χώρος", tip: "🚇 <b>Μετρό:</b> Στάση Stephansplatz (Γραμμές U1, U3).", desc: "Το σύμβολο της Βιέννης στο κέντρο της πόλης. Μπορείτε να μπείτε δωρεάν στον κεντρικό χώρο. Για ανάβαση στους πύργους έχει αντίτιμο (περίπου 6€).", mapQuery: "Stephansdom Vienna" },
+            { id: "prater", type: "sights", name: "Prater & Τροχός Riesenrad", cost: "Δωρεάν η είσοδος", tip: "🚇 <b>Μετρό:</b> Στάση Praterstern (Γραμμές U1, U2).", desc: "Το τεράστιο λούνα παρκ της Βιέννης. Η βόλτα στον χώρο είναι δωρεάν. Πληρώνετε μεμονωμένα αν θέλετε να μπείτε στα παιχνίδια ή τον ιστορικό Τροχό.", mapQuery: "Prater Vienna" },
+            { id: "schonbrunn", type: "sights", name: "Κήποι Schönbrunn", cost: "Δωρεάν", tip: "🚇 <b>Μετρό:</b> Στάση Schönbrunn (Γραμμή U4).", desc: "Η θερινή κατοικία των Αψβούργων. Η βόλτα στους αχανείς κήπους είναι μαγική. Ανεβείτε τον λόφο μέχρι την αψίδα Gloriette για πανοραμική θέα.", mapQuery: "Schonbrunn Palace Vienna" },
+            { id: "hundertwasser", type: "sights", name: "Hundertwasserhaus", cost: "Δωρεάν", tip: "🚃 <b>Τραμ:</b> Γραμμή 1, κατεβαίνετε στη στάση Hetzgasse.", desc: "Μια πολυκατοικία βγαλμένη από παραμύθι. Δεν έχει ίσιες γραμμές, είναι βαμμένη με έντονα χρώματα και έχει δέντρα που βγαίνουν μέσα από τα μπαλκόνια!", mapQuery: "Hundertwasserhaus Vienna" },
+            { id: "grinzing", type: "sights", name: "Χωριό Grinzing (Κρασί)", cost: "Δωρεάν βόλτα", tip: "🚃 <b>Τραμ:</b> Γραμμή 38 (την παίρνετε από τη στάση μετρό Schottentor).", desc: "Πανέμορφη γειτονιά με παραδοσιακές ταβέρνες (Heuriger) και αμπελώνες. Το ιδανικό μέρος για να δείτε μια άλλη, πιο γραφική πλευρά της Βιέννης.", mapQuery: "Grinzing Vienna" },
+            { id: "kahlenberg", type: "sights", name: "Λόφος Kahlenberg (Θέα)", cost: "Δωρεάν", tip: "🚌 <b>Λεωφορείο:</b> Γραμμή 38A (το παίρνετε από τη στάση μετρό Heiligenstadt - U4).", desc: "Αν θέλετε την απόλυτη πανοραμική θέα της Βιέννης και του Δούναβη από ψηλά. Η διαδρομή μέσα από το δάσος είναι εμπειρία.", mapQuery: "Kahlenberg Vienna" },
             
-            // --- ΑΞΙΟΘΕΑΤΑ ---
-            { type: "sights", name: "Στήλη της Πανώλης (Pestsäule)", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Βρίσκεται στην καρδιά της Graben, του πιο διάσημου πεζόδρομου. Ιδανικό για φωτογραφίες!", desc: "Ένα εντυπωσιακό χρυσό και μαρμάρινο μπαρόκ μνημείο (συχνά το αποκαλούν και συντριβάνι). Χτίστηκε τον 17ο αιώνα μετά το τέλος της μεγάλη επιδημίας πανώλης και κοσμεί το κέντρο του πιο πολυτελούς δρόμου της Βιέννης.", mapQuery: "Pestsaule Vienna" },
-            { type: "sights", name: "Ελληνικό Προξενείο (Πρεσβεία)", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Χρήσιμο να γνωρίζετε πού βρίσκεται σε περίπτωση ανάγκης (Argentinierstraße 14).", desc: "Το κτίριο της Ελληνικής Πρεσβείας και του Προξενείου στη Βιέννη. Βρίσκεται στην περιοχή Wieden (4η συνοικία), σχετικά κοντά στην εκκλησία Karlskirche.", mapQuery: "Greek Embassy Vienna" },
-            { type: "sights", name: "Κήποι Schönbrunn", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Ανέβα τον λόφο μέχρι την αψίδα Gloriette.", desc: "Η βόλτα στους αχανείς κήπους είναι μαγική και εντελώς δωρεάν.", mapQuery: "Schonbrunn Palace Vienna" },
-            { type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Αν θες να δεις τη θέα, η ανάβαση στον Πύργο κοστίζει περίπου 6€.", desc: "Το σύμβολο της Βιέννης. Μπορείς να μπεις δωρεάν στον κεντρικό χώρο.", mapQuery: "Stephansdom Vienna" },
-            { type: "sights", name: "Hundertwasserhaus", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Δες το από έξω.", desc: "Μια πολυκατοικία βγαλμένη από παραμύθι. Δεν έχει ίσιες γραμμές!", mapQuery: "Hundertwasserhaus Vienna" },
-            { type: "sights", name: "Naschmarkt", cost: "🟢 Δωρεάν", level: "cost-low", tip: "Το Σάββατο στήνεται το υπαίθριο παζάρι αντικών (Flohmarkt).", desc: "Περιπλάνηση στις αγορές της πόλης με μπαχαρικά και τυριά.", mapQuery: "Naschmarkt Vienna" }
+            // --- ΦΑΓΗΤΟ & ΣΤΕΚΙΑ ΝΤΟΠΙΩΝ ---
+            { id: "leberkas", type: "food", name: "Leberkas-Pepi", cost: "~4€", tip: "Ζητήστε το Pepi-Leberkäse με τυρί και λίγη μουστάρδα.", desc: "Το απόλυτο βρώμικο των ντόπιων. Ένα ζεστό, παχύ κομμάτι ψητού πατέ κρέατος μέσα σε τραγανό ψωμάκι. Γρήγορο και χορταστικό.", mapQuery: "Leberkas-Pepi Vienna" },
+            { id: "hohermarkt", type: "food", name: "Würstelstand am Hohen Markt", cost: "~5€", tip: "Κομμένο σε φέτες (geschnitten) με μαύρο ψωμί και φρέσκο χρένο.", desc: "Η πιο διάσημη καντίνα για λουκάνικα. Το Käsekrainer είναι χοντρό λουκάνικο γεμιστό με τυρί που λιώνει και κάνει κρούστα.", mapQuery: "Würstelstand am Hohen Markt Vienna" },
+            { id: "quell", type: "food", name: "Gasthaus Quell", cost: "~15-20€", tip: "Δοκιμάστε το Schweinsbraten (χοιρινό ψητό με τραγανή πέτσα).", desc: "Αυθεντικό Wirtshaus. Ξύλινη επένδυση, καθόλου τουρίστες, μεγάλες μερίδες και εξαιρετική τοπική βαρελίσια μπύρα.", mapQuery: "Gasthaus Quell Vienna" },
+            { id: "schubel", type: "food", name: "Heuriger Schübel-Auer", cost: "~20€", tip: "Πάρτε Liptauer (πικάντικο άλειμμα τυριού) και νέο κρασί παραγωγής τους.", desc: "Παραδοσιακή κρασοταβέρνα στα περίχωρα (Nußdorf). Οι ντόπιοι έρχονται εδώ για κρασί και κρύα πιάτα από τον μπουφέ.", mapQuery: "Heuriger Schübel-Auer Vienna" },
+            { id: "jelinek", type: "food", name: "Café Jelinek", cost: "~8€", tip: "Παραγγείλετε ένα Kaiserschmarrn (κομματιασμένες τηγανίτες - Το γλυκό του Αυτοκράτορα).", desc: "Ξεχάστε τα τουριστικά καφέ. Εδώ θα βρείτε φθαρμένους βελούδινους καναπέδες, μια ξυλόσομπα στη μέση και ντόπιους να διαβάζουν εφημερίδα.", mapQuery: "Cafe Jelinek Vienna" },
+            { id: "steman", type: "food", name: "Steman", cost: "~18€", tip: "Εδώ θα φάτε το πιο 'τίμιο' μοσχαρίσιο Wiener Schnitzel.", desc: "Κλασικό στέκι που υπάρχει πάνω από 100 χρόνια. Εξαιρετικό φαγητό, μακριά από τις εξωφρενικές τιμές του κέντρου.", mapQuery: "Steman Vienna" }
         ];
 
-        let currentFilter = 'ticket';
+        let currentFilter = 'sights'; // Ξεκινάει με τα Αξιοθέατα
         let synth = window.speechSynthesis;
         let currentUtterance = null;
         let playingIndex = -1;
-        let currentFilteredData = [];
 
+        // Progress Bar
         window.onscroll = () => {
             let winScroll = document.documentElement.scrollTop || document.body.scrollTop;
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -288,129 +185,58 @@
             renderCards();
         }
 
-        /* --- Λειτουργίες Touch, Pinch & Drag για την Εικόνα --- */
-        let currentScale = 1;
-        let originX = 0;
-        let originY = 0;
-        let startX = 0;
-        let startY = 0;
-        let isPanning = false;
-        let startDistance = 0;
-
-        const modal = document.getElementById('imageModal');
-        const fullImg = document.getElementById('fullImage');
-
-        modal.addEventListener('touchstart', function(e) {
-            if (e.touches.length === 2) {
-                e.preventDefault(); // Κλείδωμα της σελίδας από scrolling
-                startDistance = Math.hypot(
-                    e.touches[0].pageX - e.touches[1].pageX, 
-                    e.touches[0].pageY - e.touches[1].pageY
-                );
-            } else if (e.touches.length === 1) {
-                isPanning = true;
-                startX = e.touches[0].pageX - originX;
-                startY = e.touches[0].pageY - originY;
+        // Διαχείριση των Checkboxes (αποθήκευση στο κινητό)
+        function toggleVisited(id) {
+            const cb = document.getElementById('cb-' + id);
+            const title = document.getElementById('title-' + id);
+            
+            if (cb.checked) {
+                localStorage.setItem('vienna_visited_' + id, 'true');
+                title.style.textDecoration = 'line-through';
+                title.style.opacity = '0.5';
+            } else {
+                localStorage.removeItem('vienna_visited_' + id);
+                title.style.textDecoration = 'none';
+                title.style.opacity = '1';
             }
-        }, { passive: false });
-
-        modal.addEventListener('touchmove', function(e) {
-            if (e.touches.length === 2) {
-                e.preventDefault();
-                let currentDistance = Math.hypot(
-                    e.touches[0].pageX - e.touches[1].pageX, 
-                    e.touches[0].pageY - e.touches[1].pageY
-                );
-                let zoom = currentDistance / startDistance;
-                currentScale = Math.max(1, Math.min(currentScale * zoom, 4)); // Μέχρι 4x Ζουμ
-                fullImg.style.transform = `translate(${originX}px, ${originY}px) scale(${currentScale})`;
-                startDistance = currentDistance;
-            } else if (e.touches.length === 1 && isPanning) {
-                e.preventDefault();
-                if (currentScale > 1) { // Επιτρέπει το σύρσιμο (panning) μόνο αν είναι ζουμαρισμένο
-                    originX = e.touches[0].pageX - startX;
-                    originY = e.touches[0].pageY - startY;
-                    fullImg.style.transform = `translate(${originX}px, ${originY}px) scale(${currentScale})`;
-                }
-            }
-        }, { passive: false });
-
-        modal.addEventListener('touchend', function(e) {
-            if (e.touches.length < 2) {
-                startDistance = 0;
-            }
-            if (e.touches.length === 0) {
-                isPanning = false;
-            }
-        });
-
-        function openModal(imgUrl) {
-            fullImg.src = imgUrl;
-            modal.style.display = 'flex';
-            currentScale = 1;
-            originX = 0;
-            originY = 0;
-            fullImg.style.transform = `translate(0px, 0px) scale(1)`;
-        }
-
-        function closeModal() {
-            modal.style.display = 'none';
         }
 
         function renderCards() {
             const container = document.getElementById('content');
             container.innerHTML = '';
             
-            currentFilteredData = placesData.filter(item => item.type === currentFilter);
+            const filteredData = placesData.filter(item => item.type === currentFilter);
 
-            currentFilteredData.forEach((item, index) => {
-                let emoji = '📍';
-                let actionContent = '';
+            filteredData.forEach((item, index) => {
+                const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
+                const emoji = item.type === 'food' ? '🍔' : '🏛️';
                 
-                if(item.type === 'ticket') {
-                    emoji = '🎫';
-                    actionContent = `
-                        <div class="qr-image-container" onclick="openModal('${item.qrUrl}')">
-                            <div class="qr-hint">🔍 Πάτα την εικόνα για πλήρη οθόνη</div>
-                            <img src="${item.qrUrl}" alt="QR Code ${item.name}">
-                        </div>
-                    `;
-                } else {
-                    if(item.type === 'food') emoji = '🍔';
-                    if(item.type === 'sweets') emoji = '🍩';
-                    if(item.type === 'sights') emoji = '🏛️';
-                    if(item.type === 'arrival') emoji = '🛬';
-                    if(item.type === 'departure') emoji = '🛫';
-                    
-                    let mapButton = '';
-                    if (item.customMap || item.mapQuery) {
-                        const mapLink = item.customMap ? item.customMap : 'https://maps.google.com/?q=' + encodeURIComponent(item.mapQuery);
-                        mapButton = `<a href="${mapLink}" target="_blank" class="btn btn-map">📍 Χάρτης</a>`;
-                    }
-                    
-                    actionContent = `
-                        <div class="actions">
-                            <button id="audio-btn-${index}" class="btn btn-audio" onclick="toggleAudio(${index})">🔊 Ακρόαση</button>
-                            ${mapButton}
-                        </div>
-                    `;
-                }
+                // Έλεγχος αν το έχουμε τικάρει σε προηγούμενο άνοιγμα της εφαρμογής
+                const isChecked = localStorage.getItem('vienna_visited_' + item.id) === 'true';
+                const checkedAttr = isChecked ? 'checked' : '';
+                const titleStyle = isChecked ? 'text-decoration: line-through; opacity: 0.5;' : '';
 
                 container.innerHTML += `
                     <div class="card type-${item.type}">
                         <div class="card-header">
-                            <h2 class="card-title">${emoji} ${item.name}</h2>
-                            <div class="card-cost ${item.level}">${item.cost}</div>
+                            <div class="title-group">
+                                <input type="checkbox" class="visit-cb" id="cb-${item.id}" onchange="toggleVisited('${item.id}')" ${checkedAttr}>
+                                <h2 class="card-title" id="title-${item.id}" style="${titleStyle}">${item.name}</h2>
+                            </div>
+                            <div class="card-cost">${item.cost}</div>
                         </div>
-                        <div class="card-tip">💡 <b>Tip:</b> ${item.tip}</div>
+                        <div class="card-tip">🧭 <b>Οδηγίες:</b> <br>${item.tip}</div>
                         <p class="card-desc">${item.desc}</p>
-                        ${actionContent}
+                        <div class="actions">
+                            <button id="audio-btn-${index}" class="btn btn-audio" onclick="toggleAudio(${index}, '${item.desc.replace(/'/g, "\\'")}')">🔊 Ακρόαση</button>
+                            <a href="${mapLink}" target="_blank" class="btn btn-map">📍 Χάρτης</a>
+                        </div>
                     </div>
                 `;
             });
         }
 
-        function toggleAudio(index) {
+        function toggleAudio(index, text) {
             if (playingIndex === index && synth.speaking) {
                 stopAudio();
             } else {
@@ -419,14 +245,14 @@
                 document.getElementById(`audio-btn-${index}`).classList.add('playing');
                 document.getElementById(`audio-btn-${index}`).innerText = "⏹️ Stop";
                 
-                let textToSpeak = currentFilteredData[index].desc.replace(/\n/g, ". ");
-                textToSpeak = textToSpeak.replace(/<[^>]*>?/gm, '');
-                
-                currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
+                currentUtterance = new SpeechSynthesisUtterance(text);
                 currentUtterance.lang = 'el-GR';
                 currentUtterance.rate = 0.95;
                 
-                currentUtterance.onend = () => { stopAudio(); };
+                currentUtterance.onend = () => {
+                    stopAudio();
+                };
+                
                 synth.speak(currentUtterance);
             }
         }
@@ -437,13 +263,14 @@
                 const btn = document.getElementById(`audio-btn-${playingIndex}`);
                 if (btn) {
                     btn.classList.remove('playing');
-                    btn.innerHTML = "🔊 Ακρόαση";
+                    btn.innerText = "🔊 Ακρόαση";
                 }
                 playingIndex = -1;
             }
         }
 
-        setFilter('ticket'); 
+        // Αρχική φόρτωση
+        renderCards();
     </script>
 </body>
 </html>
