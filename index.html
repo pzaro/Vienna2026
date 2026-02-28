@@ -81,6 +81,9 @@
         .btn-map { background: var(--text-main); color: var(--bg-dark); }
         .btn-audio.playing { background: #ef4444; animation: pulse 1.5s infinite; }
 
+        .qr-image-container { margin-top: 15px; margin-bottom: 15px; text-align: center; padding: 10px; background: #fff; border-radius: 10px; }
+        .qr-image-container img { width: 100%; max-width: 300px; border-radius: 8px; }
+
         .metro-notice { background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 10px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 10px; border-left: 3px solid #ef4444; }
         .station-list { list-style: none; padding: 0; margin: 0; display: none; }
         .station-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #334155; font-size: 0.95rem; color: #e2e8f0; }
@@ -100,8 +103,8 @@
         <h1>🇦🇹 Vienna Local Guide</h1>
         <div class="tabs-container">
             <div class="tabs">
-                <button class="tab-btn travel" onclick="setFilter('travel')">✈️ Ταξίδι</button>
-                <button class="tab-btn sights active" onclick="setFilter('sights')">🏛️ Αξιοθέατα</button>
+                <button class="tab-btn travel active" onclick="setFilter('travel')">✈️ Ταξίδι & Κάρτες</button>
+                <button class="tab-btn sights" onclick="setFilter('sights')">🏛️ Αξιοθέατα</button>
                 <button class="tab-btn food" onclick="setFilter('food')">🍔 Φαγητό</button>
                 <button class="tab-btn cafe" onclick="setFilter('cafe')">☕ Καφές</button>
                 <button class="tab-btn shopping" onclick="setFilter('shopping')">🛍️ Αγορές</button>
@@ -115,10 +118,45 @@
 
     <script>
         const placesData = [
-            // TRAVEL & CARDS
-            { id: "mycard", type: "travel", name: "🎟️ 7 Days Digital VIENNA", cost: "Ενεργή", tip: "Ισχύει για απεριόριστες διαδρομές (Μετρό, Τραμ, Λεωφορεία) ΜΟΝΟ εντός πόλης (Kernzone).", desc: "Μπορείτε να τη χρησιμοποιείτε ελεύθερα στο κέντρο. <b>Προσοχή:</b> Δεν καλύπτει ολόκληρη τη διαδρομή για το αεροδρόμιο, γι' αυτό χρειάζεται συμπληρωματικό εισιτήριο 2,20€.", mapQuery: "" },
-            { id: "arrival", type: "travel", name: "🛬 Άφιξη: Αεροδρόμιο ➔ Ξενοδοχείο", cost: "+ 2,20€", tip: "Η διαδρομή από την άφιξη της Ryanair μέχρι το Hampton by Hilton.", desc: "<b>1.</b> Πηγαίνετε στα κόκκινα μηχανήματα ÖBB. Βγάζετε εισιτήριο 2,20€ επιλέγοντας 'I have a ticket for the Vienna city zone'.<br><b>2.</b> Παίρνετε το τρένο <b>S7</b> (προς Floridsdorf) και κατεβαίνετε στη στάση <b>Wien Mitte</b>.<br><b>3.</b> Εκεί αλλάζετε στο Μετρό <b>U4</b> (Πράσινη γραμμή, κατεύθυνση Hütteldorf).<br><b>4.</b> Κατεβαίνετε στη στάση <b>Längenfeldgasse</b>. Το ξενοδοχείο είναι στα 2 λεπτά με τα πόδια.", mapQuery: "Hampton by Hilton Vienna City West" },
-            { id: "departure", type: "travel", name: "🛫 Αναχώρηση: Ξενοδοχείο ➔ Αεροδρόμιο", cost: "+ 2,20€", tip: "Η αντίστροφη διαδρομή για την πτήση επιστροφής.", desc: "<b>1.</b> Περπατάτε μέχρι τη στάση Längenfeldgasse και παίρνετε το Μετρό <b>U4</b> προς <b>Wien Mitte</b>.<br><b>2.</b> Στα μηχανήματα του σταθμού βγάζετε πάλι το συμπληρωματικό εισιτήριο 2,20€.<br><b>3.</b> Επιβιβάζεστε στο τρένο <b>S7</b> (κατεύθυνση Flughafen Wien) μέχρι το Αεροδρόμιο.", mapQuery: "Vienna International Airport" },
+            // TRAVEL & CARDS (Εδώ μπήκαν οι κάρτες σας από το GitHub)
+            { 
+                id: "panos", 
+                type: "travel", 
+                name: "🎫 Κάρτα Μετρό Πάνος", 
+                cost: "Ενεργή", 
+                tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου.", 
+                desc: "Ισχύει για απεριόριστες διαδρομές (Μετρό, Τραμ, Λεωφορεία) εντός πόλης.", 
+                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Panos.png?raw=true",
+                mapQuery: "" 
+            },
+            { 
+                id: "lia", 
+                type: "travel", 
+                name: "🎫 Κάρτα Μετρό Λία", 
+                cost: "Ενεργή", 
+                tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου.", 
+                desc: "Ισχύει για απεριόριστες διαδρομές (Μετρό, Τραμ, Λεωφορεία) εντός πόλης.", 
+                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Lia.png?raw=true",
+                mapQuery: "" 
+            },
+            { 
+                id: "arrival", 
+                type: "travel", 
+                name: "🛬 Άφιξη: Αεροδρόμιο ➔ Ξενοδοχείο", 
+                cost: "+ 2,20€", 
+                tip: "Βγάζετε στα κόκκινα μηχανήματα εισιτήριο 2,20€ επιλέγοντας 'I have a ticket for the Vienna city zone'.", 
+                desc: "<b>1.</b> Παίρνετε το τρένο <b>S7</b> και κατεβαίνετε στη στάση <b>Wien Mitte</b>.<br><b>2.</b> Αλλάζετε στο Μετρό <b>U4</b> (κατεύθυνση Hütteldorf).<br><b>3.</b> Κατεβαίνετε στη στάση <b>Längenfeldgasse</b>.", 
+                mapQuery: "Hampton by Hilton Vienna City West" 
+            },
+            { 
+                id: "departure", 
+                type: "travel", 
+                name: "🛫 Αναχώρηση: Ξενοδοχείο ➔ Αεροδρόμιο", 
+                cost: "+ 2,20€", 
+                tip: "Αντίστροφη διαδρομή. Θα βγάλετε πάλι μόνο το συμπληρωματικό των 2,20€.", 
+                desc: "<b>1.</b> Μετρό <b>U4</b> προς <b>Wien Mitte</b>.<br><b>2.</b> Στα μηχανήματα βγάζετε το εισιτήριο των 2,20€.<br><b>3.</b> Επιβιβάζεστε στο τρένο <b>S7</b> (προς Flughafen Wien) μέχρι το Αεροδρόμιο.", 
+                mapQuery: "Vienna International Airport" 
+            },
 
             // SIGHTS
             { id: "stephansdom", type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "Δωρεάν / Πύργοι ~7€", tip: "🚇 Στάση Stephansplatz (U1, U3)", desc: "Μπείτε δωρεάν στον κεντρικό χώρο. Ανεβείτε με το ασανσέρ στον Βόρειο Πύργο για τη θέα.", mapQuery: "Stephansdom Vienna" },
@@ -151,7 +189,7 @@
         const metroData = [
             { id: "u1", name: "U1 - Κόκκινη Γραμμή", color: "metro-u1", route: "Oberlaa ↔ Leopoldau", 
               stations: ["Oberlaa", "Neulaa", "Alaudagasse", "Altes Landgut", "Troststraße", "Reumannplatz", "Keplerplatz", "Hauptbahnhof", "Südtiroler Platz", "Taubstummengasse", "Karlsplatz", "Stephansplatz", "Schwedenplatz", "Nestroyplatz", "Praterstern", "Vorgartenstraße", "Donauinsel", "Kaisermühlen/VIC", "Alte Donau", "Kagran", "Kagraner Platz", "Rennbahnweg", "Aderklaaer Straße", "Großfeldsiedlung", "Leopoldau"] },
-            { id: "u2", name: "U2 - Μωβ Γραμμή", color: "metro-u2", route: "Seestadt ↔ Schottentor", notice: "ΠΡΟΣΟΧΗ: Λόγω έργων, η γραμμή λειτουργεί μόνο μεταξύ Seestadt και Schottentor. Δεν πάει Karlsplatz.",
+            { id: "u2", name: "U2 - Μωβ Γραμμή", color: "metro-u2", route: "Seestadt ↔ Schottentor", notice: "ΠΡΟΣΟΧΗ: Λόγω έργων, η γραμμή λειτουργεί μόνο μεταξύ Seestadt και Schottentor.",
               stations: ["Seestadt", "Aspern Nord", "Hausfeldstraße", "Aspernstraße", "Donauspital", "Hardeggasse", "Stadlau", "Donaustadtbrücke", "Donaumarina", "Stadion", "Krieau", "Messe-Prater", "Praterstern", "Taborstraße", "Schottenring", "Schottentor"] },
             { id: "u3", name: "U3 - Πορτοκαλί Γραμμή", color: "metro-u3", route: "Ottakring ↔ Simmering", 
               stations: ["Ottakring", "Kendlerstraße", "Hütteldorfer Straße", "Johnstraße", "Schweglerstraße", "Westbahnhof", "Zieglergasse", "Neubaugasse", "Volkstheater", "Herrengasse", "Stephansplatz", "Stubentor", "Landstraße", "Rochusgasse", "Kardinal-Nagl-Platz", "Schlachthausgasse", "Erdberg", "Gasometer", "Zippererstraße", "Enkplatz", "Simmering"] },
@@ -161,7 +199,7 @@
               stations: ["Siebenhirten", "Perfektastraße", "Erlaaer Straße", "Alterlaa", "Am Schöpfwerk", "Tscherttegasse", "Bahnhof Meidling", "Niederhofstraße", "Längenfeldgasse", "Gumpendorfer Straße", "Westbahnhof", "Burggasse-Stadthalle", "Thaliastraße", "Josefstädter Straße", "Alser Straße", "Michelbeuern-AKH", "Währinger Straße", "Nußdorfer Straße", "Spittelau", "Jägerstraße", "Dresdner Straße", "Handelskai", "Neue Donau", "Floridsdorf"] }
         ];
 
-        let currentFilter = 'travel'; // Ξεκινάει προεπιλεγμένα στην καρτέλα του Ταξιδιού!
+        let currentFilter = 'travel'; 
         let synth = window.speechSynthesis;
         let currentUtterance = null;
         let playingIndex = -1;
@@ -237,14 +275,19 @@
             } else {
                 const filteredData = placesData.filter(item => item.type === currentFilter);
                 filteredData.forEach((item, index) => {
-                    // Αν δεν υπάρχει mapQuery (π.χ. στην κάρτα μεταφορών), κρύβουμε το κουμπί του χάρτη
-                    const mapBtnHTML = item.mapQuery 
-                        ? `<a href="https://www.google.com/maps/search/?api=1&query=$${encodeURIComponent(item.mapQuery)}" target="_blank" class="btn btn-map">📍 Χάρτης</a>`
-                        : '';
-
                     const isChecked = localStorage.getItem('vienna_visited_' + item.id) === 'true';
                     const checkedAttr = isChecked ? 'checked' : '';
                     const titleStyle = isChecked ? 'text-decoration: line-through; opacity: 0.5;' : '';
+
+                    // Εμφάνιση της εικόνας (QR) αν υπάρχει το αντίστοιχο link από το GitHub
+                    const qrImageHTML = item.qrUrl 
+                        ? `<div class="qr-image-container"><img src="${item.qrUrl}" alt="Ticket ${item.name}"></div>`
+                        : '';
+
+                    // Εμφάνιση του χάρτη μόνο αν υπάρχει mapQuery
+                    const mapBtnHTML = item.mapQuery 
+                        ? `<a href="https://www.google.com/maps/search/?api=1&query=$${encodeURIComponent(item.mapQuery)}" target="_blank" class="btn btn-map">📍 Χάρτης</a>`
+                        : '';
 
                     container.innerHTML += `
                         <div class="card type-${item.type}">
@@ -255,6 +298,7 @@
                                 </div>
                                 <div class="card-cost">${item.cost}</div>
                             </div>
+                            ${qrImageHTML}
                             <div class="card-tip">🧭 <b>Χρήσιμο:</b> <br>${item.tip}</div>
                             <p class="card-desc">${item.desc}</p>
                             <div class="actions">
