@@ -144,7 +144,7 @@
                 mapQuery: "Vienna International Airport" 
             },
 
-            // --- SIGHTS (ΕΜΠΛΟΥΤΙΣΜΕΝΑ ΜΕ ΙΣΤΟΡΙΑ & ΤΡΑΜ) ---
+            // --- SIGHTS ---
             { 
                 id: "stephansdom", type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "Δωρεάν / Πύργοι ~7€", 
                 tip: "🚇 Μετρό: Στάση Stephansplatz (U1, U3)", 
@@ -303,7 +303,8 @@
                 metroData.forEach(line => {
                     let noticeHTML = line.notice ? `<div class="metro-notice">⚠️ ${line.notice}</div>` : '';
                     let stationsHTML = line.stations.map(station => {
-                        const liveLink = `https://anachb.vor.at/bin/stboard.exe/dn?input=${encodeURIComponent(station)}%20Wien&boardType=dep`;
+                        // Διορθωμένο URL που ανοίγει στον επίσημο πίνακα αναχωρήσεων του ÖBB Scotty
+                        const liveLink = `https://fahrplan.oebb.at/bin/stboard.exe/en?input=Wien%20${encodeURIComponent(station)}&boardType=dep&start=yes`;
                         return `
                         <li class="station-item">
                             <span>📍 ${station}</span>
