@@ -17,6 +17,7 @@
             --shopping-color: #10b981;
             --night-color: #8b5cf6;
             --metro-color: #64748b;
+            --travel-color: #f97316;
             /* Official U-Bahn Colors */
             --u1: #E2001A; --u2: #A71C49; --u3: #F68712; --u4: #009640; --u6: #8C6141;
         }
@@ -45,18 +46,19 @@
         .tab-btn.active.shopping { background: var(--shopping-color); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
         .tab-btn.active.nightlife { background: var(--night-color); color: #fff; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); }
         .tab-btn.active.metro { background: var(--metro-color); color: #fff; box-shadow: 0 4px 15px rgba(100, 116, 139, 0.4); }
+        .tab-btn.active.travel { background: var(--travel-color); color: #fff; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4); }
 
         .container { padding: 15px; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
 
         .card { background: var(--card-bg); border-radius: 16px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 1px solid #334155; position: relative; overflow: hidden; }
         .card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
         
-        /* Dynamic Card Colors */
         .card.type-sights::before { background: var(--sights-color); }
         .card.type-food::before { background: var(--food-color); }
         .card.type-cafe::before { background: var(--cafe-color); }
         .card.type-shopping::before { background: var(--shopping-color); }
         .card.type-nightlife::before { background: var(--night-color); }
+        .card.type-travel::before { background: var(--travel-color); }
         
         .card.metro-u1::before { background: var(--u1); }
         .card.metro-u2::before { background: var(--u2); }
@@ -79,7 +81,6 @@
         .btn-map { background: var(--text-main); color: var(--bg-dark); }
         .btn-audio.playing { background: #ef4444; animation: pulse 1.5s infinite; }
 
-        /* Metro Specific Styles */
         .metro-notice { background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 10px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 10px; border-left: 3px solid #ef4444; }
         .station-list { list-style: none; padding: 0; margin: 0; display: none; }
         .station-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #334155; font-size: 0.95rem; color: #e2e8f0; }
@@ -99,6 +100,7 @@
         <h1>🇦🇹 Vienna Local Guide</h1>
         <div class="tabs-container">
             <div class="tabs">
+                <button class="tab-btn travel" onclick="setFilter('travel')">✈️ Ταξίδι</button>
                 <button class="tab-btn sights active" onclick="setFilter('sights')">🏛️ Αξιοθέατα</button>
                 <button class="tab-btn food" onclick="setFilter('food')">🍔 Φαγητό</button>
                 <button class="tab-btn cafe" onclick="setFilter('cafe')">☕ Καφές</button>
@@ -112,33 +114,40 @@
     <div class="container" id="content"></div>
 
     <script>
-        // Database for Normal Places
         const placesData = [
+            // TRAVEL & CARDS
+            { id: "mycard", type: "travel", name: "🎟️ 7 Days Digital VIENNA", cost: "Ενεργή", tip: "Ισχύει για απεριόριστες διαδρομές (Μετρό, Τραμ, Λεωφορεία) ΜΟΝΟ εντός πόλης (Kernzone).", desc: "Μπορείτε να τη χρησιμοποιείτε ελεύθερα στο κέντρο. <b>Προσοχή:</b> Δεν καλύπτει ολόκληρη τη διαδρομή για το αεροδρόμιο, γι' αυτό χρειάζεται συμπληρωματικό εισιτήριο 2,20€.", mapQuery: "" },
+            { id: "arrival", type: "travel", name: "🛬 Άφιξη: Αεροδρόμιο ➔ Ξενοδοχείο", cost: "+ 2,20€", tip: "Η διαδρομή από την άφιξη της Ryanair μέχρι το Hampton by Hilton.", desc: "<b>1.</b> Πηγαίνετε στα κόκκινα μηχανήματα ÖBB. Βγάζετε εισιτήριο 2,20€ επιλέγοντας 'I have a ticket for the Vienna city zone'.<br><b>2.</b> Παίρνετε το τρένο <b>S7</b> (προς Floridsdorf) και κατεβαίνετε στη στάση <b>Wien Mitte</b>.<br><b>3.</b> Εκεί αλλάζετε στο Μετρό <b>U4</b> (Πράσινη γραμμή, κατεύθυνση Hütteldorf).<br><b>4.</b> Κατεβαίνετε στη στάση <b>Längenfeldgasse</b>. Το ξενοδοχείο είναι στα 2 λεπτά με τα πόδια.", mapQuery: "Hampton by Hilton Vienna City West" },
+            { id: "departure", type: "travel", name: "🛫 Αναχώρηση: Ξενοδοχείο ➔ Αεροδρόμιο", cost: "+ 2,20€", tip: "Η αντίστροφη διαδρομή για την πτήση επιστροφής.", desc: "<b>1.</b> Περπατάτε μέχρι τη στάση Längenfeldgasse και παίρνετε το Μετρό <b>U4</b> προς <b>Wien Mitte</b>.<br><b>2.</b> Στα μηχανήματα του σταθμού βγάζετε πάλι το συμπληρωματικό εισιτήριο 2,20€.<br><b>3.</b> Επιβιβάζεστε στο τρένο <b>S7</b> (κατεύθυνση Flughafen Wien) μέχρι το Αεροδρόμιο.", mapQuery: "Vienna International Airport" },
+
             // SIGHTS
             { id: "stephansdom", type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "Δωρεάν / Πύργοι ~7€", tip: "🚇 Στάση Stephansplatz (U1, U3)", desc: "Μπείτε δωρεάν στον κεντρικό χώρο. Ανεβείτε με το ασανσέρ στον Βόρειο Πύργο για τη θέα.", mapQuery: "Stephansdom Vienna" },
             { id: "opera", type: "sights", name: "Κρατική Όπερα", cost: "Εξωτερικά Δωρεάν", tip: "🚇 Στάση Karlsplatz (U1, U2, U4)", desc: "Μαγευτικό κτίριο. Δείτε το κάνοντας τον γύρο της Ringstrasse με το Τραμ 1 ή 2.", mapQuery: "Vienna State Opera" },
             { id: "hofburg", type: "sights", name: "Παλάτι Hofburg", cost: "Εξωτερικά Δωρεάν", tip: "🚇 Στάση Herrengasse (U3) ή Stephansplatz", desc: "Η χειμερινή έδρα των Αψβούργων. Περπατήστε ελεύθερα στις μεγάλες εσωτερικές αυλές.", mapQuery: "Hofburg Vienna" },
             { id: "parlament", type: "sights", name: "Κοινοβούλιο", cost: "Δωρεάν", tip: "🚇 Στάση Rathaus (U2) ή Τραμ 1 & 2", desc: "Νεοκλασικό κτίριο που θυμίζει αρχαίο ελληνικό ναό.", mapQuery: "Austrian Parliament Vienna" },
-            { id: "museums", type: "sights", name: "Μουσεία & Πλατεία Μαρίας Θηρεσίας", cost: "Πλατεία Δωρεάν", tip: "🚇 Στάση Volkstheater (U2, U3)", desc: "Δύο πανομοιότυπα κτίρια που στέκονται το ένα απέναντι από το άλλο.", mapQuery: "Maria-Theresien-Platz Vienna" },
+            { id: "museums", type: "sights", name: "Μουσεία & Πλατεία", cost: "Πλατεία Δωρεάν", tip: "🚇 Στάση Volkstheater (U2, U3)", desc: "Δύο πανομοιότυπα κτίρια που στέκονται το ένα απέναντι από το άλλο.", mapQuery: "Maria-Theresien-Platz Vienna" },
             { id: "karlskirche", type: "sights", name: "Ναός Αγίου Καρόλου", cost: "Εξωτερικά Δωρεάν", tip: "🚇 Στάση Karlsplatz", desc: "Η πιο εντυπωσιακή μπαρόκ εκκλησία της πόλης με τεράστιο τρούλο.", mapQuery: "Karlskirche Vienna" },
+            
             // FOOD
             { id: "albertinawurst", type: "food", name: "Würstelstand Albertina", cost: "~6€", tip: "📍 Δίπλα στην Όπερα", desc: "Θρυλικό λουκανικάδικο! Ζητήστε το Käsekrainer (γεμιστό με τυρί).", mapQuery: "Bitzinger Wurstelstand Albertina" },
             { id: "originalwurst", type: "food", name: "Original Würstelstand", cost: "~6€", tip: "📍 Κάθετα στην Kärntner Str.", desc: "Εξαιρετική εναλλακτική κοντά στον Άγιο Στέφανο με πολύ καλές αξιολογήσεις.", mapQuery: "Original Wurstelstand Kupferschmiedgasse" },
             { id: "goldenwurst", type: "food", name: "Zum Goldenen Würstel", cost: "~6€", tip: "📍 Spiegelgasse 1", desc: "Δίπλα στον πεζόδρομο Graben. Δοκιμάστε κλασικό Bratwurst.", mapQuery: "Zum Goldenen Wurstel Vienna" },
+            
             // CAFE
             { id: "aida", type: "cafe", name: "Aida Café-Konditorei", cost: "~6-10€", tip: "📍 Stephansplatz (Ροζ ταμπέλα)", desc: "Δοκιμάστε Melange και ζεστό Apfelstrudel. Ανεβείτε στον όροφο για θέα.", mapQuery: "Aida Stephansplatz" },
             { id: "haas", type: "cafe", name: "Haas & Haas", cost: "~10-15€", tip: "📍 Πίσω από τον Καθεδρικό", desc: "Πιο αρχοντικό και ήσυχο. Φημίζεται για το τσάι και τα scones του.", mapQuery: "Haas & Haas Vienna" },
             { id: "demel", type: "cafe", name: "Café Demel", cost: "~12-18€", tip: "📍 Πεζόδρομος Kohlmarkt", desc: "Η «βασιλική» επιλογή. Παραγγείλετε Kaiserschmarrn (κομματιασμένες τηγανίτες).", mapQuery: "Cafe Demel Vienna" },
+            
             // SHOPPING
             { id: "magnets", type: "shopping", name: "Φθηνά Μαγνητάκια", cost: "3 για 10€", tip: "📍 Οδός Rotenturmstraße", desc: "Αποφύγετε τα μαγαζιά πάνω στην πλατεία. Σε αυτόν τον δρόμο θα βρείτε προσφορές Multipack.", mapQuery: "Rotenturmstrasse Vienna" },
             { id: "naschmarkt", type: "shopping", name: "Naschmarkt (Παζάρι)", cost: "~2-3€", tip: "🚇 Στάση Kettenbrückengasse (U4)", desc: "Φθηνή επιλογή για σουβενίρ και τοπικά μπαχαρικά.", mapQuery: "Naschmarkt Vienna" },
             { id: "darbo", type: "shopping", name: "Μαρμελάδα Darbo", cost: "~3-5€", tip: "🛒 Billa Corso ή Spar", desc: "Η αυθεντική κόκκινη μαρμελάδα (Preiselbeeren) για να συνοδεύετε το σνίτσελ. Τέλειο σουβενίρ.", mapQuery: "Billa Corso Karntner Strasse" },
+            
             // NIGHTLIFE
             { id: "bermuda", type: "nightlife", name: "Bermuda Triangle", cost: "Μέτριο", tip: "🚇 Στάση Schwedenplatz", desc: "Η καρδιά του Bar-Hopping στο κέντρο. Δεκάδες μπαράκια.", mapQuery: "Bermudadreieck Vienna" },
             { id: "oklub", type: "nightlife", name: "O - Der Klub", cost: "Είσοδος ~15€", tip: "📍 Δίπλα στην Όπερα", desc: "Ένα από τα πιο διάσημα club για χορό. Κεντρικότατο.", mapQuery: "O Der Klub Vienna" }
         ];
 
-        // Database for Metro Lines
         const metroData = [
             { id: "u1", name: "U1 - Κόκκινη Γραμμή", color: "metro-u1", route: "Oberlaa ↔ Leopoldau", 
               stations: ["Oberlaa", "Neulaa", "Alaudagasse", "Altes Landgut", "Troststraße", "Reumannplatz", "Keplerplatz", "Hauptbahnhof", "Südtiroler Platz", "Taubstummengasse", "Karlsplatz", "Stephansplatz", "Schwedenplatz", "Nestroyplatz", "Praterstern", "Vorgartenstraße", "Donauinsel", "Kaisermühlen/VIC", "Alte Donau", "Kagran", "Kagraner Platz", "Rennbahnweg", "Aderklaaer Straße", "Großfeldsiedlung", "Leopoldau"] },
@@ -152,7 +161,7 @@
               stations: ["Siebenhirten", "Perfektastraße", "Erlaaer Straße", "Alterlaa", "Am Schöpfwerk", "Tscherttegasse", "Bahnhof Meidling", "Niederhofstraße", "Längenfeldgasse", "Gumpendorfer Straße", "Westbahnhof", "Burggasse-Stadthalle", "Thaliastraße", "Josefstädter Straße", "Alser Straße", "Michelbeuern-AKH", "Währinger Straße", "Nußdorfer Straße", "Spittelau", "Jägerstraße", "Dresdner Straße", "Handelskai", "Neue Donau", "Floridsdorf"] }
         ];
 
-        let currentFilter = 'sights';
+        let currentFilter = 'travel'; // Ξεκινάει προεπιλεγμένα στην καρτέλα του Ταξιδιού!
         let synth = window.speechSynthesis;
         let currentUtterance = null;
         let playingIndex = -1;
@@ -200,11 +209,9 @@
             container.innerHTML = '';
             
             if (currentFilter === 'metro') {
-                // Render Metro UI
                 metroData.forEach(line => {
                     let noticeHTML = line.notice ? `<div class="metro-notice">⚠️ ${line.notice}</div>` : '';
                     let stationsHTML = line.stations.map(station => {
-                        // Create Live Link via VOR AnachB official portal
                         const liveLink = `https://anachb.vor.at/bin/stboard.exe/dn?input=${encodeURIComponent(station)}%20Wien&boardType=dep`;
                         return `
                         <li class="station-item">
@@ -228,10 +235,13 @@
                     `;
                 });
             } else {
-                // Render Normal Places
                 const filteredData = placesData.filter(item => item.type === currentFilter);
                 filteredData.forEach((item, index) => {
-                    const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
+                    // Αν δεν υπάρχει mapQuery (π.χ. στην κάρτα μεταφορών), κρύβουμε το κουμπί του χάρτη
+                    const mapBtnHTML = item.mapQuery 
+                        ? `<a href="https://www.google.com/maps/search/?api=1&query=$${encodeURIComponent(item.mapQuery)}" target="_blank" class="btn btn-map">📍 Χάρτης</a>`
+                        : '';
+
                     const isChecked = localStorage.getItem('vienna_visited_' + item.id) === 'true';
                     const checkedAttr = isChecked ? 'checked' : '';
                     const titleStyle = isChecked ? 'text-decoration: line-through; opacity: 0.5;' : '';
@@ -245,11 +255,11 @@
                                 </div>
                                 <div class="card-cost">${item.cost}</div>
                             </div>
-                            <div class="card-tip">🧭 <b>Οδηγίες:</b> <br>${item.tip}</div>
+                            <div class="card-tip">🧭 <b>Χρήσιμο:</b> <br>${item.tip}</div>
                             <p class="card-desc">${item.desc}</p>
                             <div class="actions">
                                 <button id="audio-btn-${index}" class="btn btn-audio" onclick="toggleAudio(${index}, '${item.desc.replace(/'/g, "\\'")}')">🔊 Ακρόαση</button>
-                                <a href="${mapLink}" target="_blank" class="btn btn-map">📍 Χάρτης</a>
+                                ${mapBtnHTML}
                             </div>
                         </div>
                     `;
