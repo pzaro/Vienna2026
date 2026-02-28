@@ -118,74 +118,127 @@
 
     <script>
         const placesData = [
-            // TRAVEL & CARDS (Εδώ μπήκαν οι κάρτες σας από το GitHub)
+            // --- TRAVEL & CARDS ---
             { 
-                id: "panos", 
-                type: "travel", 
-                name: "🎫 Κάρτα Μετρό Πάνος", 
-                cost: "Ενεργή", 
+                id: "panos", type: "travel", name: "🎫 Κάρτα Μετρό Πάνος", cost: "Ενεργή", 
                 tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου.", 
                 desc: "Ισχύει για απεριόριστες διαδρομές (Μετρό, Τραμ, Λεωφορεία) εντός πόλης.", 
-                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Panos.png?raw=true",
-                mapQuery: "" 
+                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Panos.png?raw=true", mapQuery: "" 
             },
             { 
-                id: "lia", 
-                type: "travel", 
-                name: "🎫 Κάρτα Μετρό Λία", 
-                cost: "Ενεργή", 
+                id: "lia", type: "travel", name: "🎫 Κάρτα Μετρό Λία", cost: "Ενεργή", 
                 tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου.", 
                 desc: "Ισχύει για απεριόριστες διαδρομές (Μετρό, Τραμ, Λεωφορεία) εντός πόλης.", 
-                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Lia.png?raw=true",
-                mapQuery: "" 
+                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Lia.png?raw=true", mapQuery: "" 
             },
             { 
-                id: "arrival", 
-                type: "travel", 
-                name: "🛬 Άφιξη: Αεροδρόμιο ➔ Ξενοδοχείο", 
-                cost: "+ 2,20€", 
+                id: "arrival", type: "travel", name: "🛬 Άφιξη: Αεροδρόμιο ➔ Ξενοδοχείο", cost: "+ 2,20€", 
                 tip: "Βγάζετε στα κόκκινα μηχανήματα εισιτήριο 2,20€ επιλέγοντας 'I have a ticket for the Vienna city zone'.", 
                 desc: "<b>1.</b> Παίρνετε το τρένο <b>S7</b> και κατεβαίνετε στη στάση <b>Wien Mitte</b>.<br><b>2.</b> Αλλάζετε στο Μετρό <b>U4</b> (κατεύθυνση Hütteldorf).<br><b>3.</b> Κατεβαίνετε στη στάση <b>Längenfeldgasse</b>.", 
                 mapQuery: "Hampton by Hilton Vienna City West" 
             },
             { 
-                id: "departure", 
-                type: "travel", 
-                name: "🛫 Αναχώρηση: Ξενοδοχείο ➔ Αεροδρόμιο", 
-                cost: "+ 2,20€", 
+                id: "departure", type: "travel", name: "🛫 Αναχώρηση: Ξενοδοχείο ➔ Αεροδρόμιο", cost: "+ 2,20€", 
                 tip: "Αντίστροφη διαδρομή. Θα βγάλετε πάλι μόνο το συμπληρωματικό των 2,20€.", 
                 desc: "<b>1.</b> Μετρό <b>U4</b> προς <b>Wien Mitte</b>.<br><b>2.</b> Στα μηχανήματα βγάζετε το εισιτήριο των 2,20€.<br><b>3.</b> Επιβιβάζεστε στο τρένο <b>S7</b> (προς Flughafen Wien) μέχρι το Αεροδρόμιο.", 
                 mapQuery: "Vienna International Airport" 
             },
 
-            // SIGHTS
-            { id: "stephansdom", type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "Δωρεάν / Πύργοι ~7€", tip: "🚇 Στάση Stephansplatz (U1, U3)", desc: "Μπείτε δωρεάν στον κεντρικό χώρο. Ανεβείτε με το ασανσέρ στον Βόρειο Πύργο για τη θέα.", mapQuery: "Stephansdom Vienna" },
-            { id: "opera", type: "sights", name: "Κρατική Όπερα", cost: "Εξωτερικά Δωρεάν", tip: "🚇 Στάση Karlsplatz (U1, U2, U4)", desc: "Μαγευτικό κτίριο. Δείτε το κάνοντας τον γύρο της Ringstrasse με το Τραμ 1 ή 2.", mapQuery: "Vienna State Opera" },
-            { id: "hofburg", type: "sights", name: "Παλάτι Hofburg", cost: "Εξωτερικά Δωρεάν", tip: "🚇 Στάση Herrengasse (U3) ή Stephansplatz", desc: "Η χειμερινή έδρα των Αψβούργων. Περπατήστε ελεύθερα στις μεγάλες εσωτερικές αυλές.", mapQuery: "Hofburg Vienna" },
-            { id: "parlament", type: "sights", name: "Κοινοβούλιο", cost: "Δωρεάν", tip: "🚇 Στάση Rathaus (U2) ή Τραμ 1 & 2", desc: "Νεοκλασικό κτίριο που θυμίζει αρχαίο ελληνικό ναό.", mapQuery: "Austrian Parliament Vienna" },
-            { id: "museums", type: "sights", name: "Μουσεία & Πλατεία", cost: "Πλατεία Δωρεάν", tip: "🚇 Στάση Volkstheater (U2, U3)", desc: "Δύο πανομοιότυπα κτίρια που στέκονται το ένα απέναντι από το άλλο.", mapQuery: "Maria-Theresien-Platz Vienna" },
-            { id: "karlskirche", type: "sights", name: "Ναός Αγίου Καρόλου", cost: "Εξωτερικά Δωρεάν", tip: "🚇 Στάση Karlsplatz", desc: "Η πιο εντυπωσιακή μπαρόκ εκκλησία της πόλης με τεράστιο τρούλο.", mapQuery: "Karlskirche Vienna" },
+            // --- SIGHTS (ΕΜΠΛΟΥΤΙΣΜΕΝΑ ΜΕ ΙΣΤΟΡΙΑ & ΤΡΑΜ) ---
+            { 
+                id: "stephansdom", type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "Δωρεάν / Πύργοι ~7€", 
+                tip: "🚇 Μετρό: Στάση Stephansplatz (U1, U3)", 
+                desc: "Ιστορία: Το σπουδαιότερο γοτθικό αριστούργημα της Αυστρίας και το σύμβολο της Βιέννης. Η κατασκευή του ξεκίνησε τον 12ο αιώνα. Χαρακτηριστικό του είναι η περίτεχνη, πολύχρωμη στέγη του που αποτελείται από 230.000 υαλωμένα κεραμίδια και σχηματίζει τον δικέφαλο αετό των Αψβούργων. Ο Μότσαρτ παντρεύτηκε εδώ το 1782!", 
+                mapQuery: "Stephansdom Vienna" 
+            },
+            { 
+                id: "opera", type: "sights", name: "Κρατική Όπερα (Staatsoper)", cost: "Εξωτερικά Δωρεάν", 
+                tip: "🚃 Τραμ: 1, 2, 71, D (Στάση Oper/Karlsplatz). 🚇 Μετρό: Karlsplatz (U1, U2, U4)", 
+                desc: "Ιστορία: Εγκαινιάστηκε το 1869 με την παράσταση «Ντον Τζιοβάνι» του Μότσαρτ. Είναι ένα από τα σημαντικότερα λυρικά θέατρα παγκοσμίως. Στον Β' Παγκόσμιο Πόλεμο βομβαρδίστηκε και καταστράφηκε σχεδόν ολοσχερώς, αλλά ανακατασκευάστηκε πιστά και άνοιξε ξανά το 1955. Απολαύστε την εξωτερική της μεγαλοπρέπεια!", 
+                mapQuery: "Vienna State Opera" 
+            },
+            { 
+                id: "hofburg", type: "sights", name: "Παλάτι Hofburg", cost: "Εξωτερικά Δωρεάν", 
+                tip: "🚃 Τραμ: 1, 2, 71, D (Στάση Burgring). 🚇 Μετρό: Herrengasse (U3)", 
+                desc: "Ιστορία: Υπήρξε το κέντρο της τεράστιας αυτοκρατορίας των Αψβούργων από τον 13ο αιώνα έως το 1918. Ήταν η χειμερινή κατοικία της αυτοκρατορικής οικογένειας (και της θρυλικής πριγκίπισσας Σίσσυ). Σήμερα είναι ένα αχανές συγκρότημα που στεγάζει την Εθνική Βιβλιοθήκη, την Ισπανική Σχολή Ιππασίας και το γραφείο του Προέδρου της Αυστρίας.", 
+                mapQuery: "Hofburg Vienna" 
+            },
+            { 
+                id: "schonbrunn", type: "sights", name: "Ανάκτορα Schönbrunn", cost: "Κήποι Δωρεάν", 
+                tip: "🚇 Μετρό: Στάση Schönbrunn (Γραμμή U4 Πράσινη) από το κέντρο.", 
+                desc: "Ιστορία: Το 'Βερσαλλίες' της Βιέννης! Ήταν η θερινή κατοικία των Αψβούργων. Διαθέτει 1.441 δωμάτια σε στυλ ροκοκό. Εδώ έκανε τις καλοκαιρινές της διακοπές η Σίσσυ, ενώ στο Σαλόνι με τους Καθρέφτες έδωσε το πρώτο του κονσέρτο ο 6χρονος Μότσαρτ στη Μαρία Θηρεσία. Οι αχανείς κήποι είναι ελεύθεροι για βόλτα.", 
+                mapQuery: "Schonbrunn Palace Vienna" 
+            },
+            { 
+                id: "belvedere", type: "sights", name: "Ανάκτορα Belvedere", cost: "Κήποι Δωρεάν", 
+                tip: "🚃 Τραμ: Γραμμή D (Στάση Schloss Belvedere). Ξεκινάει από το κέντρο (Όπερα).", 
+                desc: "Ιστορία: Χτίστηκε τον 18ο αιώνα ως θερινή κατοικία του Πρίγκιπα Ευγένιου της Σαβοΐας, του στρατηγού που έσωσε τη Βιέννη από τους Οθωμανούς. Αποτελείται από δύο μπαρόκ παλάτια (Άνω και Κάτω Μπελβεντέρε). Σήμερα το Άνω Μπελβεντέρε είναι μουσείο και στεγάζει τον διάσημο πίνακα 'Το Φιλί' του Γκούσταφ Κλιμτ.", 
+                mapQuery: "Belvedere Palace Vienna" 
+            },
+            { 
+                id: "parlament", type: "sights", name: "Αυστριακό Κοινοβούλιο", cost: "Δωρεάν", 
+                tip: "🚃 Τραμ: 1, 2, 71, D (Στάση Parlament).", 
+                desc: "Ιστορία: Ένα αρχιτεκτονικό στολίδι πάνω στη Ringstrasse. Σχεδιάστηκε από τον Δανό αρχιτέκτονα Θεόφιλο Χάνσεν (που έχτισε και την Ακαδημία στην Αθήνα). Ολοκληρώθηκε το 1883 σε νεοελληνικό στυλ, θέλοντας να τιμήσει την Αρχαία Ελλάδα ως το λίκνο της δημοκρατίας. Μπροστά δεσπόζει το άγαλμα της θεάς Αθηνάς.", 
+                mapQuery: "Austrian Parliament Vienna" 
+            },
+            { 
+                id: "hundertwasser", type: "sights", name: "Hundertwasserhaus", cost: "Εξωτερικά Δωρεάν", 
+                tip: "🚃 Τραμ: Γραμμή 1 (από Schwedenplatz) ➔ Στάση Hetzgasse.", 
+                desc: "Ιστορία: Κατασκευάστηκε το 1985 από τον εκκεντρικό καλλιτέχνη Friedensreich Hundertwasser. Είναι μια πολυκατοικία-διαμαρτυρία ενάντια στη μοντέρνα 'βαρετή' αρχιτεκτονική. Δεν υπάρχει ούτε μία ευθεία γραμμή! Τα πατώματα είναι κυματιστά, οι τοίχοι πολύχρωμοι και πάνω από 200 δέντρα φυτρώνουν μέσα από τα μπαλκόνια.", 
+                mapQuery: "Hundertwasserhaus Vienna" 
+            },
+            { 
+                id: "karlskirche", type: "sights", name: "Ναός Αγίου Καρόλου (Karlskirche)", cost: "Εξωτερικά Δωρεάν", 
+                tip: "🚇 Μετρό: Στάση Karlsplatz (U1, U2, U4) ➔ Έξοδος Resselpark.", 
+                desc: "Ιστορία: Η πιο σημαντική και επιβλητική μπαρόκ εκκλησία της Βιέννης. Ο Αυτοκράτορας Κάρολος ΣΤ' διέταξε την κατασκευή της το 1713 ως τάμα, όταν η πόλη σώθηκε από μια καταστροφική επιδημία πανώλης. Ξεχωρίζει για τον τεράστιο πράσινο τρούλο της και τις δύο κολόνες που θυμίζουν τον Κίονα του Τραϊανού στη Ρώμη.", 
+                mapQuery: "Karlskirche Vienna" 
+            },
+            { 
+                id: "votivkirche", type: "sights", name: "Votivkirche (Ναός του Τάματος)", cost: "Δωρεάν", 
+                tip: "🚃 Τραμ: 1, D, 37, 38, 43, 44 ➔ Στάση Schottentor.", 
+                desc: "Ιστορία: Ένα εκπληκτικό νεογοτθικό αριστούργημα (μοιάζει με την Παναγία των Παρισίων). Χτίστηκε τον 19ο αιώνα ως 'τάμα' ευγνωμοσύνης, όταν ο νεαρός τότε Αυτοκράτορας Φραγκίσκος Ιωσήφ (ο σύζυγος της Σίσσυ) επέζησε από μια δολοφονική επίθεση. Τα βιτρό της είναι εντυπωσιακά.", 
+                mapQuery: "Votivkirche Vienna" 
+            },
+            { 
+                id: "museums", type: "sights", name: "Μουσεία & Πλατεία Μαρίας Θηρεσίας", cost: "Πλατεία Δωρεάν", 
+                tip: "🚃 Τραμ: 1, 2, 71, D (Στάση Burgring). 🚇 Μετρό: Volkstheater.", 
+                desc: "Ιστορία: Δύο τεράστια, ολόιδια παλάτια που στέκονται αντικριστά. Στα δεξιά είναι το Μουσείο Φυσικής Ιστορίας και στα αριστερά το Μουσείο Ιστορίας της Τέχνης. Κατασκευάστηκαν στα τέλη του 19ου αιώνα από τον Φραγκίσκο Ιωσήφ για να στεγάσουν τις αμύθητες αυτοκρατορικές συλλογές. Στο κέντρο δεσπόζει το άγαλμα της Αυτοκράτειρας Μαρίας Θηρεσίας.", 
+                mapQuery: "Maria-Theresien-Platz Vienna" 
+            },
+            { 
+                id: "albertina", type: "sights", name: "Μουσείο Albertina", cost: "Εξωτερικά Δωρεάν", 
+                tip: "🚇 Μετρό: Karlsplatz. Βρίσκεται ακριβώς πίσω/δίπλα από την Όπερα.", 
+                desc: "Ιστορία: Ήταν κάποτε παλάτι, κατοικία των Αψβούργων αρχιδουκών. Ιδρύθηκε το 1776 από τον Δούκα Αλβέρτο και σήμερα διαθέτει μία από τις μεγαλύτερες συλλογές γραφικών τεχνών στον κόσμο (πάνω από 1 εκατομμύριο χαρακτικά) με έργα του Μονέ, του Πικάσο και του Ντύρερ. Η πλατεία μπροστά της έχει το καλύτερο λουκανικάδικο!", 
+                mapQuery: "Albertina Museum Vienna" 
+            },
+            { 
+                id: "prater", type: "sights", name: "Prater & Riesenrad", cost: "Είσοδος Πάρκου Δωρεάν", 
+                tip: "🚇 Μετρό: Στάση Praterstern (Γραμμές U1, U2).", 
+                desc: "Ιστορία: Πρώην αυτοκρατορικό κυνηγετικό πάρκο που άνοιξε στο κοινό το 1766. Σήμα κατατεθέν του είναι ο τεράστιος τροχός Riesenrad, που κατασκευάστηκε το 1897 για τον εορτασμό των 50 ετών βασιλείας του Φραγκίσκου Ιωσήφ. Επιβίωσε από τον Β' Παγκόσμιο Πόλεμο και παραμένει το πιο νοσταλγικό λούνα παρκ της Ευρώπης.", 
+                mapQuery: "Prater Vienna" 
+            },
             
-            // FOOD
+            // --- FOOD ---
             { id: "albertinawurst", type: "food", name: "Würstelstand Albertina", cost: "~6€", tip: "📍 Δίπλα στην Όπερα", desc: "Θρυλικό λουκανικάδικο! Ζητήστε το Käsekrainer (γεμιστό με τυρί).", mapQuery: "Bitzinger Wurstelstand Albertina" },
-            { id: "originalwurst", type: "food", name: "Original Würstelstand", cost: "~6€", tip: "📍 Κάθετα στην Kärntner Str.", desc: "Εξαιρετική εναλλακτική κοντά στον Άγιο Στέφανο με πολύ καλές αξιολογήσεις.", mapQuery: "Original Wurstelstand Kupferschmiedgasse" },
+            { id: "originalwurst", type: "food", name: "Original Würstelstand", cost: "~6€", tip: "📍 Κάθετα στην Kärntner Str.", desc: "Εξαιρετική εναλλακτική κοντά στον Άγιο Στέφανο.", mapQuery: "Original Wurstelstand Kupferschmiedgasse" },
             { id: "goldenwurst", type: "food", name: "Zum Goldenen Würstel", cost: "~6€", tip: "📍 Spiegelgasse 1", desc: "Δίπλα στον πεζόδρομο Graben. Δοκιμάστε κλασικό Bratwurst.", mapQuery: "Zum Goldenen Wurstel Vienna" },
             
-            // CAFE
+            // --- CAFE ---
             { id: "aida", type: "cafe", name: "Aida Café-Konditorei", cost: "~6-10€", tip: "📍 Stephansplatz (Ροζ ταμπέλα)", desc: "Δοκιμάστε Melange και ζεστό Apfelstrudel. Ανεβείτε στον όροφο για θέα.", mapQuery: "Aida Stephansplatz" },
             { id: "haas", type: "cafe", name: "Haas & Haas", cost: "~10-15€", tip: "📍 Πίσω από τον Καθεδρικό", desc: "Πιο αρχοντικό και ήσυχο. Φημίζεται για το τσάι και τα scones του.", mapQuery: "Haas & Haas Vienna" },
-            { id: "demel", type: "cafe", name: "Café Demel", cost: "~12-18€", tip: "📍 Πεζόδρομος Kohlmarkt", desc: "Η «βασιλική» επιλογή. Παραγγείλετε Kaiserschmarrn (κομματιασμένες τηγανίτες).", mapQuery: "Cafe Demel Vienna" },
+            { id: "demel", type: "cafe", name: "Café Demel", cost: "~12-18€", tip: "📍 Πεζόδρομος Kohlmarkt", desc: "Η «βασιλική» επιλογή. Παραγγείλετε Kaiserschmarrn.", mapQuery: "Cafe Demel Vienna" },
             
-            // SHOPPING
-            { id: "magnets", type: "shopping", name: "Φθηνά Μαγνητάκια", cost: "3 για 10€", tip: "📍 Οδός Rotenturmstraße", desc: "Αποφύγετε τα μαγαζιά πάνω στην πλατεία. Σε αυτόν τον δρόμο θα βρείτε προσφορές Multipack.", mapQuery: "Rotenturmstrasse Vienna" },
+            // --- SHOPPING ---
+            { id: "magnets", type: "shopping", name: "Φθηνά Μαγνητάκια", cost: "3 για 10€", tip: "📍 Οδός Rotenturmstraße", desc: "Αποφύγετε τα μαγαζιά πάνω στην πλατεία. Σε αυτόν τον δρόμο θα βρείτε προσφορές.", mapQuery: "Rotenturmstrasse Vienna" },
             { id: "naschmarkt", type: "shopping", name: "Naschmarkt (Παζάρι)", cost: "~2-3€", tip: "🚇 Στάση Kettenbrückengasse (U4)", desc: "Φθηνή επιλογή για σουβενίρ και τοπικά μπαχαρικά.", mapQuery: "Naschmarkt Vienna" },
-            { id: "darbo", type: "shopping", name: "Μαρμελάδα Darbo", cost: "~3-5€", tip: "🛒 Billa Corso ή Spar", desc: "Η αυθεντική κόκκινη μαρμελάδα (Preiselbeeren) για να συνοδεύετε το σνίτσελ. Τέλειο σουβενίρ.", mapQuery: "Billa Corso Karntner Strasse" },
+            { id: "darbo", type: "shopping", name: "Μαρμελάδα Darbo", cost: "~3-5€", tip: "🛒 Billa Corso ή Spar", desc: "Η αυθεντική κόκκινη μαρμελάδα (Preiselbeeren) για το σνίτσελ.", mapQuery: "Billa Corso Karntner Strasse" },
             
-            // NIGHTLIFE
+            // --- NIGHTLIFE ---
             { id: "bermuda", type: "nightlife", name: "Bermuda Triangle", cost: "Μέτριο", tip: "🚇 Στάση Schwedenplatz", desc: "Η καρδιά του Bar-Hopping στο κέντρο. Δεκάδες μπαράκια.", mapQuery: "Bermudadreieck Vienna" },
-            { id: "oklub", type: "nightlife", name: "O - Der Klub", cost: "Είσοδος ~15€", tip: "📍 Δίπλα στην Όπερα", desc: "Ένα από τα πιο διάσημα club για χορό. Κεντρικότατο.", mapQuery: "O Der Klub Vienna" }
+            { id: "oklub", type: "nightlife", name: "O - Der Klub", cost: "Είσοδος ~15€", tip: "📍 Δίπλα στην Όπερα", desc: "Ένα από τα πιο διάσημα club για χορό.", mapQuery: "O Der Klub Vienna" }
         ];
 
+        // --- METRO DATA ---
         const metroData = [
             { id: "u1", name: "U1 - Κόκκινη Γραμμή", color: "metro-u1", route: "Oberlaa ↔ Leopoldau", 
               stations: ["Oberlaa", "Neulaa", "Alaudagasse", "Altes Landgut", "Troststraße", "Reumannplatz", "Keplerplatz", "Hauptbahnhof", "Südtiroler Platz", "Taubstummengasse", "Karlsplatz", "Stephansplatz", "Schwedenplatz", "Nestroyplatz", "Praterstern", "Vorgartenstraße", "Donauinsel", "Kaisermühlen/VIC", "Alte Donau", "Kagran", "Kagraner Platz", "Rennbahnweg", "Aderklaaer Straße", "Großfeldsiedlung", "Leopoldau"] },
@@ -279,12 +332,10 @@
                     const checkedAttr = isChecked ? 'checked' : '';
                     const titleStyle = isChecked ? 'text-decoration: line-through; opacity: 0.5;' : '';
 
-                    // Εμφάνιση της εικόνας (QR) αν υπάρχει το αντίστοιχο link από το GitHub
                     const qrImageHTML = item.qrUrl 
                         ? `<div class="qr-image-container"><img src="${item.qrUrl}" alt="Ticket ${item.name}"></div>`
                         : '';
 
-                    // Εμφάνιση του χάρτη μόνο αν υπάρχει mapQuery
                     const mapBtnHTML = item.mapQuery 
                         ? `<a href="https://www.google.com/maps/search/?api=1&query=$${encodeURIComponent(item.mapQuery)}" target="_blank" class="btn btn-map">📍 Χάρτης</a>`
                         : '';
@@ -299,7 +350,7 @@
                                 <div class="card-cost">${item.cost}</div>
                             </div>
                             ${qrImageHTML}
-                            <div class="card-tip">🧭 <b>Χρήσιμο:</b> <br>${item.tip}</div>
+                            <div class="card-tip">🧭 <b>Οδηγίες:</b> <br>${item.tip}</div>
                             <p class="card-desc">${item.desc}</p>
                             <div class="actions">
                                 <button id="audio-btn-${index}" class="btn btn-audio" onclick="toggleAudio(${index}, '${item.desc.replace(/'/g, "\\'")}')">🔊 Ακρόαση</button>
