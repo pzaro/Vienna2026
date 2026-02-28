@@ -2,7 +2,7 @@
 <html lang="el">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vienna Local Guide - Ultimate Edition</title>
     <style>
         :root {
@@ -81,8 +81,16 @@
         .btn-map { background: var(--text-main); color: var(--bg-dark); }
         .btn-audio.playing { background: #ef4444; animation: pulse 1.5s infinite; }
 
-        .qr-image-container { margin-top: 15px; margin-bottom: 15px; text-align: center; padding: 10px; background: #fff; border-radius: 10px; }
-        .qr-image-container img { width: 100%; max-width: 300px; border-radius: 8px; }
+        /* ΣΤΥΛ ΓΙΑ ΤΙΣ ΦΩΤΟΓΡΑΦΙΕΣ ΚΑΙ ΤΟ POPUP (MODAL) */
+        .qr-image-container { margin-top: 15px; margin-bottom: 15px; text-align: center; padding: 10px; background: #fff; border-radius: 10px; cursor: zoom-in; }
+        .qr-image-container img { width: 100%; max-width: 300px; border-radius: 8px; transition: 0.3s; }
+        .qr-image-container img:hover { opacity: 0.8; }
+        
+        /* The Modal (background) */
+        .modal { display: none; position: fixed; z-index: 10000; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.95); backdrop-filter: blur(5px); }
+        .modal-content { margin: auto; display: block; width: 95%; max-width: 600px; border-radius: 8px; }
+        .close-modal { position: absolute; top: 15px; right: 25px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; }
+        .close-modal:hover, .close-modal:focus { color: var(--accent); text-decoration: none; cursor: pointer; }
 
         .metro-notice { background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 10px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 10px; border-left: 3px solid #ef4444; }
         .station-list { list-style: none; padding: 0; margin: 0; display: none; }
@@ -114,6 +122,11 @@
         </div>
     </div>
 
+    <div id="imageModal" class="modal">
+      <span class="close-modal" onclick="closeModal()">&times;</span>
+      <img class="modal-content" id="img01">
+    </div>
+
     <div class="container" id="content"></div>
 
     <script>
@@ -121,13 +134,13 @@
             // --- TRAVEL & CARDS ---
             { 
                 id: "panos", type: "travel", name: "🎫 Κάρτα Μετρό Πάνος", cost: "Ενεργή", 
-                tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου.", 
+                tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου. Πατήστε στην εικόνα για μεγέθυνση.", 
                 desc: "Ισχύει για απεριόριστες διαδρομές (Μετρό, Τραμ, Λεωφορεία) εντός πόλης.", 
                 qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Panos.png?raw=true", mapQuery: "" 
             },
             { 
                 id: "lia", type: "travel", name: "🎫 Κάρτα Μετρό Λία", cost: "Ενεργή", 
-                tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου.", 
+                tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου. Πατήστε στην εικόνα για μεγέθυνση.", 
                 desc: "Ισχύει για απεριόριστες διαδρομές (Μετρό, Τραμ, Λεωφορεία) εντός πόλης.", 
                 qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Lia.png?raw=true", mapQuery: "" 
             },
@@ -295,6 +308,26 @@
             }
         }
 
+        // Λειτουργίες για το άνοιγμα/κλείσιμο των εικόνων (Lightbox)
+        function openModal(imgSrc) {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("img01");
+            modal.style.display = "block";
+            modalImg.src = imgSrc;
+        }
+
+        function closeModal() {
+            document.getElementById("imageModal").style.display = "none";
+        }
+
+        // Κλείσιμο του modal αν πατήσεις οπουδήποτε έξω από τη φωτογραφία
+        window.onclick = function(event) {
+            const modal = document.getElementById("imageModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
         function renderCards() {
             const container = document.getElementById('content');
             container.innerHTML = '';
@@ -303,7 +336,6 @@
                 metroData.forEach(line => {
                     let noticeHTML = line.notice ? `<div class="metro-notice">⚠️ ${line.notice}</div>` : '';
                     let stationsHTML = line.stations.map(station => {
-                        // Διορθωμένο URL που ανοίγει στον επίσημο πίνακα αναχωρήσεων του ÖBB Scotty
                         const liveLink = `https://fahrplan.oebb.at/bin/stboard.exe/en?input=Wien%20${encodeURIComponent(station)}&boardType=dep&start=yes`;
                         return `
                         <li class="station-item">
@@ -333,8 +365,9 @@
                     const checkedAttr = isChecked ? 'checked' : '';
                     const titleStyle = isChecked ? 'text-decoration: line-through; opacity: 0.5;' : '';
 
+                    // ΠΡΟΣΘΕΤΟΥΜΕ ΤΟ ONCLICK FUNCTION ΣΤΗΝ ΕΙΚΟΝΑ
                     const qrImageHTML = item.qrUrl 
-                        ? `<div class="qr-image-container"><img src="${item.qrUrl}" alt="Ticket ${item.name}"></div>`
+                        ? `<div class="qr-image-container" onclick="openModal('${item.qrUrl}')"><img src="${item.qrUrl}" alt="Ticket ${item.name}"></div>`
                         : '';
 
                     const mapBtnHTML = item.mapQuery 
