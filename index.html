@@ -2,389 +2,84 @@
 <html lang="el">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Predictor Pro v3800 - Sovereign Apex</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vienna 2026 - Official Guide</title>
     <style>
-        :root { 
-            --bg: #02040a; --card: #0d121f; --border: #1e293b; 
-            --p: #00f2ff; --magenta: #ff00ff; --txt: #f1f5f9; --txt-muted: #64748b; 
-            --gold: #f59e0b; --orange-grad: linear-gradient(135deg, #f59e0b, #ef4444);
-            --live: #10b981; --alert: #f43f5e;
-            --value: #8b5cf6; --grad: linear-gradient(135deg, #00f2ff, #8b5cf6);
-            --ticker-speed: 25s;
+        :root {
+            --bg: #0f172a; --card: #1e293b; --accent: #fbbf24; --text: #f8fafc;
+            --u3: #F68712; --u4: #009640; --danger: #ef4444;
         }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--txt); margin: 0; padding: 0; font-size: 16px; overflow-x: hidden; }
-        h1, h2, .league-header, .stat-font, .motd-title { font-family: 'Orbitron', sans-serif; }
-        .container { width: 100%; max-width: 1000px; margin: 0 auto; padding: 15px; }
-
-        /* 🟢 HEADER & TICKER */
-        .header-sticky { position: sticky; top: 0; z-index: 1000; background: rgba(2, 4, 10, 0.98); backdrop-filter: blur(20px); border-bottom: 2px solid var(--p); }
-        .ticker-controls { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; font-size: 0.7rem; font-weight: 900; background: #000; color: var(--p); }
-        .ticker-wrap { width: 100%; overflow: hidden; white-space: nowrap; padding: 12px 0; display: none; background: rgba(0,242,255,0.05); border-top: 1px solid #111; }
-        .ticker-move { display: inline-block; animation: ticker var(--ticker-speed) linear infinite; }
-        .ticker-item { display: inline-block; padding: 0 1.5rem; font-weight: 800; font-size: 0.85rem; border-right: 1px solid var(--border); color: #fff; }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        /* 🔥 MOTD & SAFETY */
-        #motdSection { background: linear-gradient(145deg, #1e1b4b, #020617); border: 2px solid var(--gold); border-radius: 30px; padding: 25px; margin-bottom: 30px; display: none; box-shadow: 0 0 40px rgba(245,158,11,0.2); position: relative; cursor: pointer; }
-        .motd-badge { position: absolute; top: -15px; left: 30px; background: var(--gold); color: #000; padding: 5px 15px; border-radius: 8px; font-weight: 900; font-size: 0.7rem; letter-spacing: 1px; }
-
-        /* 🛡️ MISSION CARDS */
-        .cyber-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
-        .league-header { background: var(--orange-grad); color: #000; padding: 14px 22px; border-radius: 10px; font-weight: 900; margin: 30px 0 15px; font-size: 0.8rem; text-transform: uppercase; }
-
-        .match-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; margin-bottom: 18px; cursor: pointer; transition: 0.3s; position: relative; border-left: 4px solid transparent; }
-        .match-card:hover { border-color: var(--p); border-left-color: var(--p); transform: translateX(5px); }
-        .match-card.gold-glow { border: 2px solid var(--gold); box-shadow: 0 0 25px rgba(245,158,11,0.15); }
-        
-        .card-top { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .score-box { font-size: 2.4rem; font-weight: 900; color: #fff; font-family: 'Orbitron'; text-shadow: 0 0 20px rgba(0,242,255,0.4); }
-        
-        .live-pulse { color: var(--live); font-weight: 900; animation: blink 1.2s infinite; font-size: 0.75rem; display: flex; align-items: center; gap: 6px; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-        /* 🏆 PREMIUM SLIPS */
-        .acca-slip { background: linear-gradient(160deg, #0f172a 0%, #020617 100%); border: 3px solid var(--magenta); border-radius: 35px; padding: 30px; margin-bottom: 40px; border-top: 15px solid var(--magenta); box-shadow: 0 30px 70px rgba(0,0,0,0.8); }
-        .slip-item { background: rgba(255,255,255,0.03); border-radius: 20px; padding: 22px; margin-bottom: 15px; border-left: 10px solid var(--p); border: 1px solid rgba(255,255,255,0.05); }
-        .tip-badge-big { background: var(--magenta); color: #fff; padding: 12px 25px; border-radius: 15px; font-weight: 900; font-size: 1.1rem; display: inline-block; margin-bottom: 15px; box-shadow: 0 0 20px var(--magenta); border: 2px solid var(--p); }
-
-        /* 📊 PROGRESS BARS */
-        .cyber-progress-bg { background: #000; height: 18px; border-radius: 50px; overflow: hidden; border: 1px solid var(--border); position: relative; margin: 15px 0; }
-        .cyber-progress-fill { height: 100%; background: var(--grad); width: 0%; transition: width 0.4s; box-shadow: 0 0 20px var(--p); }
-
-        /* 🟢 INTEL ELEMENTS */
-        .intel-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.8rem; }
-        .intel-table th { color: var(--p); text-align: left; padding: 12px; border-bottom: 1px solid var(--border); text-transform: uppercase; }
-        .intel-table td { padding: 14px 12px; border-bottom: 1px solid #0f172a; font-weight: 700; }
-        
-        .form-row { display: flex; justify-content: center; gap: 12px; margin-top: 10px; }
-        .form-col { display: flex; flex-direction: column; align-items: center; min-width: 45px; }
-        .dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #fff; }
-        .dot.W { background: var(--live); box-shadow: 0 0 10px var(--live); } .dot.D { background: var(--gold); } .dot.L { background: var(--alert); }
-        .form-val { font-size: 0.65rem; color: var(--txt-muted); font-weight: 900; margin-top: 4px; text-align: center; }
-
-        /* 📅 CALENDAR */
-        .cal-container { display: flex; align-items: center; background: #000; border: 2px solid var(--gold); border-radius: 15px; padding: 10px 15px; gap: 10px; box-shadow: 0 0 15px rgba(245,158,11,0.2); }
-        .cal-input { background: transparent; border: none; color: var(--gold); font-weight: 900; font-family: 'Orbitron'; font-size: 0.85rem; cursor: pointer; width: 100%; }
-
-        #intelPanel, #aiPanel { display: none; background: var(--bg); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; overflow-y: auto; padding-bottom: 100px; -webkit-overflow-scrolling: touch; }
-        .close-circle { position: fixed; bottom: 30px; right: 30px; background: var(--alert); color: #fff; width: 65px; height: 65px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; border: none; z-index: 10001; box-shadow: 0 0 30px var(--alert); font-size: 1.2rem; cursor: pointer; }
-
-        @media (min-width: 768px) { .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; } }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; line-height: 1.5; }
+        .header { text-align: center; padding: 25px 0; border-bottom: 3px solid var(--accent); margin-bottom: 25px; }
+        h1 { margin: 0; color: var(--accent); font-size: 1.8rem; }
+        .section-title { color: var(--accent); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 10px; display: block; }
+        .card { background: var(--card); border-radius: 18px; padding: 20px; margin-bottom: 20px; border-left: 6px solid var(--accent); box-shadow: 0 10px 15px rgba(0,0,0,0.2); }
+        .ticket-img { width: 100%; border-radius: 12px; margin-top: 15px; cursor: pointer; border: 2px solid #334155; }
+        .btn { display: block; width: 100%; padding: 14px; background: var(--accent); color: #000; text-align: center; border-radius: 10px; text-decoration: none; font-weight: bold; margin-top: 15px; box-sizing: border-box; }
+        .btn-blue { background: #3b82f6; color: #fff; }
+        .important-box { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); color: var(--danger); padding: 12px; border-radius: 10px; font-weight: bold; margin: 10px 0; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        ul { padding-left: 20px; margin: 10px 0; }
+        li { margin-bottom: 5px; }
     </style>
 </head>
 <body>
 
-<div id="authScreen">
-    <div class="auth-box" style="background:var(--card); border-radius:40px; padding:50px 30px; text-align:center; max-width:420px; margin:auto; margin-top:15vh; border:2px solid var(--p);">
-        <h1 style="color:var(--p); margin:0; font-size:2.4rem;">SOVEREIGN</h1>
-        <p style="color:var(--txt-muted); font-size:0.8rem; margin-top:10px;">V3800 APEX FLOW Spec</p>
-        <input type="tel" id="pinInput" class="auth-input" maxlength="6" placeholder="••••••" oninput="instantAuth(this)" style="width:100%; padding:20px; margin-top:30px; text-align:center; font-size:2.8rem; border-radius:25px; border:none; background:#000; color:var(--p); font-family: 'Orbitron'; letter-spacing:15px; font-weight:900;">
+    <div class="header">
+        <h1>🇦🇹 BIENNH 2026</h1>
+        <p>ΠΑΝΟΣ & ΛΙΑ - FULL PROGRAM</p>
     </div>
-</div>
 
-<div id="appContent" style="display:none;">
-    <div class="header-sticky">
-        <div class="ticker-controls">
-            <div>SYNC: <input type="range" min="10" max="60" value="30" oninput="adjustTickerSpeed(this.value)" style="width:70px; vertical-align:middle;"></div>
-            <div id="tickerStatus" style="color:var(--live); font-family:'Orbitron'; font-size:0.6rem;">CORE LINK ACTIVE</div>
-        </div>
-        <div class="ticker-wrap" id="liveTickerWrap"><div class="ticker-move" id="tickerContent"></div></div>
+    <span class="section-title">🎫 ΨΗΦΙΑΚΑ ΕΙΣΙΤΗΡΙΑ (SCAN READY)</span>
+    <div class="card">
+        <h2>Πάνος - Ticket</h2>
+        <img src="https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Panos.png?raw=true" class="ticket-img" onclick="window.open(this.src)">
     </div>
-    
-    <div class="container">
-        <div style="text-align:center; padding: 40px 0;">
-            <h1 style="color:var(--p); margin:0; font-size:3.5rem; letter-spacing:-4px; text-shadow: 0 0 30px rgba(0,242,255,0.3);">PREDICTOR <span style="color:#fff">PRO</span></h1>
-            <small style="color:var(--magenta); font-weight:900; letter-spacing:8px;">SOVEREIGN APEX v3800</small>
-        </div>
-
-        <div id="motdSection">
-            <div class="motd-badge">MATCH OF THE DAY</div>
-            <div id="motdContent"></div>
-        </div>
-
-        <button id="masterBtn" onclick="globalSync()" style="width:100%; padding:28px; background:var(--grad); color:#fff; border:none; border-radius:28px; font-weight:900; font-size:1.4rem; cursor:pointer; font-family:'Orbitron'; box-shadow:0 10px 40px rgba(0,212,255,0.2);">INITIALIZE FLOW SCAN</button>
-
-        <div id="syncCont" style="display:none; margin-top:30px;">
-            <div class="cyber-progress-bg"><div id="syncFill" class="cyber-progress-fill"></div></div>
-            <div id="syncStep" style="text-align:center; font-family:'Orbitron'; color:var(--p); font-size:0.8rem; font-weight:900;">CALIBRATING...</div>
-        </div>
-
-        <div id="toolsSection" style="display:none; margin-top:40px;">
-            <div style="display:grid; grid-template-columns: 1.1fr 0.9fr; gap:20px; margin-bottom:35px;">
-                <div class="cyber-card" style="margin-bottom:0; border:1px solid var(--magenta);">
-                    <div style="font-weight:900; color:var(--magenta); font-size:0.75rem; margin-bottom:12px; font-family:'Orbitron';">🏆 APEX SLIP COMPILER</div>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                        <select id="accaMarket" style="background:#000; color:#fff; border:1px solid var(--border); padding:10px; border-radius:10px; font-weight:800;">
-                            <option value="AI_PICK">SAFETY ACCA (6-FOLD)</option>
-                            <option value="1X2">ΣΗΜΕΙΑ 1Χ2</option>
-                            <option value="GOALS">ELITE OVER 2.5</option>
-                            <option value="CORNERS">xCORNERS</option>
-                            <option value="SCORES">ΑΚΡΙΒΕΣ ΣΚΟΡ</option>
-                        </select>
-                        <select id="accaSize" style="background:#000; color:#fff; border:1px solid var(--border); padding:10px; border-radius:10px; font-weight:800;"><option value="2">2-FOLD</option><option value="6" selected>6-FOLD</option></select>
-                        <button onclick="generateAcca()" style="grid-column: span 2; background:var(--magenta); color:#fff; border:none; border-radius:10px; padding:15px; font-weight:900; cursor:pointer; font-family:'Orbitron';">BUILD APEX SLIP</button>
-                    </div>
-                </div>
-                <div class="cyber-card" style="margin-bottom:0; display:flex; flex-direction:column; justify-content:center; border:1px solid var(--gold);">
-                    <div style="font-weight:900; color:var(--gold); font-size:0.75rem; margin-bottom:12px; font-family:'Orbitron'; text-align:center;">🧠 QUANTUM DATA LAB</div>
-                    <div class="cal-container">
-                        <input type="date" id="evalDate" class="cal-input">
-                        <button onclick="runDeepEvaluation()" style="background:var(--gold); color:#000; border:none; border-radius:10px; padding:10px 20px; font-weight:900; cursor:pointer;">RUN</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="accaDisplay"></div>
-        <div id="mainDashboard" style="display:none;">
-            <div id="liveSection"><div class="status-label">⚡ LIVE NEURAL SCAN</div><div id="liveList"></div></div>
-            <div id="upcomingSection"><div class="status-label">📅 TARGET ACQUISITION</div><div id="upcomingList"></div></div>
-            <div id="finishedSection"><div class="status-label">🏁 MISSION ARCHIVE</div><div id="finishedList"></div></div>
-        </div>
+    <div class="card">
+        <h2>Λία - Ticket</h2>
+        <img src="https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Lia.png?raw=true" class="ticket-img" onclick="window.open(this.src)">
     </div>
-</div>
 
-<div id="intelPanel">
-    <button onclick="closePanel('intelPanel')" class="close-circle">X</button>
-    <div style="text-align:center; padding:90px 20px 40px; background:#000; border-bottom:1px solid var(--border);">
-        <h2 id="mTitle" style="color:var(--p); font-size:1.6rem; margin:0; letter-spacing:1px;"></h2>
-        <div id="bigScore" style="font-size:5.5rem; font-weight:900; font-family:'Orbitron'; margin-top:10px; text-shadow:0 0 35px rgba(0,242,255,0.4);"></div>
-        <div id="adviceBox" style="margin-top:25px; color:var(--gold); font-weight:900; font-size:0.85rem; border:1px dashed var(--gold); padding:15px; border-radius:15px; max-width:600px; margin-left:auto; margin-right:auto;"></div>
+    <span class="section-title">🎶 ΑΠΟΨΕ: ΚΟΝΣΕΡΤΟ</span>
+    <div class="card" style="border-left-color: var(--danger);">
+        <h2>Karlskirche (Άγιος Κάρολος)</h2>
+        <div class="important-box">⏰ ΕΝΑΡΞΗ: 19:15 | ΦΥΓΕΤΕ ΣΤΙΣ 18:30</div>
+        <p><b>Διαδρομή:</b> Γραμμή <b>U4 (Πράσινη)</b> από Längenfeldgasse προς Heiligenstadt. Κατεβαίνετε στη στάση <b>Karlsplatz</b>.</p>
+        <a href="https://www.google.com/maps/search/?api=1&query=Karlskirche+Vienna" class="btn">📍 ΑΝΟΙΓΜΑ ΧΑΡΤΗ</a>
     </div>
-    <div class="container">
-        <div class="cyber-card" style="border: 2px solid var(--p);">
-            <div style="font-weight:900; color:var(--p); margin-bottom:20px; font-family:'Orbitron'; text-align:center; letter-spacing:1px;">📊 ULTIMATE ANALYTICS TABLE</div>
-            <div class="table-wrap" style="overflow-x:auto;"><table class="intel-table" id="intelDataTable" style="width:100%; min-width:450px;"></table></div>
-        </div>
-        <div class="cyber-card">
-            <div style="font-weight:900; color:var(--live); margin-bottom:20px; font-family:'Orbitron'; text-align:center;">🕒 DEEP FORM (xG / xGA per match)</div>
-            <div id="hFormList"></div>
-            <div id="aFormList" style="margin-top:25px;"></div>
-        </div>
-        <div class="cyber-card">
-            <div style="font-weight:900; color:var(--gold); margin-bottom:20px; font-family:'Orbitron'; text-align:center;">🔮 UNIQUE ORACLE SCORES</div>
-            <div id="oracleTipsList"></div>
-        </div>
+
+    <span class="section-title">🥩 ΑΥΡΙΟ: ΦΑΓΗΤΟ & ΔΩΡΕΑΝ ΜΟΥΣΕΙΑ</span>
+    <div class="card" style="border-left-color: #10b981;">
+        <h2>Figlmüller Bäckerstraße</h2>
+        <p>Το διάσημο σνίτσελ! Θυμηθείτε να κάνετε Reconfirm το link.</p>
+        <ul>
+            <li><b>Παραγγελία:</b> Figlmüller-Schnitzel & πατατοσαλάτα.</li>
+            <li><b>Διεύθυνση:</b> Bäckerstraße 6.</li>
+        </ul>
+        <a href="https://tfk.io/4ehszb2l" class="btn btn-blue">🔗 LINK ΕΠΙΒΕΒΑΙΩΣΗΣ</a>
     </div>
-</div>
 
-<div id="aiPanel">
-    <button onclick="closePanel('aiPanel')" class="close-circle">X</button>
-    <div class="container" style="padding-top:40px;">
-        <div id="aiProgressBox" class="cyber-card" style="border: 1px solid var(--p);">
-            <div class="cyber-progress-bg"><div id="aiFill" class="cyber-progress-fill"></div></div>
-            <div id="aiStep" style="text-align:center; font-family:'Orbitron'; color:var(--p); font-size:0.8rem; font-weight:900;">INITIALIZING DATA LAB...</div>
-        </div>
-        <div id="pdfExportArea"><div id="aiResultsBox"></div></div>
-        <div id="labControls" style="display:none; grid-template-columns:1fr 1fr; gap:15px; margin-top:20px;">
-            <button onclick="exportToPDF()" style="background:var(--grad); color:#fff; padding:20px; border-radius:20px; border:none; font-weight:900; font-family:'Orbitron'; cursor:pointer;">📥 PDF REPORT</button>
-            <button onclick="copyRawData()" style="background:var(--gold); color:#000; padding:20px; border-radius:20px; border:none; font-weight:900; font-family:'Orbitron'; cursor:pointer;">📋 COPY DATA</button>
-        </div>
+    <div class="card" style="border-left-color: #8b5cf6;">
+        <h2>Δωρεάν Μουσεία (1η Κυριακή)</h2>
+        <p>Αύριο η είσοδος είναι <b>ΔΩΡΕΑΝ</b> στα εξής:</p>
+        <ul>
+            <li><b>Wien Museum:</b> Ιστορία της πόλης (Karlsplatz).</li>
+            <li><b>HGM:</b> Στρατιωτικό Μουσείο.</li>
+            <li><b>Römermuseum:</b> Ρωμαϊκό Μουσείο.</li>
+        </ul>
     </div>
-</div>
 
-<script>
-const KEY = "956cbd05f9e9bf934df78d9b72d9a3a0";
-const LEAGUES = [
-    {id: 2, name: "Champions League"}, {id: 3, name: "Europa League"}, {id: 848, name: "Conference League"},
-    {id: 39, name: "Premier League"}, {id: 40, name: "Championship"}, {id: 140, name: "La Liga"}, {id: 141, name: "Segunda"},
-    {id: 135, name: "Serie A"}, {id: 136, name: "Serie B"}, {id: 78, name: "Bundesliga"}, {id: 61, name: "Ligue 1"},
-    {id: 88, name: "Eredivisie"}, {id: 94, name: "Liga Portugal"}, {id: 144, name: "Belgian Pro League"},
-    {id: 203, name: "Süper Lig TR"}, {id: 179, name: "Premiership SCT"}, {id: 71, name: "Brazil Serie A"},
-    {id: 128, name: "Argentina Liga"}, {id: 197, name: "Super League GR"}, {id: 318, name: "Cyprus 1"}, {id: 253, name: "MLS"}
-];
+    <span class="section-title">☕ ΣΤΑΣΕΙΣ ΓΙΑ ΚΑΦΕ</span>
+    <div class="card">
+        <h2>Café Central</h2>
+        <p><b>Σπεσιαλιτέ:</b> Herbstkuss (Κρέμα κανέλας & δαμάσκηνο) ή Café Central Torte.</p>
+        <p><i>Tip: Αν έχει ουρά, πάρτε κάτι "to go" από τη βιτρίνα!</i></p>
+    </div>
 
-let masterData = []; let standingsMap = {}; let lastTickerData = []; let selectedTickerIds = new Set(); let lastLog = [];
+    <div class="card">
+        <h2>Café Demel</h2>
+        <p>Δοκιμάστε το <b>Kaiserschmarrn</b> (αφράτες τηγανίτες) που είναι το σήμα κατατεθέν τους.</p>
+    </div>
 
-function instantAuth(el) { 
-    if(el.value === "106014") { 
-        sessionStorage.setItem("auth_v3800","1"); 
-        document.getElementById('authScreen').style.display='none'; 
-        document.getElementById('appContent').style.display='block'; 
-        setTimeout(startSystem, 100);
-    } 
-}
-function adjustTickerSpeed(val) { document.documentElement.style.setProperty('--ticker-speed', (75 - val) + 's'); }
-
-function toggleTickerSelection(id) {
-    if(selectedTickerIds.has(id)) selectedTickerIds.delete(id); else selectedTickerIds.add(id);
-    updateTicker();
-}
-
-function getCalculations(pD, m) {
-    const hXG = parseFloat(pD.teams.home.last_5.goals.for.average || 1.15), aXG = parseFloat(pD.teams.away.last_5.goals.for.average || 1.15);
-    const hXGA = parseFloat(pD.teams.home.last_5.goals.against.average || 1.25), aXGA = parseFloat(pD.teams.away.last_5.goals.against.average || 1.25);
-    let hS = (hXG * 0.45 + aXGA * 0.55); let aS = (aXG * 0.45 + hXGA * 0.55);
-    let total = hS + aS + 0.5;
-    let hProb = Math.round((hS / total) * 100), aProb = Math.round((aS / total) * 100);
-    return { hXG, aXG, hXGA, aXGA, probs: { h: hProb, d: 100-hProb-aProb, a: aProb }, o25: parseInt(pD.predictions.goals.over?.split('%')[0]) || 50, corners: (hXG*0.9+aXG*0.8+7.2).toFixed(1), advice: pD.predictions.advice };
-}
-
-async function globalSync() {
-    masterData = []; standingsMap = {}; document.getElementById('masterBtn').style.display = 'none';
-    document.getElementById('syncCont').style.display = 'block';
-    const day = new Date().toISOString().split('T')[0];
-    try {
-        const fR = await fetch(`https://v3.football.api-sports.io/fixtures?date=${day}`, { headers: {"x-apisports-key": KEY} });
-        const fD = await fR.json();
-        let myFix = (fD.response || []).filter(m => LEAGUES.some(l => l.id === m.league.id));
-        if(myFix.length === 0) myFix = fD.response.slice(0, 30); // Coverage Fallback
-
-        // Standing Sync for Season 2025 (2025/26 cycle)
-        for (const lg of LEAGUES.slice(0, 12)) {
-            try {
-                const sR = await fetch(`https://v3.football.api-sports.io/standings?league=${lg.id}&season=2025`, { headers: {"x-apisports-key": KEY} });
-                const sData = await sR.json(); if(sData.response?.[0]?.league?.standings?.[0]) sData.response[0].league.standings[0].forEach(t => standingsMap[t.team.id] = t.rank);
-            } catch(e) {}
-        }
-
-        for (let i=0; i<myFix.length; i++) {
-            let m = myFix[i]; 
-            let prg = Math.round(((i+1)/myFix.length)*100);
-            document.getElementById('syncFill').style.width = prg + '%';
-            document.getElementById('syncStep').innerText = `APEX SCAN: ${m.teams.home.name} (${prg}%)`;
-            await new Promise(r => setTimeout(r, 120));
-            try {
-                const pR = await fetch(`https://v3.football.api-sports.io/predictions?fixture=${m.fixture.id}`, {headers:{"x-apisports-key": KEY}});
-                const pD = (await pR.json()).response?.[0];
-                if(pD) masterData.push({ fixture: m, prediction: pD, calc: getCalculations(pD, m) });
-            } catch(e) {}
-        }
-    } catch(e) {}
-    document.getElementById('syncCont').style.display = 'none'; document.getElementById('toolsSection').style.display = 'block';
-    document.getElementById('mainDashboard').style.display = 'block'; renderMOTD(); renderAll();
-}
-
-function renderMOTD() {
-    const pool = masterData.filter(d => d.fixture.fixture.status.short === 'NS');
-    if(pool.length === 0) return;
-    pool.sort((a,b) => Math.max(b.calc.probs.h, b.calc.probs.a) - Math.max(a.calc.probs.h, a.calc.probs.a));
-    const m = pool[0]; document.getElementById('motdSection').style.display = 'block';
-    document.getElementById('motdSection').onclick = () => openDeepIntel(m.fixture.fixture.id);
-    document.getElementById('motdContent').innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div><h2 style="margin:0; color:#fff; font-size:1.1rem;">${m.fixture.teams.home.name} - ${m.fixture.teams.away.name}</h2><p style="color:var(--gold); font-weight:800; margin:5px 0; font-size:0.75rem;">NEURAL CERTAINTY: ${Math.max(m.calc.probs.h, m.calc.probs.a)}%</p></div>
-            <div style="background:var(--gold); color:#000; padding:12px 20px; border-radius:12px; font-weight:900; font-size:1.2rem;">${m.calc.probs.h > m.calc.probs.a ? '1' : '2'}</div>
-        </div>`;
-}
-
-function renderGroup(matches, containerId) {
-    const container = document.getElementById(containerId); container.innerHTML = "";
-    if(matches.length === 0) { container.innerHTML = "<p style='text-align:center; color:var(--txt-muted);'>No data found.</p>"; return; }
-    const grouped = matches.reduce((acc, m) => {
-        const lid = m.fixture.league.id; if (!acc[lid]) acc[lid] = { name: m.fixture.league.name, list: [] };
-        acc[lid].list.push(m); return acc;
-    }, {});
-    Object.values(grouped).forEach(lg => {
-        let h = `<div class="league-header">🏆 ${lg.name}</div><div class="match-grid">`;
-        lg.list.forEach(d => {
-            const id = d.fixture.fixture.id, c = d.calc;
-            const isLive = ['1H','2H','HT'].includes(d.fixture.fixture.status.short);
-            const score = isLive ? `(${d.fixture.goals.home}-${d.fixture.goals.away})` : (d.fixture.goals.home??'?') + ':' + (d.fixture.goals.away??'?');
-            h += `<div class="match-card ${Math.max(c.probs.h, c.probs.a) >= 75 ? 'gold-glow' : ''}"><div class="card-top" onclick="openDeepIntel(${id})"><div class="team-info"><div><span class="team-name">${d.fixture.teams.home.name}</span><span class="team-name">${d.fixture.teams.away.name}</span></div>${isLive ? `<div class="live-pulse">● LIVE ${d.fixture.fixture.status.elapsed}' ${score}</div>` : ''}</div><div class="score-box">${score}</div></div><div style="background:rgba(0,242,255,0.05); padding:15px 25px; border-top:1px solid var(--border);"><label style="display:flex; align-items:center; gap:8px; font-size:0.65rem; color:var(--p); font-weight:900; cursor:pointer;"><input type="checkbox" onchange="toggleTickerSelection(${id})" ${selectedTickerIds.has(id)?'checked':''}> SYNC TO LIVE TICKER</label></div></div>`;
-        });
-        container.innerHTML += h + `</div>`;
-    });
-}
-
-function renderAll() {
-    renderGroup(masterData.filter(d => ['1H','2H','HT'].includes(d.fixture.fixture.status.short)), 'liveList');
-    renderGroup(masterData.filter(d => ['NS','TBD'].includes(d.fixture.fixture.status.short)), 'upcomingList');
-    renderGroup(masterData.filter(d => ['FT','AET','PEN'].includes(d.fixture.fixture.status.short)), 'finishedList');
-}
-
-async function openDeepIntel(id) {
-    const d = masterData.find(x => x.fixture.fixture.id == id); if(!d) return;
-    const c = d.calc, p = d.prediction, m = d.fixture; document.getElementById('intelPanel').style.display = 'block';
-    document.getElementById('mTitle').innerText = `${m.teams.home.name} VS ${m.teams.away.name}`;
-    document.getElementById('bigScore').innerHTML = `${m.goals.home??'?'}:${m.goals.away??'?'}`;
-    document.getElementById('adviceBox').innerText = `APEX INTEL: ${c.advice || 'Gathering mission data...'}`;
-    
-    document.getElementById('intelDataTable').innerHTML = `
-        <tr><th>DATA FIELD</th><th>${m.teams.home.name.slice(0,3)}</th><th>${m.teams.away.name.slice(0,3)}</th></tr>
-        <tr><td>AI RANKING</td><td>#${standingsMap[m.teams.home.id]||'?'}</td><td>#${standingsMap[m.teams.away.id]||'?'}</td></tr>
-        <tr><td>xG (ATTACK)</td><td><b>${c.hXG.toFixed(2)}</b></td><td><b>${c.aXG.toFixed(2)}</b></td></tr>
-        <tr><td>xGA (DEFENSE)</td><td>${c.hXGA.toFixed(2)}</td><td>${c.aXGA.toFixed(2)}</td></tr>
-        <tr><td>xCORNERS</td><td>${(c.hXG*0.9+3.5).toFixed(1)}</td><td>${(c.aXG*0.8+3.2).toFixed(1)}</td></tr>
-        <tr><td>xCARDS</td><td>${(1.5+c.hXGA*0.4).toFixed(1)}</td><td>${(1.7+c.aXGA*0.5).toFixed(1)}</td></tr>
-    `;
-
-    const hF = (p.teams.home.league.form || "DDDDDD").split('').slice(-6), aF = (p.teams.away.league.form || "DDDDDD").split('').slice(-6);
-    const getV = (a, i) => (parseFloat(a) + Math.sin(i)*0.4).toFixed(1);
-    const getVA = (a, i) => (parseFloat(a) + Math.cos(i)*0.4).toFixed(1);
-    document.getElementById('hFormList').innerHTML = `<div style="font-weight:900; margin-bottom:8px; color:var(--p); font-size:0.8rem;">${m.teams.home.name} PERFORMANCE (xG/xGA)</div><div class="form-row">` + hF.map((f, i) => `<div class="form-col"><div class="dot ${f}"></div><div class="form-val">${getV(c.hXG,i)}</div><div class="form-val" style="color:var(--alert)">${getVA(c.hXGA,i)}</div></div>`).join('') + `</div>`;
-    document.getElementById('aFormList').innerHTML = `<div style="font-weight:900; margin-bottom:8px; color:var(--p); font-size:0.8rem;">${m.teams.away.name} PERFORMANCE (xG/xGA)</div><div class="form-row">` + aF.map((f, i) => `<div class="form-col"><div class="dot ${f}"></div><div class="form-val">${getV(c.aXG,i)}</div><div class="form-val" style="color:var(--alert)">${getVA(c.aXGA,i)}</div></div>`).join('') + `</div>`;
-
-    const oracles = [
-        { n: "Forebet", s: `${Math.round(c.hXG)}-${Math.round(c.aXG)}` },
-        { n: "PredictZ", s: `${Math.max(0, Math.round(c.hXG-0.3))}-${Math.max(0, Math.round(c.aXG-0.1))}` },
-        { n: "Statarea", s: `${Math.round(c.hXG+0.5)}-${Math.round(c.aXG)}` },
-        { n: "WinDrawWin", s: `${Math.round(c.hXG)}-${Math.round(c.aXG+0.2)}` },
-        { n: "Vitibet", s: `${Math.round(c.hXG+0.2)}-${Math.round(c.aXG+0.2)}` }
-    ];
-    document.getElementById('oracleTipsList').innerHTML = oracles.map(s => `<div style="background:#000; padding:18px; border-radius:18px; margin-bottom:10px; display:flex; justify-content:space-between; border:1px solid #222; font-size:0.8rem;"><span>${s.n}</span><b style="color:var(--gold);">SCORE: ${s.s}</b></div>`).join('');
-}
-
-function generateAcca() {
-    const market = document.getElementById('accaMarket').value, size = 6;
-    let pool = masterData.filter(d => d.fixture.fixture.status.short === 'NS');
-    if (market === 'AI_PICK') pool = pool.filter(d => Math.max(d.calc.probs.h, d.calc.probs.a) >= 65 || (d.calc.hXG+d.calc.aXG)>3.5).slice(0, size);
-    else if (market === 'GOALS') pool.sort((a,b) => b.calc.o25 - a.calc.o25).slice(0, size);
-    else pool.sort((a,b) => Math.max(b.calc.probs.h, b.calc.probs.a) - Math.max(a.calc.probs.h, a.calc.probs.a)).slice(0, size);
-    
-    if(pool.length === 0) { alert("Targets insufficient."); return; }
-    let h = `<div class="acca-slip"><div style="font-weight:900; color:var(--magenta); text-align:center; margin-bottom:30px; font-size:1.6rem; font-family:'Orbitron'; letter-spacing:3px;">💎 ZENITH APEX SLIP</div>`;
-    pool.forEach(d => {
-        const c = d.calc; let tip = c.probs.h > c.probs.a ? 'WIN: 1' : 'WIN: 2';
-        if(market === 'GOALS') tip = 'OVER 2.5';
-        if(Math.max(c.probs.h, c.probs.a) < 60 && market === 'AI_PICK') tip = c.probs.h > c.probs.a ? 'D.C: 1X' : 'D.C: X2';
-        h += `<div class="slip-item" onclick="openDeepIntel(${d.fixture.fixture.id})"><div class="tip-badge-big">PICK: ${tip}</div><div style="font-weight:800; color:#fff; font-size:1.1rem; font-family:'Orbitron';">${d.fixture.teams.home.name} vs ${d.fixture.teams.away.name}</div></div>`;
-    });
-    document.getElementById('accaDisplay').innerHTML = h + `</div>`; document.getElementById('accaDisplay').style.display = 'block';
-}
-
-async function runDeepEvaluation() {
-    const tD = document.getElementById('evalDate').value; if(!tD) return;
-    document.getElementById('aiPanel').style.display = 'block'; document.getElementById('labControls').style.display = 'none';
-    let s = { t:0, w:0 }; lastLog = [];
-    try {
-        const fR = await fetch(`https://v3.football.api-sports.io/fixtures?date=${tD}`, { headers: {"x-apisports-key": KEY} });
-        const fD = await fR.json(); const tFix = (fD.response || []).filter(m => m.fixture.status.short==='FT');
-        for (let i=0; i<tFix.length; i++) {
-            let prg = Math.round(((i+1)/tFix.length)*100);
-            document.getElementById('aiFill').style.width = prg + '%';
-            document.getElementById('aiStep').innerText = `ANALYZING: ${prg}%`;
-            await new Promise(r => setTimeout(r, 100));
-            s.t++; if(tFix[i].goals.home > tFix[i].goals.away) s.w++;
-            lastLog.push({ m: tFix[i].teams.home.name+'-'+tFix[i].teams.away.name, s: tFix[i].goals.home+'-'+tFix[i].goals.away });
-        }
-        document.getElementById('labControls').style.display = 'grid';
-        document.getElementById('aiResultsBox').innerHTML = `<div class="cyber-card" style="border: 2px solid #3fb950; margin-top:30px;"><div style="font-family:'Orbitron'; font-weight:900; color:#3fb950; margin-bottom:20px; text-align:center;">🏆 LAB MISSION SUMMARY</div><div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;"><div style="background:#000; padding:15px; border-radius:15px; text-align:center;">ACCURACY<br><b style="color:#3fb950; font-size:1.5rem;">${Math.round(s.w/s.t*100)}%</b></div><div style="background:#000; padding:15px; border-radius:15px; text-align:center;">SAMPLES<br><b style="color:var(--p); font-size:1.5rem;">${s.t}</b></div></div></div>`;
-    } catch(e) {}
-}
-
-function copyRawData() { navigator.clipboard.writeText(JSON.stringify(lastLog)); alert("Neural Logs Copied!"); }
-function exportToPDF() { html2pdf().from(document.getElementById('pdfExportArea')).save(); }
-function updateTicker() {
-    let filtered = lastTickerData.filter(m => selectedTickerIds.has(m.fixture.id));
-    if(filtered.length === 0) { document.getElementById('liveTickerWrap').style.display = 'none'; return; }
-    let h = ''; filtered.forEach(m => h += `<div class="ticker-item"><span style="color:#10b981">● (${m.goals.home}-${m.goals.away}) ${m.fixture.status.elapsed}'</span> ${m.teams.home.name} VS ${m.teams.away.name}</div>`);
-    document.getElementById('tickerContent').innerHTML = h + h; document.getElementById('liveTickerWrap').style.display = 'block';
-}
-
-function closePanel(id) { document.getElementById(id).style.display = 'none'; }
-function startSystem() { fetchTicker(); setInterval(fetchTicker, 60000); }
-async function fetchTicker() {
-    try {
-        const r = await fetch(`https://v3.football.api-sports.io/fixtures?live=all`, { headers: {"x-apisports-key": KEY} });
-        const d = await r.json(); if(d.response) { lastTickerData = d.response; updateTicker(); }
-    } catch(e) {}
-}
-window.onload = () => { if(sessionStorage.getItem("auth_v3800")) { document.getElementById('authScreen').style.display='none'; document.getElementById('appContent').style.display='block'; startSystem(); } };
-</script>
 </body>
 </html>
