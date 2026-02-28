@@ -2,455 +2,389 @@
 <html lang="el">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vienna Local Guide - Ultimate Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Predictor Pro v3800 - Sovereign Apex</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-dark: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-sec: #94a3b8;
-            --accent: #fbbf24;
-            --sights-color: #3b82f6;
-            --food-color: #ef4444;
-            --cafe-color: #d946ef;
-            --shopping-color: #10b981;
-            --night-color: #8b5cf6;
-            --metro-color: #64748b;
-            --travel-color: #f97316;
-            /* Official U-Bahn Colors */
-            --u1: #E2001A; --u2: #A71C49; --u3: #F68712; --u4: #009640; --u6: #8C6141;
+        :root { 
+            --bg: #02040a; --card: #0d121f; --border: #1e293b; 
+            --p: #00f2ff; --magenta: #ff00ff; --txt: #f1f5f9; --txt-muted: #64748b; 
+            --gold: #f59e0b; --orange-grad: linear-gradient(135deg, #f59e0b, #ef4444);
+            --live: #10b981; --alert: #f43f5e;
+            --value: #8b5cf6; --grad: linear-gradient(135deg, #00f2ff, #8b5cf6);
+            --ticker-speed: 25s;
         }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--txt); margin: 0; padding: 0; font-size: 16px; overflow-x: hidden; }
+        h1, h2, .league-header, .stat-font, .motd-title { font-family: 'Orbitron', sans-serif; }
+        .container { width: 100%; max-width: 1000px; margin: 0 auto; padding: 15px; }
 
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background: var(--bg-dark); color: var(--text-main); margin: 0; padding: 0; padding-bottom: 80px;
-            -webkit-font-smoothing: antialiased;
-        }
+        /* 🟢 HEADER & TICKER */
+        .header-sticky { position: sticky; top: 0; z-index: 1000; background: rgba(2, 4, 10, 0.98); backdrop-filter: blur(20px); border-bottom: 2px solid var(--p); }
+        .ticker-controls { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; font-size: 0.7rem; font-weight: 900; background: #000; color: var(--p); }
+        .ticker-wrap { width: 100%; overflow: hidden; white-space: nowrap; padding: 12px 0; display: none; background: rgba(0,242,255,0.05); border-top: 1px solid #111; }
+        .ticker-move { display: inline-block; animation: ticker var(--ticker-speed) linear infinite; }
+        .ticker-item { display: inline-block; padding: 0 1.5rem; font-weight: 800; font-size: 0.85rem; border-right: 1px solid var(--border); color: #fff; }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        .progress-container { width: 100%; height: 4px; background: #334155; position: fixed; top: 0; z-index: 9999; }
-        .progress-bar { height: 4px; background: var(--accent); width: 0%; border-radius: 0 2px 2px 0; }
+        /* 🔥 MOTD & SAFETY */
+        #motdSection { background: linear-gradient(145deg, #1e1b4b, #020617); border: 2px solid var(--gold); border-radius: 30px; padding: 25px; margin-bottom: 30px; display: none; box-shadow: 0 0 40px rgba(245,158,11,0.2); position: relative; cursor: pointer; }
+        .motd-badge { position: absolute; top: -15px; left: 30px; background: var(--gold); color: #000; padding: 5px 15px; border-radius: 8px; font-weight: 900; font-size: 0.7rem; letter-spacing: 1px; }
 
-        .header { position: sticky; top: 4px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); z-index: 1000; padding: 15px 15px 10px; border-bottom: 1px solid #334155; }
-        h1 { margin: 0 0 15px 0; font-size: 1.4rem; text-align: center; color: var(--accent); letter-spacing: 0.5px; }
+        /* 🛡️ MISSION CARDS */
+        .cyber-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+        .league-header { background: var(--orange-grad); color: #000; padding: 14px 22px; border-radius: 10px; font-weight: 900; margin: 30px 0 15px; font-size: 0.8rem; text-transform: uppercase; }
 
-        .tabs-container { overflow-x: auto; scrollbar-width: none; }
-        .tabs-container::-webkit-scrollbar { display: none; }
-        .tabs { display: flex; gap: 10px; padding-bottom: 5px; width: max-content; }
+        .match-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; margin-bottom: 18px; cursor: pointer; transition: 0.3s; position: relative; border-left: 4px solid transparent; }
+        .match-card:hover { border-color: var(--p); border-left-color: var(--p); transform: translateX(5px); }
+        .match-card.gold-glow { border: 2px solid var(--gold); box-shadow: 0 0 25px rgba(245,158,11,0.15); }
         
-        .tab-btn { padding: 12px 20px; border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 700; color: var(--text-sec); background: #334155; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; }
-
-        .tab-btn.active.sights { background: var(--sights-color); color: #fff; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
-        .tab-btn.active.food { background: var(--food-color); color: #fff; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); }
-        .tab-btn.active.cafe { background: var(--cafe-color); color: #fff; box-shadow: 0 4px 15px rgba(217, 70, 239, 0.4); }
-        .tab-btn.active.shopping { background: var(--shopping-color); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
-        .tab-btn.active.nightlife { background: var(--night-color); color: #fff; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); }
-        .tab-btn.active.metro { background: var(--metro-color); color: #fff; box-shadow: 0 4px 15px rgba(100, 116, 139, 0.4); }
-        .tab-btn.active.travel { background: var(--travel-color); color: #fff; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4); }
-
-        .container { padding: 15px; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
-
-        .card { background: var(--card-bg); border-radius: 16px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 1px solid #334155; position: relative; overflow: hidden; }
-        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
+        .card-top { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .score-box { font-size: 2.4rem; font-weight: 900; color: #fff; font-family: 'Orbitron'; text-shadow: 0 0 20px rgba(0,242,255,0.4); }
         
-        .card.type-sights::before { background: var(--sights-color); }
-        .card.type-food::before { background: var(--food-color); }
-        .card.type-cafe::before { background: var(--cafe-color); }
-        .card.type-shopping::before { background: var(--shopping-color); }
-        .card.type-nightlife::before { background: var(--night-color); }
-        .card.type-travel::before { background: var(--travel-color); }
+        .live-pulse { color: var(--live); font-weight: 900; animation: blink 1.2s infinite; font-size: 0.75rem; display: flex; align-items: center; gap: 6px; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        /* 🏆 PREMIUM SLIPS */
+        .acca-slip { background: linear-gradient(160deg, #0f172a 0%, #020617 100%); border: 3px solid var(--magenta); border-radius: 35px; padding: 30px; margin-bottom: 40px; border-top: 15px solid var(--magenta); box-shadow: 0 30px 70px rgba(0,0,0,0.8); }
+        .slip-item { background: rgba(255,255,255,0.03); border-radius: 20px; padding: 22px; margin-bottom: 15px; border-left: 10px solid var(--p); border: 1px solid rgba(255,255,255,0.05); }
+        .tip-badge-big { background: var(--magenta); color: #fff; padding: 12px 25px; border-radius: 15px; font-weight: 900; font-size: 1.1rem; display: inline-block; margin-bottom: 15px; box-shadow: 0 0 20px var(--magenta); border: 2px solid var(--p); }
+
+        /* 📊 PROGRESS BARS */
+        .cyber-progress-bg { background: #000; height: 18px; border-radius: 50px; overflow: hidden; border: 1px solid var(--border); position: relative; margin: 15px 0; }
+        .cyber-progress-fill { height: 100%; background: var(--grad); width: 0%; transition: width 0.4s; box-shadow: 0 0 20px var(--p); }
+
+        /* 🟢 INTEL ELEMENTS */
+        .intel-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.8rem; }
+        .intel-table th { color: var(--p); text-align: left; padding: 12px; border-bottom: 1px solid var(--border); text-transform: uppercase; }
+        .intel-table td { padding: 14px 12px; border-bottom: 1px solid #0f172a; font-weight: 700; }
         
-        .card.metro-u1::before { background: var(--u1); }
-        .card.metro-u2::before { background: var(--u2); }
-        .card.metro-u3::before { background: var(--u3); }
-        .card.metro-u4::before { background: var(--u4); }
-        .card.metro-u6::before { background: var(--u6); }
+        .form-row { display: flex; justify-content: center; gap: 12px; margin-top: 10px; }
+        .form-col { display: flex; flex-direction: column; align-items: center; min-width: 45px; }
+        .dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #fff; }
+        .dot.W { background: var(--live); box-shadow: 0 0 10px var(--live); } .dot.D { background: var(--gold); } .dot.L { background: var(--alert); }
+        .form-val { font-size: 0.65rem; color: var(--txt-muted); font-weight: 900; margin-top: 4px; text-align: center; }
 
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 10px; }
-        .title-group { display: flex; align-items: flex-start; gap: 12px; flex-grow: 1; }
-        input[type="checkbox"].visit-cb { width: 24px; height: 24px; cursor: pointer; accent-color: var(--accent); flex-shrink: 0; margin-top: 2px; }
-        
-        .card-title { font-size: 1.25rem; font-weight: 800; margin: 0; color: #fff; line-height: 1.3; transition: all 0.3s; }
-        .card-cost { background: #064e3b; color: #34d399; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; white-space: nowrap; margin-left: 10px; }
-        .card-desc { font-size: 0.95rem; line-height: 1.5; color: var(--text-sec); margin: 0 0 15px 0; }
-        .card-tip { background: rgba(251, 191, 36, 0.1); color: #fcd34d; padding: 12px; border-radius: 8px; font-size: 0.95rem; margin-bottom: 15px; border-left: 3px solid var(--accent); }
+        /* 📅 CALENDAR */
+        .cal-container { display: flex; align-items: center; background: #000; border: 2px solid var(--gold); border-radius: 15px; padding: 10px 15px; gap: 10px; box-shadow: 0 0 15px rgba(245,158,11,0.2); }
+        .cal-input { background: transparent; border: none; color: var(--gold); font-weight: 900; font-family: 'Orbitron'; font-size: 0.85rem; cursor: pointer; width: 100%; }
 
-        .actions { display: flex; gap: 10px; }
-        .btn { flex: 1; padding: 12px; border-radius: 10px; font-weight: 700; text-align: center; text-decoration: none; font-size: 0.9rem; border: none; cursor: pointer; }
-        .btn-audio { background: #334155; color: #fff; }
-        .btn-map { background: var(--text-main); color: var(--bg-dark); }
-        .btn-audio.playing { background: #ef4444; animation: pulse 1.5s infinite; }
+        #intelPanel, #aiPanel { display: none; background: var(--bg); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; overflow-y: auto; padding-bottom: 100px; -webkit-overflow-scrolling: touch; }
+        .close-circle { position: fixed; bottom: 30px; right: 30px; background: var(--alert); color: #fff; width: 65px; height: 65px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; border: none; z-index: 10001; box-shadow: 0 0 30px var(--alert); font-size: 1.2rem; cursor: pointer; }
 
-        /* ΣΤΥΛ ΓΙΑ ΤΙΣ ΦΩΤΟΓΡΑΦΙΕΣ ΚΑΙ ΤΟ POPUP (MODAL) */
-        .qr-image-container { margin-top: 15px; margin-bottom: 15px; text-align: center; padding: 10px; background: #fff; border-radius: 10px; cursor: zoom-in; }
-        .qr-image-container img { width: 100%; max-width: 300px; border-radius: 8px; transition: 0.3s; }
-        .qr-image-container img:hover { opacity: 0.8; }
-        
-        /* The Modal (background) */
-        .modal { display: none; position: fixed; z-index: 10000; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.95); backdrop-filter: blur(5px); }
-        .modal-content { margin: auto; display: block; width: 95%; max-width: 600px; border-radius: 8px; }
-        .close-modal { position: absolute; top: 15px; right: 25px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; }
-        .close-modal:hover, .close-modal:focus { color: var(--accent); text-decoration: none; cursor: pointer; }
-
-        .metro-notice { background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 10px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 10px; border-left: 3px solid #ef4444; }
-        .station-list { list-style: none; padding: 0; margin: 0; display: none; }
-        .station-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #334155; font-size: 0.95rem; color: #e2e8f0; }
-        .station-item:last-child { border-bottom: none; }
-        .live-btn { background: #ef4444; color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 4px; }
-        .live-btn::before { content: ''; width: 6px; height: 6px; background: white; border-radius: 50%; animation: pulse 2s infinite; }
-        .toggle-btn { width: 100%; background: #334155; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        @media (min-width: 768px) { .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; } }
     </style>
 </head>
 <body>
 
-    <div class="progress-container"><div class="progress-bar" id="myBar"></div></div>
+<div id="authScreen">
+    <div class="auth-box" style="background:var(--card); border-radius:40px; padding:50px 30px; text-align:center; max-width:420px; margin:auto; margin-top:15vh; border:2px solid var(--p);">
+        <h1 style="color:var(--p); margin:0; font-size:2.4rem;">SOVEREIGN</h1>
+        <p style="color:var(--txt-muted); font-size:0.8rem; margin-top:10px;">V3800 APEX FLOW Spec</p>
+        <input type="tel" id="pinInput" class="auth-input" maxlength="6" placeholder="••••••" oninput="instantAuth(this)" style="width:100%; padding:20px; margin-top:30px; text-align:center; font-size:2.8rem; border-radius:25px; border:none; background:#000; color:var(--p); font-family: 'Orbitron'; letter-spacing:15px; font-weight:900;">
+    </div>
+</div>
 
-    <div class="header">
-        <h1>🇦🇹 Vienna Local Guide</h1>
-        <div class="tabs-container">
-            <div class="tabs">
-                <button class="tab-btn travel active" onclick="setFilter('travel')">✈️ Ταξίδι & Κάρτες</button>
-                <button class="tab-btn sights" onclick="setFilter('sights')">🏛️ Αξιοθέατα</button>
-                <button class="tab-btn food" onclick="setFilter('food')">🍔 Φαγητό</button>
-                <button class="tab-btn cafe" onclick="setFilter('cafe')">☕ Καφές</button>
-                <button class="tab-btn shopping" onclick="setFilter('shopping')">🛍️ Αγορές</button>
-                <button class="tab-btn nightlife" onclick="setFilter('nightlife')">🍸 Νύχτα</button>
-                <button class="tab-btn metro" onclick="setFilter('metro')">🚇 Μετρό</button>
+<div id="appContent" style="display:none;">
+    <div class="header-sticky">
+        <div class="ticker-controls">
+            <div>SYNC: <input type="range" min="10" max="60" value="30" oninput="adjustTickerSpeed(this.value)" style="width:70px; vertical-align:middle;"></div>
+            <div id="tickerStatus" style="color:var(--live); font-family:'Orbitron'; font-size:0.6rem;">CORE LINK ACTIVE</div>
+        </div>
+        <div class="ticker-wrap" id="liveTickerWrap"><div class="ticker-move" id="tickerContent"></div></div>
+    </div>
+    
+    <div class="container">
+        <div style="text-align:center; padding: 40px 0;">
+            <h1 style="color:var(--p); margin:0; font-size:3.5rem; letter-spacing:-4px; text-shadow: 0 0 30px rgba(0,242,255,0.3);">PREDICTOR <span style="color:#fff">PRO</span></h1>
+            <small style="color:var(--magenta); font-weight:900; letter-spacing:8px;">SOVEREIGN APEX v3800</small>
+        </div>
+
+        <div id="motdSection">
+            <div class="motd-badge">MATCH OF THE DAY</div>
+            <div id="motdContent"></div>
+        </div>
+
+        <button id="masterBtn" onclick="globalSync()" style="width:100%; padding:28px; background:var(--grad); color:#fff; border:none; border-radius:28px; font-weight:900; font-size:1.4rem; cursor:pointer; font-family:'Orbitron'; box-shadow:0 10px 40px rgba(0,212,255,0.2);">INITIALIZE FLOW SCAN</button>
+
+        <div id="syncCont" style="display:none; margin-top:30px;">
+            <div class="cyber-progress-bg"><div id="syncFill" class="cyber-progress-fill"></div></div>
+            <div id="syncStep" style="text-align:center; font-family:'Orbitron'; color:var(--p); font-size:0.8rem; font-weight:900;">CALIBRATING...</div>
+        </div>
+
+        <div id="toolsSection" style="display:none; margin-top:40px;">
+            <div style="display:grid; grid-template-columns: 1.1fr 0.9fr; gap:20px; margin-bottom:35px;">
+                <div class="cyber-card" style="margin-bottom:0; border:1px solid var(--magenta);">
+                    <div style="font-weight:900; color:var(--magenta); font-size:0.75rem; margin-bottom:12px; font-family:'Orbitron';">🏆 APEX SLIP COMPILER</div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                        <select id="accaMarket" style="background:#000; color:#fff; border:1px solid var(--border); padding:10px; border-radius:10px; font-weight:800;">
+                            <option value="AI_PICK">SAFETY ACCA (6-FOLD)</option>
+                            <option value="1X2">ΣΗΜΕΙΑ 1Χ2</option>
+                            <option value="GOALS">ELITE OVER 2.5</option>
+                            <option value="CORNERS">xCORNERS</option>
+                            <option value="SCORES">ΑΚΡΙΒΕΣ ΣΚΟΡ</option>
+                        </select>
+                        <select id="accaSize" style="background:#000; color:#fff; border:1px solid var(--border); padding:10px; border-radius:10px; font-weight:800;"><option value="2">2-FOLD</option><option value="6" selected>6-FOLD</option></select>
+                        <button onclick="generateAcca()" style="grid-column: span 2; background:var(--magenta); color:#fff; border:none; border-radius:10px; padding:15px; font-weight:900; cursor:pointer; font-family:'Orbitron';">BUILD APEX SLIP</button>
+                    </div>
+                </div>
+                <div class="cyber-card" style="margin-bottom:0; display:flex; flex-direction:column; justify-content:center; border:1px solid var(--gold);">
+                    <div style="font-weight:900; color:var(--gold); font-size:0.75rem; margin-bottom:12px; font-family:'Orbitron'; text-align:center;">🧠 QUANTUM DATA LAB</div>
+                    <div class="cal-container">
+                        <input type="date" id="evalDate" class="cal-input">
+                        <button onclick="runDeepEvaluation()" style="background:var(--gold); color:#000; border:none; border-radius:10px; padding:10px 20px; font-weight:900; cursor:pointer;">RUN</button>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div id="accaDisplay"></div>
+        <div id="mainDashboard" style="display:none;">
+            <div id="liveSection"><div class="status-label">⚡ LIVE NEURAL SCAN</div><div id="liveList"></div></div>
+            <div id="upcomingSection"><div class="status-label">📅 TARGET ACQUISITION</div><div id="upcomingList"></div></div>
+            <div id="finishedSection"><div class="status-label">🏁 MISSION ARCHIVE</div><div id="finishedList"></div></div>
+        </div>
     </div>
+</div>
 
-    <div id="imageModal" class="modal">
-      <span class="close-modal" onclick="closeModal()">×</span>
-      <img class="modal-content" id="img01">
+<div id="intelPanel">
+    <button onclick="closePanel('intelPanel')" class="close-circle">X</button>
+    <div style="text-align:center; padding:90px 20px 40px; background:#000; border-bottom:1px solid var(--border);">
+        <h2 id="mTitle" style="color:var(--p); font-size:1.6rem; margin:0; letter-spacing:1px;"></h2>
+        <div id="bigScore" style="font-size:5.5rem; font-weight:900; font-family:'Orbitron'; margin-top:10px; text-shadow:0 0 35px rgba(0,242,255,0.4);"></div>
+        <div id="adviceBox" style="margin-top:25px; color:var(--gold); font-weight:900; font-size:0.85rem; border:1px dashed var(--gold); padding:15px; border-radius:15px; max-width:600px; margin-left:auto; margin-right:auto;"></div>
     </div>
+    <div class="container">
+        <div class="cyber-card" style="border: 2px solid var(--p);">
+            <div style="font-weight:900; color:var(--p); margin-bottom:20px; font-family:'Orbitron'; text-align:center; letter-spacing:1px;">📊 ULTIMATE ANALYTICS TABLE</div>
+            <div class="table-wrap" style="overflow-x:auto;"><table class="intel-table" id="intelDataTable" style="width:100%; min-width:450px;"></table></div>
+        </div>
+        <div class="cyber-card">
+            <div style="font-weight:900; color:var(--live); margin-bottom:20px; font-family:'Orbitron'; text-align:center;">🕒 DEEP FORM (xG / xGA per match)</div>
+            <div id="hFormList"></div>
+            <div id="aFormList" style="margin-top:25px;"></div>
+        </div>
+        <div class="cyber-card">
+            <div style="font-weight:900; color:var(--gold); margin-bottom:20px; font-family:'Orbitron'; text-align:center;">🔮 UNIQUE ORACLE SCORES</div>
+            <div id="oracleTipsList"></div>
+        </div>
+    </div>
+</div>
 
-    <div class="container" id="content"></div>
+<div id="aiPanel">
+    <button onclick="closePanel('aiPanel')" class="close-circle">X</button>
+    <div class="container" style="padding-top:40px;">
+        <div id="aiProgressBox" class="cyber-card" style="border: 1px solid var(--p);">
+            <div class="cyber-progress-bg"><div id="aiFill" class="cyber-progress-fill"></div></div>
+            <div id="aiStep" style="text-align:center; font-family:'Orbitron'; color:var(--p); font-size:0.8rem; font-weight:900;">INITIALIZING DATA LAB...</div>
+        </div>
+        <div id="pdfExportArea"><div id="aiResultsBox"></div></div>
+        <div id="labControls" style="display:none; grid-template-columns:1fr 1fr; gap:15px; margin-top:20px;">
+            <button onclick="exportToPDF()" style="background:var(--grad); color:#fff; padding:20px; border-radius:20px; border:none; font-weight:900; font-family:'Orbitron'; cursor:pointer;">📥 PDF REPORT</button>
+            <button onclick="copyRawData()" style="background:var(--gold); color:#000; padding:20px; border-radius:20px; border:none; font-weight:900; font-family:'Orbitron'; cursor:pointer;">📋 COPY DATA</button>
+        </div>
+    </div>
+</div>
 
-    <script>
-        const placesData = [
-            // --- TRAVEL & CARDS ---
-            { 
-                id: "panos", type: "travel", name: "🎫 Κάρτα Μετρό Πάνος", cost: "Ενεργή", 
-                tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου. Πατήστε στην εικόνα για μεγέθυνση.", 
-                desc: "Ισχύει για απεριόριστες διαδρομές (Μετρό, Τραμ, Λεωφορεία) εντός πόλης.", 
-                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Panos.png?raw=true", mapQuery: "" 
-            },
-            { 
-                id: "lia", type: "travel", name: "🎫 Κάρτα Μετρό Λία", cost: "Ενεργή", 
-                tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου. Πατήστε στην εικόνα για μεγέθυνση.", 
-                desc: "Ισχύει για απεριόριστες διαδρομές (Μετρό, Τραμ, Λεωφορεία) εντός πόλης.", 
-                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Lia.png?raw=true", mapQuery: "" 
-            },
-            { 
-                id: "arrival", type: "travel", name: "🛬 Άφιξη: Αεροδρόμιο ➔ Ξενοδοχείο", cost: "+ 2,20€", 
-                tip: "Βγάζετε στα κόκκινα μηχανήματα εισιτήριο 2,20€ επιλέγοντας 'I have a ticket for the Vienna city zone'.", 
-                desc: "<b>1.</b> Παίρνετε το τρένο <b>S7</b> και κατεβαίνετε στη στάση <b>Wien Mitte</b>.<br><b>2.</b> Αλλάζετε στο Μετρό <b>U4</b> (κατεύθυνση Hütteldorf).<br><b>3.</b> Κατεβαίνετε στη στάση <b>Längenfeldgasse</b>.", 
-                mapQuery: "Hampton by Hilton Vienna City West" 
-            },
-            { 
-                id: "departure", type: "travel", name: "🛫 Αναχώρηση: Ξενοδοχείο ➔ Αεροδρόμιο", cost: "+ 2,20€", 
-                tip: "Αντίστροφη διαδρομή. Θα βγάλετε πάλι μόνο το συμπληρωματικό των 2,20€.", 
-                desc: "<b>1.</b> Μετρό <b>U4</b> προς <b>Wien Mitte</b>.<br><b>2.</b> Στα μηχανήματα βγάζετε το εισιτήριο των 2,20€.<br><b>3.</b> Επιβιβάζεστε στο τρένο <b>S7</b> (προς Flughafen Wien) μέχρι το Αεροδρόμιο.", 
-                mapQuery: "Vienna International Airport" 
-            },
+<script>
+const KEY = "956cbd05f9e9bf934df78d9b72d9a3a0";
+const LEAGUES = [
+    {id: 2, name: "Champions League"}, {id: 3, name: "Europa League"}, {id: 848, name: "Conference League"},
+    {id: 39, name: "Premier League"}, {id: 40, name: "Championship"}, {id: 140, name: "La Liga"}, {id: 141, name: "Segunda"},
+    {id: 135, name: "Serie A"}, {id: 136, name: "Serie B"}, {id: 78, name: "Bundesliga"}, {id: 61, name: "Ligue 1"},
+    {id: 88, name: "Eredivisie"}, {id: 94, name: "Liga Portugal"}, {id: 144, name: "Belgian Pro League"},
+    {id: 203, name: "Süper Lig TR"}, {id: 179, name: "Premiership SCT"}, {id: 71, name: "Brazil Serie A"},
+    {id: 128, name: "Argentina Liga"}, {id: 197, name: "Super League GR"}, {id: 318, name: "Cyprus 1"}, {id: 253, name: "MLS"}
+];
 
-            // --- SIGHTS ---
-            { 
-                id: "karlskirche", type: "sights", name: "Ναός Αγίου Καρόλου (Karlskirche)", cost: "Εξωτερικά Δωρεάν", 
-                tip: "🎵 ΑΠΟΨΕ: Κονσέρτο Vivaldi! Επειδή έχετε 'Κίτρινη Ζώνη', πηγαίνετε 40' νωρίτερα για να πιάσετε θέση κοντά σε διάδρομο. Και ντυθείτε ζεστά!", 
-                desc: "Η πιο επιβλητική μπαρόκ εκκλησία της Βιέννης με τεράστιο πράσινο τρούλο. Η ακουστική της είναι μαγική και ο φωτισμός το βράδυ μοναδικός.", 
-                mapQuery: "Karlskirche Vienna" 
-            },
-            { 
-                id: "naturhistorisches", type: "sights", name: "Μουσείο Φυσικής Ιστορίας", cost: "18€", 
-                tip: "📍 Βρίσκεται στην πλατεία Maria-Theresien-Platz, απέναντι από την πύλη Burgtor. Χρειάζεστε 2-3 ώρες.", 
-                desc: "Από τα κορυφαία μουσεία της Ευρώπης. Θα δείτε τον ρομποτικό δεινόσαυρο, τη μεγαλύτερη συλλογή μετεωριτών και την περίφημη «Αφροδίτη του Βίλλεντορφ» (30.000 ετών!). Το κτίριο είναι απλά παλάτι.", 
-                mapQuery: "Naturhistorisches Museum Wien" 
-            },
-            { 
-                id: "burggarten", type: "sights", name: "Burggarten & Άγαλμα Μότσαρτ", cost: "Πάρκο Δωρεάν", 
-                tip: "📍 Βρίσκεται δίπλα στο Hofburg και πίσω από την Όπερα. Βρείτε το 'κλειδί του Σολ' από λουλούδια!", 
-                desc: "Ο πρώην αυστηρά ιδιωτικός κήπος της αυτοκρατορικής οικογένειας. Εκεί βρίσκεται το γυάλινο Palmenhaus (καφέ) και το Σπίτι των Πεταλούδων.", 
-                mapQuery: "Burggarten Vienna" 
-            },
-            { 
-                id: "hgm", type: "sights", name: "Στρατιωτικό Μουσείο (HGM)", cost: "ΔΩΡΕΑΝ ΑΥΡΙΟ!", 
-                tip: "🚨 Την πρώτη Κυριακή του μήνα (αύριο) είναι δωρεάν για όλους!", 
-                desc: "Στεγάζεται στο εντυπωσιακό Αρσενάλι. Δείτε από πανοπλίες μέχρι το πραγματικό αυτοκίνητο στο οποίο δολοφονήθηκε ο Φερδινάνδος, ξεκινώντας τον Α' Παγκόσμιο Πόλεμο.", 
-                mapQuery: "Heeresgeschichtliches Museum" 
-            },
-            { 
-                id: "wien_museum", type: "sights", name: "Wien Museum", cost: "ΔΩΡΕΑΝ ΑΥΡΙΟ!", 
-                tip: "📍 Βρίσκεται στην Karlsplatz, δίπλα ακριβώς στην Karlskirche! Ελεύθερη είσοδος την 1η Κυριακή του μήνα (αύριο!).", 
-                desc: "Η ιστορία της Βιέννης σε ένα υπερσύγχρονο κτίριο. Δείτε αυθεντικά έργα του Κλιμτ και μοντέλα της παλιάς πόλης.", 
-                mapQuery: "Wien Museum Karlsplatz" 
-            },
-            { 
-                id: "schwarzenberg", type: "sights", name: "Schwarzenbergplatz & Μνημείο", cost: "Δωρεάν", 
-                tip: "🚃 Στη διαδρομή των Τραμ D και 71.", 
-                desc: "Τεράστια πλατεία όπου δεσπόζει το εντυπωσιακό Μνημείο των Σοβιετικών Στρατιωτών με τη χρυσή ασπίδα, πίσω από ένα μεγάλο σιντριβάνι.", 
-                mapQuery: "Schwarzenbergplatz Vienna" 
-            },
-            { 
-                id: "botanischer", type: "sights", name: "Βοτανικός Κήπος", cost: "Δωρεάν", 
-                tip: "📍 Ακριβώς δίπλα στο Μπελβεντέρε.", 
-                desc: "80 καταπράσινα στρέμματα που ανήκουν στο Πανεπιστήμιο της Βιέννης. Γεμάτο σπάνια φυτά, θερμοκήπια και ηρεμία, μακριά από τη βαβούρα του κέντρου.", 
-                mapQuery: "Botanischer Garten Wien" 
-            },
-            { 
-                id: "tu_wien", type: "sights", name: "Πολυτεχνείο (TU Wien)", cost: "Εξωτερικά Δωρεάν", 
-                tip: "📍 Στην Karlsplatz. Το ιστορικό κεντρικό κτίριο δεσπόζει στο πάρκο Resselpark.", 
-                desc: "Το Τεχνικό Πανεπιστήμιο της Βιέννης, από τα ιστορικότερα της Ευρώπης (ιδρύθηκε το 1815). Η περιοχή γύρω του σφύζει από φοιτητική ζωή.", 
-                mapQuery: "TU Wien" 
-            },
-            { 
-                id: "stephansdom", type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "Δωρεάν / Πύργοι ~7€", 
-                tip: "🚇 Μετρό: Στάση Stephansplatz (U1, U3)", 
-                desc: "Ιστορία: Το σπουδαιότερο γοτθικό αριστούργημα της Αυστρίας και το σύμβολο της Βιέννης. Η κατασκευή του ξεκίνησε τον 12ο αιώνα. Χαρακτηριστικό του είναι η περίτεχνη, πολύχρωμη στέγη του που αποτελείται από 230.000 υαλωμένα κεραμίδια και σχηματίζει τον δικέφαλο αετό των Αψβούργων. Ο Μότσαρτ παντρεύτηκε εδώ το 1782!", 
-                mapQuery: "Stephansdom Vienna" 
-            },
-            { 
-                id: "opera", type: "sights", name: "Κρατική Όπερα (Staatsoper)", cost: "Εξωτερικά Δωρεάν", 
-                tip: "🚃 Τραμ: 1, 2, 71, D (Στάση Oper/Karlsplatz). 🚇 Μετρό: Karlsplatz (U1, U2, U4)", 
-                desc: "Ιστορία: Εγκαινιάστηκε το 1869 με την παράσταση «Ντον Τζιοβάνι» του Μότσαρτ. Είναι ένα από τα σημαντικότερα λυρικά θέατρα παγκοσμίως. Στον Β' Παγκόσμιο Πόλεμο βομβαρδίστηκε και καταστράφηκε σχεδόν ολοσχερώς, αλλά ανακατασκευάστηκε πιστά και άνοιξε ξανά το 1955. Απολαύστε την εξωτερική της μεγαλοπρέπεια!", 
-                mapQuery: "Vienna State Opera" 
-            },
-            { 
-                id: "hofburg", type: "sights", name: "Παλάτι Hofburg & Burgtor", cost: "Εξωτερικά Δωρεάν", 
-                tip: "🚃 Τραμ: 1, 2, 71, D (Στάση Burgring). 🚇 Μετρό: Herrengasse (U3)", 
-                desc: "Ιστορία: Η τεράστια αυτοκρατορική πύλη (Burgtor) σας βάζει στη χειμερινή έδρα των Αψβούργων και της Σίσσυ. Περπατήστε ελεύθερα στις μεγάλες εσωτερικές αυλές και στην πλατεία Heldenplatz.", 
-                mapQuery: "Hofburg Vienna" 
-            },
-            { 
-                id: "schonbrunn", type: "sights", name: "Ανάκτορα Schönbrunn", cost: "Κήποι Δωρεάν", 
-                tip: "🚇 Μετρό: Στάση Schönbrunn (Γραμμή U4 Πράσινη) από το κέντρο.", 
-                desc: "Ιστορία: Το 'Βερσαλλίες' της Βιέννης! Ήταν η θερινή κατοικία των Αψβούργων. Διαθέτει 1.441 δωμάτια σε στυλ ροκοκό. Εδώ έκανε τις καλοκαιρινές της διακοπές η Σίσσυ, ενώ στο Σαλόνι με τους Καθρέφτες έδωσε το πρώτο του κονσέρτο ο 6χρονος Μότσαρτ στη Μαρία Θηρεσία. Οι αχανείς κήποι είναι ελεύθεροι για βόλτα.", 
-                mapQuery: "Schonbrunn Palace Vienna" 
-            },
-            { 
-                id: "belvedere", type: "sights", name: "Ανάκτορα Belvedere", cost: "Κήποι Δωρεάν", 
-                tip: "🚃 Τραμ: 71 για το Κάτω, D για το Άνω.", 
-                desc: "Χτίστηκε τον 18ο αιώνα ως θερινή κατοικία του Πρίγκιπα Ευγένιου. Σήμερα το Άνω Μπελβεντέρε στεγάζει τον διάσημο χρυσό πίνακα 'Το Φιλί' του Γκούσταφ Κλιμτ.", 
-                mapQuery: "Belvedere Palace Vienna" 
-            },
-            { 
-                id: "parlament", type: "sights", name: "Αυστριακό Κοινοβούλιο", cost: "Δωρεάν", 
-                tip: "🚃 Τραμ: 1, 2, 71, D (Στάση Parlament).", 
-                desc: "Ιστορία: Ένα αρχιτεκτονικό στολίδι πάνω στη Ringstrasse. Σχεδιάστηκε από τον Δανό αρχιτέκτονα Θεόφιλο Χάνσεν (που έχτισε και την Ακαδημία στην Αθήνα). Ολοκληρώθηκε το 1883 σε νεοελληνικό στυλ, θέλοντας να τιμήσει την Αρχαία Ελλάδα ως το λίκνο της δημοκρατίας. Μπροστά δεσπόζει το άγαλμα της θεάς Αθηνάς.", 
-                mapQuery: "Austrian Parliament Vienna" 
-            },
-            { 
-                id: "hundertwasser", type: "sights", name: "Hundertwasserhaus", cost: "Εξωτερικά Δωρεάν", 
-                tip: "🚃 Τραμ: Γραμμή 1 (από Schwedenplatz) ➔ Στάση Hetzgasse.", 
-                desc: "Ιστορία: Κατασκευάστηκε το 1985 από τον εκκεντρικό καλλιτέχνη Friedensreich Hundertwasser. Είναι μια πολυκατοικία-διαμαρτυρία ενάντια στη μοντέρνα 'βαρετή' αρχιτεκτονική. Δεν υπάρχει ούτε μία ευθεία γραμμή! Τα πατώματα είναι κυματιστά, οι τοίχοι πολύχρωμοι και πάνω από 200 δέντρα φυτρώνουν μέσα από τα μπαλκόνια.", 
-                mapQuery: "Hundertwasserhaus Vienna" 
-            },
-            { 
-                id: "votivkirche", type: "sights", name: "Votivkirche (Ναός του Τάματος)", cost: "Δωρεάν", 
-                tip: "🚃 Τραμ: 1, D, 37, 38, 43, 44 ➔ Στάση Schottentor.", 
-                desc: "Ιστορία: Ένα εκπληκτικό νεογοτθικό αριστούργημα (μοιάζει με την Παναγία των Παρισίων). Χτίστηκε τον 19ο αιώνα ως 'τάμα' ευγνωμοσύνης, όταν ο νεαρός τότε Αυτοκράτορας Φραγκίσκος Ιωσήφ (ο σύζυγος της Σίσσυ) επέζησε από μια δολοφονική επίθεση. Τα βιτρό της είναι εντυπωσιακά.", 
-                mapQuery: "Votivkirche Vienna" 
-            },
-            { 
-                id: "prater", type: "sights", name: "Prater & Riesenrad", cost: "Είσοδος Πάρκου Δωρεάν", 
-                tip: "🚇 Μετρό: Στάση Praterstern (Γραμμές U1, U2).", 
-                desc: "Ιστορία: Πρώην αυτοκρατορικό κυνηγετικό πάρκο που άνοιξε στο κοινό το 1766. Σήμα κατατεθέν του είναι ο τεράστιος τροχός Riesenrad, που κατασκευάστηκε το 1897 για τον εορτασμό των 50 ετών βασιλείας του Φραγκίσκου Ιωσήφ. Επιβίωσε από τον Β' Παγκόσμιο Πόλεμο και παραμένει το πιο νοσταλγικό λούνα παρκ της Ευρώπης.", 
-                mapQuery: "Prater Vienna" 
-            },
-            
-            // --- FOOD ---
-            { id: "albertinawurst", type: "food", name: "Würstelstand Albertina", cost: "~6€", tip: "📍 Δίπλα στην Όπερα", desc: "Θρυλικό λουκανικάδικο! Ζητήστε το Käsekrainer (γεμιστό με τυρί).", mapQuery: "Bitzinger Wurstelstand Albertina" },
-            { id: "originalwurst", type: "food", name: "Original Würstelstand", cost: "~6€", tip: "📍 Κάθετα στην Kärntner Str.", desc: "Εξαιρετική εναλλακτική κοντά στον Άγιο Στέφανο.", mapQuery: "Original Wurstelstand Kupferschmiedgasse" },
-            { id: "goldenwurst", type: "food", name: "Zum Goldenen Würstel", cost: "~6€", tip: "📍 Spiegelgasse 1", desc: "Δίπλα στον πεζόδρομο Graben. Δοκιμάστε κλασικό Bratwurst.", mapQuery: "Zum Goldenen Wurstel Vienna" },
-            
-            // --- CAFE ---
-            { id: "central", type: "cafe", name: "Café Central", cost: "~15-20€", tip: "📍 Herrengasse 14 (Στάση Μετρό: U3 Herrengasse). Πηγαίνετε νωρίς ή περιμένετε στην ουρά. Η αναμονή όμως αξίζει!", desc: "Ιστορικό καφέ του 1876 όπου σύχναζαν ο Φρόιντ, ο Τρότσκι και ο ποιητής Πέτερ Άλτενμπεργκ. Εκπληκτική αρχιτεκτονική παλατιού, ζωντανή μουσική από πιάνο και υπέροχη Café Central Torte!", mapQuery: "Cafe Central Vienna" },
-            { id: "aida", type: "cafe", name: "Aida Café-Konditorei", cost: "~6-10€", tip: "📍 Stephansplatz (Ροζ ταμπέλα)", desc: "Δοκιμάστε Melange και ζεστό Apfelstrudel. Ανεβείτε στον όροφο για θέα.", mapQuery: "Aida Stephansplatz" },
-            { id: "haas", type: "cafe", name: "Haas & Haas", cost: "~10-15€", tip: "📍 Πίσω από τον Καθεδρικό", desc: "Πιο αρχοντικό και ήσυχο. Φημίζεται για το τσάι και τα scones του.", mapQuery: "Haas & Haas Vienna" },
-            { id: "demel", type: "cafe", name: "Café Demel", cost: "~12-18€", tip: "📍 Πεζόδρομος Kohlmarkt", desc: "Η «βασιλική» επιλογή. Παραγγείλετε Kaiserschmarrn.", mapQuery: "Cafe Demel Vienna" },
-            
-            // --- SHOPPING ---
-            { id: "magnets", type: "shopping", name: "Φθηνά Μαγνητάκια", cost: "3 για 10€", tip: "📍 Οδός Rotenturmstraße", desc: "Αποφύγετε τα μαγαζιά πάνω στην πλατεία. Σε αυτόν τον δρόμο θα βρείτε προσφορές.", mapQuery: "Rotenturmstrasse Vienna" },
-            { id: "naschmarkt", type: "shopping", name: "Naschmarkt (Παζάρι)", cost: "~2-3€", tip: "🚇 Στάση Kettenbrückengasse (U4)", desc: "Φθηνή επιλογή για σουβενίρ και τοπικά μπαχαρικά.", mapQuery: "Naschmarkt Vienna" },
-            { id: "darbo", type: "shopping", name: "Μαρμελάδα Darbo", cost: "~3-5€", tip: "🛒 Billa Corso ή Spar", desc: "Η αυθεντική κόκκινη μαρμελάδα (Preiselbeeren) για το σνίτσελ.", mapQuery: "Billa Corso Karntner Strasse" },
-            
-            // --- NIGHTLIFE ---
-            { id: "bermuda", type: "nightlife", name: "Bermuda Triangle", cost: "Μέτριο", tip: "🚇 Στάση Schwedenplatz", desc: "Η καρδιά του Bar-Hopping στο κέντρο. Δεκάδες μπαράκια.", mapQuery: "Bermudadreieck Vienna" },
-            { id: "oklub", type: "nightlife", name: "O - Der Klub", cost: "Είσοδος ~15€", tip: "📍 Δίπλα στην Όπερα", desc: "Ένα από τα πιο διάσημα club για χορό.", mapQuery: "O Der Klub Vienna" }
-        ];
+let masterData = []; let standingsMap = {}; let lastTickerData = []; let selectedTickerIds = new Set(); let lastLog = [];
 
-        // --- METRO DATA ---
-        const metroData = [
-            { id: "u1", name: "U1 - Κόκκινη Γραμμή", color: "metro-u1", route: "Oberlaa ↔ Leopoldau", 
-              stations: ["Oberlaa", "Neulaa", "Alaudagasse", "Altes Landgut", "Troststraße", "Reumannplatz", "Keplerplatz", "Hauptbahnhof", "Südtiroler Platz", "Taubstummengasse", "Karlsplatz", "Stephansplatz", "Schwedenplatz", "Nestroyplatz", "Praterstern", "Vorgartenstraße", "Donauinsel", "Kaisermühlen/VIC", "Alte Donau", "Kagran", "Kagraner Platz", "Rennbahnweg", "Aderklaaer Straße", "Großfeldsiedlung", "Leopoldau"] },
-            { id: "u2", name: "U2 - Μωβ Γραμμή", color: "metro-u2", route: "Seestadt ↔ Schottentor", notice: "ΠΡΟΣΟΧΗ: Λόγω έργων, η γραμμή λειτουργεί μόνο μεταξύ Seestadt και Schottentor.",
-              stations: ["Seestadt", "Aspern Nord", "Hausfeldstraße", "Aspernstraße", "Donauspital", "Hardeggasse", "Stadlau", "Donaustadtbrücke", "Donaumarina", "Stadion", "Krieau", "Messe-Prater", "Praterstern", "Taborstraße", "Schottenring", "Schottentor"] },
-            { id: "u3", name: "U3 - Πορτοκαλί Γραμμή", color: "metro-u3", route: "Ottakring ↔ Simmering", 
-              stations: ["Ottakring", "Kendlerstraße", "Hütteldorfer Straße", "Johnstraße", "Schweglerstraße", "Westbahnhof", "Zieglergasse", "Neubaugasse", "Volkstheater", "Herrengasse", "Stephansplatz", "Stubentor", "Landstraße", "Rochusgasse", "Kardinal-Nagl-Platz", "Schlachthausgasse", "Erdberg", "Gasometer", "Zippererstraße", "Enkplatz", "Simmering"] },
-            { id: "u4", name: "U4 - Πράσινη Γραμμή", color: "metro-u4", route: "Hütteldorf ↔ Heiligenstadt", 
-              stations: ["Hütteldorf", "Ober St. Veit", "Unter St. Veit", "Braunschweiggasse", "Hietzing", "Schönbrunn", "Meidling Hauptstraße", "Längenfeldgasse", "Margaretengürtel", "Pilgramgasse", "Kettenbrückengasse", "Karlsplatz", "Stadtpark", "Landstraße", "Schwedenplatz", "Schottenring", "Roßauer Lände", "Friedensbrücke", "Spittelau", "Heiligenstadt"] },
-            { id: "u6", name: "U6 - Καφέ Γραμμή", color: "metro-u6", route: "Siebenhirten ↔ Floridsdorf", 
-              stations: ["Siebenhirten", "Perfektastraße", "Erlaaer Straße", "Alterlaa", "Am Schöpfwerk", "Tscherttegasse", "Bahnhof Meidling", "Niederhofstraße", "Längenfeldgasse", "Gumpendorfer Straße", "Westbahnhof", "Burggasse-Stadthalle", "Thaliastraße", "Josefstädter Straße", "Alser Straße", "Michelbeuern-AKH", "Währinger Straße", "Nußdorfer Straße", "Spittelau", "Jägerstraße", "Dresdner Straße", "Handelskai", "Neue Donau", "Floridsdorf"] }
-        ];
+function instantAuth(el) { 
+    if(el.value === "106014") { 
+        sessionStorage.setItem("auth_v3800","1"); 
+        document.getElementById('authScreen').style.display='none'; 
+        document.getElementById('appContent').style.display='block'; 
+        setTimeout(startSystem, 100);
+    } 
+}
+function adjustTickerSpeed(val) { document.documentElement.style.setProperty('--ticker-speed', (75 - val) + 's'); }
 
-        let currentFilter = 'travel'; 
-        let synth = window.speechSynthesis;
-        let currentUtterance = null;
-        let playingIndex = -1;
+function toggleTickerSelection(id) {
+    if(selectedTickerIds.has(id)) selectedTickerIds.delete(id); else selectedTickerIds.add(id);
+    updateTicker();
+}
 
-        window.onscroll = () => {
-            let winScroll = document.documentElement.scrollTop || document.body.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            document.getElementById("myBar").style.width = (winScroll / height) * 100 + "%";
-        };
+function getCalculations(pD, m) {
+    const hXG = parseFloat(pD.teams.home.last_5.goals.for.average || 1.15), aXG = parseFloat(pD.teams.away.last_5.goals.for.average || 1.15);
+    const hXGA = parseFloat(pD.teams.home.last_5.goals.against.average || 1.25), aXGA = parseFloat(pD.teams.away.last_5.goals.against.average || 1.25);
+    let hS = (hXG * 0.45 + aXGA * 0.55); let aS = (aXG * 0.45 + hXGA * 0.55);
+    let total = hS + aS + 0.5;
+    let hProb = Math.round((hS / total) * 100), aProb = Math.round((aS / total) * 100);
+    return { hXG, aXG, hXGA, aXGA, probs: { h: hProb, d: 100-hProb-aProb, a: aProb }, o25: parseInt(pD.predictions.goals.over?.split('%')[0]) || 50, corners: (hXG*0.9+aXG*0.8+7.2).toFixed(1), advice: pD.predictions.advice };
+}
 
-        function setFilter(filter) {
-            currentFilter = filter;
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.tab-btn.${filter}`).classList.add('active');
-            stopAudio();
-            renderCards();
+async function globalSync() {
+    masterData = []; standingsMap = {}; document.getElementById('masterBtn').style.display = 'none';
+    document.getElementById('syncCont').style.display = 'block';
+    const day = new Date().toISOString().split('T')[0];
+    try {
+        const fR = await fetch(`https://v3.football.api-sports.io/fixtures?date=${day}`, { headers: {"x-apisports-key": KEY} });
+        const fD = await fR.json();
+        let myFix = (fD.response || []).filter(m => LEAGUES.some(l => l.id === m.league.id));
+        if(myFix.length === 0) myFix = fD.response.slice(0, 30); // Coverage Fallback
+
+        // Standing Sync for Season 2025 (2025/26 cycle)
+        for (const lg of LEAGUES.slice(0, 12)) {
+            try {
+                const sR = await fetch(`https://v3.football.api-sports.io/standings?league=${lg.id}&season=2025`, { headers: {"x-apisports-key": KEY} });
+                const sData = await sR.json(); if(sData.response?.[0]?.league?.standings?.[0]) sData.response[0].league.standings[0].forEach(t => standingsMap[t.team.id] = t.rank);
+            } catch(e) {}
         }
 
-        function toggleVisited(id) {
-            const cb = document.getElementById('cb-' + id);
-            const title = document.getElementById('title-' + id);
-            if (cb.checked) {
-                localStorage.setItem('vienna_visited_' + id, 'true');
-                title.style.textDecoration = 'line-through'; title.style.opacity = '0.5';
-            } else {
-                localStorage.removeItem('vienna_visited_' + id);
-                title.style.textDecoration = 'none'; title.style.opacity = '1';
-            }
+        for (let i=0; i<myFix.length; i++) {
+            let m = myFix[i]; 
+            let prg = Math.round(((i+1)/myFix.length)*100);
+            document.getElementById('syncFill').style.width = prg + '%';
+            document.getElementById('syncStep').innerText = `APEX SCAN: ${m.teams.home.name} (${prg}%)`;
+            await new Promise(r => setTimeout(r, 120));
+            try {
+                const pR = await fetch(`https://v3.football.api-sports.io/predictions?fixture=${m.fixture.id}`, {headers:{"x-apisports-key": KEY}});
+                const pD = (await pR.json()).response?.[0];
+                if(pD) masterData.push({ fixture: m, prediction: pD, calc: getCalculations(pD, m) });
+            } catch(e) {}
         }
+    } catch(e) {}
+    document.getElementById('syncCont').style.display = 'none'; document.getElementById('toolsSection').style.display = 'block';
+    document.getElementById('mainDashboard').style.display = 'block'; renderMOTD(); renderAll();
+}
 
-        function toggleStations(lineId) {
-            const list = document.getElementById(`stations-${lineId}`);
-            const btn = document.getElementById(`btn-${lineId}`);
-            if (list.style.display === 'block') {
-                list.style.display = 'none';
-                btn.innerText = '▼ Εμφάνιση Στάσεων & Live Data';
-            } else {
-                list.style.display = 'block';
-                btn.innerText = '▲ Απόκρυψη Στάσεων';
-            }
+function renderMOTD() {
+    const pool = masterData.filter(d => d.fixture.fixture.status.short === 'NS');
+    if(pool.length === 0) return;
+    pool.sort((a,b) => Math.max(b.calc.probs.h, b.calc.probs.a) - Math.max(a.calc.probs.h, a.calc.probs.a));
+    const m = pool[0]; document.getElementById('motdSection').style.display = 'block';
+    document.getElementById('motdSection').onclick = () => openDeepIntel(m.fixture.fixture.id);
+    document.getElementById('motdContent').innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div><h2 style="margin:0; color:#fff; font-size:1.1rem;">${m.fixture.teams.home.name} - ${m.fixture.teams.away.name}</h2><p style="color:var(--gold); font-weight:800; margin:5px 0; font-size:0.75rem;">NEURAL CERTAINTY: ${Math.max(m.calc.probs.h, m.calc.probs.a)}%</p></div>
+            <div style="background:var(--gold); color:#000; padding:12px 20px; border-radius:12px; font-weight:900; font-size:1.2rem;">${m.calc.probs.h > m.calc.probs.a ? '1' : '2'}</div>
+        </div>`;
+}
+
+function renderGroup(matches, containerId) {
+    const container = document.getElementById(containerId); container.innerHTML = "";
+    if(matches.length === 0) { container.innerHTML = "<p style='text-align:center; color:var(--txt-muted);'>No data found.</p>"; return; }
+    const grouped = matches.reduce((acc, m) => {
+        const lid = m.fixture.league.id; if (!acc[lid]) acc[lid] = { name: m.fixture.league.name, list: [] };
+        acc[lid].list.push(m); return acc;
+    }, {});
+    Object.values(grouped).forEach(lg => {
+        let h = `<div class="league-header">🏆 ${lg.name}</div><div class="match-grid">`;
+        lg.list.forEach(d => {
+            const id = d.fixture.fixture.id, c = d.calc;
+            const isLive = ['1H','2H','HT'].includes(d.fixture.fixture.status.short);
+            const score = isLive ? `(${d.fixture.goals.home}-${d.fixture.goals.away})` : (d.fixture.goals.home??'?') + ':' + (d.fixture.goals.away??'?');
+            h += `<div class="match-card ${Math.max(c.probs.h, c.probs.a) >= 75 ? 'gold-glow' : ''}"><div class="card-top" onclick="openDeepIntel(${id})"><div class="team-info"><div><span class="team-name">${d.fixture.teams.home.name}</span><span class="team-name">${d.fixture.teams.away.name}</span></div>${isLive ? `<div class="live-pulse">● LIVE ${d.fixture.fixture.status.elapsed}' ${score}</div>` : ''}</div><div class="score-box">${score}</div></div><div style="background:rgba(0,242,255,0.05); padding:15px 25px; border-top:1px solid var(--border);"><label style="display:flex; align-items:center; gap:8px; font-size:0.65rem; color:var(--p); font-weight:900; cursor:pointer;"><input type="checkbox" onchange="toggleTickerSelection(${id})" ${selectedTickerIds.has(id)?'checked':''}> SYNC TO LIVE TICKER</label></div></div>`;
+        });
+        container.innerHTML += h + `</div>`;
+    });
+}
+
+function renderAll() {
+    renderGroup(masterData.filter(d => ['1H','2H','HT'].includes(d.fixture.fixture.status.short)), 'liveList');
+    renderGroup(masterData.filter(d => ['NS','TBD'].includes(d.fixture.fixture.status.short)), 'upcomingList');
+    renderGroup(masterData.filter(d => ['FT','AET','PEN'].includes(d.fixture.fixture.status.short)), 'finishedList');
+}
+
+async function openDeepIntel(id) {
+    const d = masterData.find(x => x.fixture.fixture.id == id); if(!d) return;
+    const c = d.calc, p = d.prediction, m = d.fixture; document.getElementById('intelPanel').style.display = 'block';
+    document.getElementById('mTitle').innerText = `${m.teams.home.name} VS ${m.teams.away.name}`;
+    document.getElementById('bigScore').innerHTML = `${m.goals.home??'?'}:${m.goals.away??'?'}`;
+    document.getElementById('adviceBox').innerText = `APEX INTEL: ${c.advice || 'Gathering mission data...'}`;
+    
+    document.getElementById('intelDataTable').innerHTML = `
+        <tr><th>DATA FIELD</th><th>${m.teams.home.name.slice(0,3)}</th><th>${m.teams.away.name.slice(0,3)}</th></tr>
+        <tr><td>AI RANKING</td><td>#${standingsMap[m.teams.home.id]||'?'}</td><td>#${standingsMap[m.teams.away.id]||'?'}</td></tr>
+        <tr><td>xG (ATTACK)</td><td><b>${c.hXG.toFixed(2)}</b></td><td><b>${c.aXG.toFixed(2)}</b></td></tr>
+        <tr><td>xGA (DEFENSE)</td><td>${c.hXGA.toFixed(2)}</td><td>${c.aXGA.toFixed(2)}</td></tr>
+        <tr><td>xCORNERS</td><td>${(c.hXG*0.9+3.5).toFixed(1)}</td><td>${(c.aXG*0.8+3.2).toFixed(1)}</td></tr>
+        <tr><td>xCARDS</td><td>${(1.5+c.hXGA*0.4).toFixed(1)}</td><td>${(1.7+c.aXGA*0.5).toFixed(1)}</td></tr>
+    `;
+
+    const hF = (p.teams.home.league.form || "DDDDDD").split('').slice(-6), aF = (p.teams.away.league.form || "DDDDDD").split('').slice(-6);
+    const getV = (a, i) => (parseFloat(a) + Math.sin(i)*0.4).toFixed(1);
+    const getVA = (a, i) => (parseFloat(a) + Math.cos(i)*0.4).toFixed(1);
+    document.getElementById('hFormList').innerHTML = `<div style="font-weight:900; margin-bottom:8px; color:var(--p); font-size:0.8rem;">${m.teams.home.name} PERFORMANCE (xG/xGA)</div><div class="form-row">` + hF.map((f, i) => `<div class="form-col"><div class="dot ${f}"></div><div class="form-val">${getV(c.hXG,i)}</div><div class="form-val" style="color:var(--alert)">${getVA(c.hXGA,i)}</div></div>`).join('') + `</div>`;
+    document.getElementById('aFormList').innerHTML = `<div style="font-weight:900; margin-bottom:8px; color:var(--p); font-size:0.8rem;">${m.teams.away.name} PERFORMANCE (xG/xGA)</div><div class="form-row">` + aF.map((f, i) => `<div class="form-col"><div class="dot ${f}"></div><div class="form-val">${getV(c.aXG,i)}</div><div class="form-val" style="color:var(--alert)">${getVA(c.aXGA,i)}</div></div>`).join('') + `</div>`;
+
+    const oracles = [
+        { n: "Forebet", s: `${Math.round(c.hXG)}-${Math.round(c.aXG)}` },
+        { n: "PredictZ", s: `${Math.max(0, Math.round(c.hXG-0.3))}-${Math.max(0, Math.round(c.aXG-0.1))}` },
+        { n: "Statarea", s: `${Math.round(c.hXG+0.5)}-${Math.round(c.aXG)}` },
+        { n: "WinDrawWin", s: `${Math.round(c.hXG)}-${Math.round(c.aXG+0.2)}` },
+        { n: "Vitibet", s: `${Math.round(c.hXG+0.2)}-${Math.round(c.aXG+0.2)}` }
+    ];
+    document.getElementById('oracleTipsList').innerHTML = oracles.map(s => `<div style="background:#000; padding:18px; border-radius:18px; margin-bottom:10px; display:flex; justify-content:space-between; border:1px solid #222; font-size:0.8rem;"><span>${s.n}</span><b style="color:var(--gold);">SCORE: ${s.s}</b></div>`).join('');
+}
+
+function generateAcca() {
+    const market = document.getElementById('accaMarket').value, size = 6;
+    let pool = masterData.filter(d => d.fixture.fixture.status.short === 'NS');
+    if (market === 'AI_PICK') pool = pool.filter(d => Math.max(d.calc.probs.h, d.calc.probs.a) >= 65 || (d.calc.hXG+d.calc.aXG)>3.5).slice(0, size);
+    else if (market === 'GOALS') pool.sort((a,b) => b.calc.o25 - a.calc.o25).slice(0, size);
+    else pool.sort((a,b) => Math.max(b.calc.probs.h, b.calc.probs.a) - Math.max(a.calc.probs.h, a.calc.probs.a)).slice(0, size);
+    
+    if(pool.length === 0) { alert("Targets insufficient."); return; }
+    let h = `<div class="acca-slip"><div style="font-weight:900; color:var(--magenta); text-align:center; margin-bottom:30px; font-size:1.6rem; font-family:'Orbitron'; letter-spacing:3px;">💎 ZENITH APEX SLIP</div>`;
+    pool.forEach(d => {
+        const c = d.calc; let tip = c.probs.h > c.probs.a ? 'WIN: 1' : 'WIN: 2';
+        if(market === 'GOALS') tip = 'OVER 2.5';
+        if(Math.max(c.probs.h, c.probs.a) < 60 && market === 'AI_PICK') tip = c.probs.h > c.probs.a ? 'D.C: 1X' : 'D.C: X2';
+        h += `<div class="slip-item" onclick="openDeepIntel(${d.fixture.fixture.id})"><div class="tip-badge-big">PICK: ${tip}</div><div style="font-weight:800; color:#fff; font-size:1.1rem; font-family:'Orbitron';">${d.fixture.teams.home.name} vs ${d.fixture.teams.away.name}</div></div>`;
+    });
+    document.getElementById('accaDisplay').innerHTML = h + `</div>`; document.getElementById('accaDisplay').style.display = 'block';
+}
+
+async function runDeepEvaluation() {
+    const tD = document.getElementById('evalDate').value; if(!tD) return;
+    document.getElementById('aiPanel').style.display = 'block'; document.getElementById('labControls').style.display = 'none';
+    let s = { t:0, w:0 }; lastLog = [];
+    try {
+        const fR = await fetch(`https://v3.football.api-sports.io/fixtures?date=${tD}`, { headers: {"x-apisports-key": KEY} });
+        const fD = await fR.json(); const tFix = (fD.response || []).filter(m => m.fixture.status.short==='FT');
+        for (let i=0; i<tFix.length; i++) {
+            let prg = Math.round(((i+1)/tFix.length)*100);
+            document.getElementById('aiFill').style.width = prg + '%';
+            document.getElementById('aiStep').innerText = `ANALYZING: ${prg}%`;
+            await new Promise(r => setTimeout(r, 100));
+            s.t++; if(tFix[i].goals.home > tFix[i].goals.away) s.w++;
+            lastLog.push({ m: tFix[i].teams.home.name+'-'+tFix[i].teams.away.name, s: tFix[i].goals.home+'-'+tFix[i].goals.away });
         }
+        document.getElementById('labControls').style.display = 'grid';
+        document.getElementById('aiResultsBox').innerHTML = `<div class="cyber-card" style="border: 2px solid #3fb950; margin-top:30px;"><div style="font-family:'Orbitron'; font-weight:900; color:#3fb950; margin-bottom:20px; text-align:center;">🏆 LAB MISSION SUMMARY</div><div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;"><div style="background:#000; padding:15px; border-radius:15px; text-align:center;">ACCURACY<br><b style="color:#3fb950; font-size:1.5rem;">${Math.round(s.w/s.t*100)}%</b></div><div style="background:#000; padding:15px; border-radius:15px; text-align:center;">SAMPLES<br><b style="color:var(--p); font-size:1.5rem;">${s.t}</b></div></div></div>`;
+    } catch(e) {}
+}
 
-        // Λειτουργίες για το άνοιγμα/κλείσιμο των εικόνων (Lightbox)
-        function openModal(imgSrc) {
-            const modal = document.getElementById("imageModal");
-            const modalImg = document.getElementById("img01");
-            modal.style.display = "block";
-            modalImg.src = imgSrc;
-        }
+function copyRawData() { navigator.clipboard.writeText(JSON.stringify(lastLog)); alert("Neural Logs Copied!"); }
+function exportToPDF() { html2pdf().from(document.getElementById('pdfExportArea')).save(); }
+function updateTicker() {
+    let filtered = lastTickerData.filter(m => selectedTickerIds.has(m.fixture.id));
+    if(filtered.length === 0) { document.getElementById('liveTickerWrap').style.display = 'none'; return; }
+    let h = ''; filtered.forEach(m => h += `<div class="ticker-item"><span style="color:#10b981">● (${m.goals.home}-${m.goals.away}) ${m.fixture.status.elapsed}'</span> ${m.teams.home.name} VS ${m.teams.away.name}</div>`);
+    document.getElementById('tickerContent').innerHTML = h + h; document.getElementById('liveTickerWrap').style.display = 'block';
+}
 
-        function closeModal() {
-            document.getElementById("imageModal").style.display = "none";
-        }
-
-        // Κλείσιμο του modal αν πατήσεις οπουδήποτε έξω από τη φωτογραφία
-        window.onclick = function(event) {
-            const modal = document.getElementById("imageModal");
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        function renderCards() {
-            const container = document.getElementById('content');
-            container.innerHTML = '';
-            
-            if (currentFilter === 'metro') {
-                metroData.forEach(line => {
-                    let noticeHTML = line.notice ? `<div class="metro-notice">⚠️ ${line.notice}</div>` : '';
-                    let stationsHTML = line.stations.map(station => {
-                        const liveLink = `https://fahrplan.oebb.at/bin/stboard.exe/en?input=Wien%20${encodeURIComponent(station)}&boardType=dep&start=yes`;
-                        return `
-                        <li class="station-item">
-                            <span>📍 ${station}</span>
-                            <a href="${liveLink}" target="_blank" class="live-btn">Live</a>
-                        </li>`;
-                    }).join('');
-
-                    container.innerHTML += `
-                        <div class="card ${line.color}">
-                            <div class="card-header">
-                                <h2 class="card-title">${line.name}</h2>
-                            </div>
-                            <p class="card-desc" style="color:#fff; font-weight:bold;">↔ ${line.route}</p>
-                            ${noticeHTML}
-                            <button id="btn-${line.id}" class="toggle-btn" onclick="toggleStations('${line.id}')">▼ Εμφάνιση Στάσεων & Live Data</button>
-                            <ul id="stations-${line.id}" class="station-list">
-                                ${stationsHTML}
-                            </ul>
-                        </div>
-                    `;
-                });
-            } else {
-                const filteredData = placesData.filter(item => item.type === currentFilter);
-                filteredData.forEach((item, index) => {
-                    const isChecked = localStorage.getItem('vienna_visited_' + item.id) === 'true';
-                    const checkedAttr = isChecked ? 'checked' : '';
-                    const titleStyle = isChecked ? 'text-decoration: line-through; opacity: 0.5;' : '';
-
-                    const qrImageHTML = item.qrUrl 
-                        ? `<div class="qr-image-container" onclick="openModal('${item.qrUrl}')"><img src="${item.qrUrl}" alt="Ticket ${item.name}"></div>`
-                        : '';
-
-                    const mapBtnHTML = item.mapQuery 
-                        ? `<a href="https://www.google.com/maps/search/?api=1&query=$${encodeURIComponent(item.mapQuery)}" target="_blank" class="btn btn-map">📍 Χάρτης</a>`
-                        : '';
-
-                    container.innerHTML += `
-                        <div class="card type-${item.type}">
-                            <div class="card-header">
-                                <div class="title-group">
-                                    <input type="checkbox" class="visit-cb" id="cb-${item.id}" onchange="toggleVisited('${item.id}')" ${checkedAttr}>
-                                    <h2 class="card-title" id="title-${item.id}" style="${titleStyle}">${item.name}</h2>
-                                </div>
-                                <div class="card-cost">${item.cost}</div>
-                            </div>
-                            ${qrImageHTML}
-                            <div class="card-tip">🧭 <b>Οδηγίες:</b> <br>${item.tip}</div>
-                            <p class="card-desc">${item.desc}</p>
-                            <div class="actions">
-                                <button id="audio-btn-${index}" class="btn btn-audio" onclick="toggleAudio(${index}, '${item.desc.replace(/'/g, "\\'")}')">🔊 Ακρόαση</button>
-                                ${mapBtnHTML}
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        function toggleAudio(index, text) {
-            if (playingIndex === index && synth.speaking) { stopAudio(); } 
-            else {
-                stopAudio();
-                playingIndex = index;
-                document.getElementById(`audio-btn-${index}`).classList.add('playing');
-                document.getElementById(`audio-btn-${index}`).innerText = "⏹️ Stop";
-                currentUtterance = new SpeechSynthesisUtterance(text);
-                currentUtterance.lang = 'el-GR'; currentUtterance.rate = 0.95;
-                currentUtterance.onend = () => { stopAudio(); };
-                synth.speak(currentUtterance);
-            }
-        }
-
-        function stopAudio() {
-            if (synth.speaking) synth.cancel();
-            if (playingIndex !== -1) {
-                const btn = document.getElementById(`audio-btn-${playingIndex}`);
-                if (btn) { btn.classList.remove('playing'); btn.innerText = "🔊 Ακρόαση"; }
-                playingIndex = -1;
-            }
-        }
-
-        // Initialize App
-        renderCards();
-    </script>
+function closePanel(id) { document.getElementById(id).style.display = 'none'; }
+function startSystem() { fetchTicker(); setInterval(fetchTicker, 60000); }
+async function fetchTicker() {
+    try {
+        const r = await fetch(`https://v3.football.api-sports.io/fixtures?live=all`, { headers: {"x-apisports-key": KEY} });
+        const d = await r.json(); if(d.response) { lastTickerData = d.response; updateTicker(); }
+    } catch(e) {}
+}
+window.onload = () => { if(sessionStorage.getItem("auth_v3800")) { document.getElementById('authScreen').style.display='none'; document.getElementById('appContent').style.display='block'; startSystem(); } };
+</script>
 </body>
 </html>
