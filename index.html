@@ -59,16 +59,10 @@
         .card.type-shopping::before { background: var(--shopping-color); }
         .card.type-nightlife::before { background: var(--night-color); }
         .card.type-travel::before { background: var(--travel-color); }
+        .card.type-metro::before { background: var(--metro-color); }
         
-        .card.metro-u1::before { background: var(--u1); }
-        .card.metro-u2::before { background: var(--u2); }
-        .card.metro-u3::before { background: var(--u3); }
-        .card.metro-u4::before { background: var(--u4); }
-        .card.metro-u6::before { background: var(--u6); }
-
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 10px; }
         .title-group { display: flex; align-items: flex-start; gap: 12px; flex-grow: 1; }
-        input[type="checkbox"].visit-cb { width: 24px; height: 24px; cursor: pointer; accent-color: var(--accent); flex-shrink: 0; margin-top: 2px; }
         
         .card-title { font-size: 1.25rem; font-weight: 800; margin: 0; color: #fff; line-height: 1.3; transition: all 0.3s; }
         .card-cost { background: #064e3b; color: #34d399; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; white-space: nowrap; margin-left: 10px; }
@@ -77,30 +71,19 @@
 
         .actions { display: flex; gap: 10px; }
         .btn { flex: 1; padding: 12px; border-radius: 10px; font-weight: 700; text-align: center; text-decoration: none; font-size: 0.9rem; border: none; cursor: pointer; }
-        .btn-audio { background: #334155; color: #fff; }
         .btn-map { background: var(--text-main); color: var(--bg-dark); }
-        .btn-audio.playing { background: #ef4444; animation: pulse 1.5s infinite; }
 
-        /* ΣΤΥΛ ΓΙΑ ΤΙΣ ΦΩΤΟΓΡΑΦΙΕΣ ΚΑΙ ΤΟ POPUP (MODAL) */
         .qr-image-container { margin-top: 15px; margin-bottom: 15px; text-align: center; padding: 10px; background: #fff; border-radius: 10px; cursor: zoom-in; }
         .qr-image-container img { width: 100%; max-width: 300px; border-radius: 8px; transition: 0.3s; }
         .qr-image-container img:hover { opacity: 0.8; }
         
-        /* The Modal (background) */
         .modal { display: none; position: fixed; z-index: 10000; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.95); backdrop-filter: blur(5px); }
         .modal-content { margin: auto; display: block; width: 95%; max-width: 600px; border-radius: 8px; }
         .close-modal { position: absolute; top: 15px; right: 25px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; }
         .close-modal:hover, .close-modal:focus { color: var(--accent); text-decoration: none; cursor: pointer; }
 
-        .metro-notice { background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 10px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 10px; border-left: 3px solid #ef4444; }
-        .station-list { list-style: none; padding: 0; margin: 0; display: none; }
-        .station-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #334155; font-size: 0.95rem; color: #e2e8f0; }
-        .station-item:last-child { border-bottom: none; }
-        .live-btn { background: #ef4444; color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 4px; }
-        .live-btn::before { content: ''; width: 6px; height: 6px; background: white; border-radius: 50%; animation: pulse 2s infinite; }
-        .toggle-btn { width: 100%; background: #334155; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .route-step { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 8px; border-left: 4px solid var(--accent); }
+        .route-step strong { color: #fff; }
     </style>
 </head>
 <body>
@@ -116,8 +99,7 @@
                 <button class="tab-btn food" onclick="setFilter('food')">🍔 Φαγητό</button>
                 <button class="tab-btn cafe" onclick="setFilter('cafe')">☕ Καφές</button>
                 <button class="tab-btn shopping" onclick="setFilter('shopping')">🛍️ Αγορές</button>
-                <button class="tab-btn nightlife" onclick="setFilter('nightlife')">🍸 Νύχτα</button>
-                <button class="tab-btn metro" onclick="setFilter('metro')">🚇 Μετρό</button>
+                <button class="tab-btn metro" onclick="setFilter('metro')">🚇 Μετρό & Οδηγίες</button>
             </div>
         </div>
     </div>
@@ -131,174 +113,92 @@
 
     <script>
         const placesData = [
-            // --- TRAVEL & CARDS ---
+            // --- TRAVEL & CARDS (ΑΝΑΛΥΤΙΚΕΣ ΟΔΗΓΙΕΣ) ---
             { 
                 id: "panos", type: "travel", name: "🎫 Κάρτα Μετρό Πάνος", cost: "Ενεργή", 
-                tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου. Πατήστε στην εικόνα για μεγέθυνση.", 
+                tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου. Πατήστε στην εικόνα.", 
                 desc: "Ισχύει για απεριόριστες διαδρομές (Μετρό, Τραμ, Λεωφορεία) εντός πόλης.", 
-                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Panos.png?raw=true", mapQuery: "" 
+                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Panos.png?raw=true"
             },
             { 
                 id: "lia", type: "travel", name: "🎫 Κάρτα Μετρό Λία", cost: "Ενεργή", 
-                tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου. Πατήστε στην εικόνα για μεγέθυνση.", 
+                tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί. Πατήστε στην εικόνα.", 
                 desc: "Ισχύει για απεριόριστες διαδρομές (Μετρό, Τραμ, Λεωφορεία) εντός πόλης.", 
-                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Lia.png?raw=true", mapQuery: "" 
+                qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Lia.png?raw=true"
             },
             { 
-                id: "arrival", type: "travel", name: "🛬 Άφιξη: Αεροδρόμιο ➔ Ξενοδοχείο", cost: "+ 2,20€", 
-                tip: "Βγάζετε στα κόκκινα μηχανήματα εισιτήριο 2,20€ επιλέγοντας 'I have a ticket for the Vienna city zone'.", 
-                desc: "<b>1.</b> Παίρνετε το τρένο <b>S7</b> (ή RJ) και κατεβαίνετε στη στάση <b>Wien Mitte</b>.<br><b>2.</b> Αλλάζετε στο Μετρό <b>U4</b> (κατεύθυνση Hütteldorf).<br><b>3.</b> Κατεβαίνετε στη στάση <b>Längenfeldgasse</b>.", 
+                id: "arrival", type: "travel", name: "🛬 Άφιξη: Αεροδρόμιο ➔ Ξενοδοχείο", cost: "+ 2,40€", 
+                tip: "Στα κόκκινα μηχανήματα του αεροδρομίου βγάζετε συμπληρωματικό εισιτήριο ~2,40€ επιλέγοντας 'I have a ticket for Vienna'.", 
+                desc: "<div class='route-step'><strong>Βήμα 1: Προαστιακός S7 (ή Railjet)</strong><br>Επιβίβαση από Αεροδρόμιο με κατεύθυνση την πόλη. Κατεβαίνετε στη στάση <strong>Wien Mitte / Landstraße</strong>.</div><div class='route-step'><strong>Βήμα 2: Μετρό U4 (Πράσινη Γραμμή)</strong><br>Κατεύθυνση: <strong>Hütteldorf</strong>.<br><u>Στάσεις (6)</u>: Stadtpark, Karlsplatz, Kettenbrückengasse, Pilgramgasse, Margaretengürtel, <strong>Längenfeldgasse (ΑΠΟΒΙΒΑΣΗ)</strong>.</div>Από τον σταθμό, το Hampton by Hilton είναι μόλις 3-4 λεπτά με τα πόδια.", 
                 mapQuery: "Hampton by Hilton Vienna City West" 
             },
             { 
-                id: "departure", type: "travel", name: "🛫 Αναχώρηση: Ξενοδοχείο ➔ Αεροδρόμιο", cost: "+ 2,40€", 
-                tip: "Αναχώρηση από το ξενοδοχείο ιδανικά 09:30 - 09:45. Μην ξεχάσετε το συμπληρωματικό εισιτήριο!", 
-                desc: "<b>1.</b> Μετρό <b>U4</b> (προς Heiligenstadt) ➔ <b>Wien Mitte</b> (6 στάσεις).<br><b>2.</b> Στα μηχανήματα του σταθμού βγάζετε το εισιτήριο των ~2,40€.<br><b>3.</b> Προαστιακός <b>S7</b> (προς Flughafen Wien) μέχρι το Αεροδρόμιο.", 
-                mapQuery: "Vienna International Airport" 
+                id: "departure", type: "travel", name: "🛫 Αναχώρηση: Ξενοδοχείο ➔ Αεροδρόμιο (12:55)", cost: "+ 2,40€", 
+                tip: "Αναχώρηση από το ξενοδοχείο στις 09:30 - 09:45. Μην ξεχάσετε το συμπληρωματικό εισιτήριο στο Wien Mitte!", 
+                desc: "<div class='route-step'><strong>Βήμα 1: Μετρό U4 (Πράσινη Γραμμή)</strong><br>Από <strong>Längenfeldgasse</strong>.<br>Κατεύθυνση: <strong>Heiligenstadt</strong>.<br><u>Στάσεις (6)</u>: Margaretengürtel, Pilgramgasse, Kettenbrückengasse, Karlsplatz, Stadtpark, <strong>Landstraße / Wien Mitte (ΑΠΟΒΙΒΑΣΗ)</strong>.</div><div class='route-step'><strong>Βήμα 2: Προαστιακός S7</strong><br>Μέσα στο Wien Mitte ακολουθείτε τις πινακίδες με το αεροπλάνο και το 'S'.<br>Κατεύθυνση: <strong>Flughafen Wien</strong> (ή Wolfsthal).<br><u>Στάσεις (8)</u>: Wien Rennweg, St. Marx, Geiselbergstraße, Zentralfriedhof, Kaiserebersdorf, Schwechat, Mannswörth, <strong>Flughafen Wien (ΑΠΟΒΙΒΑΣΗ)</strong>.</div>" 
             },
 
-            // --- SIGHTS ---
+            // --- FOOD & SCHNITZEL ---
             { 
-                id: "karlskirche", type: "sights", name: "Ναός Αγίου Καρόλου (Karlskirche)", cost: "Εξωτερικά Δωρεάν", 
-                tip: "🎵 ΑΠΟΨΕ: Κονσέρτο Vivaldi! Επειδή έχετε 'Κίτρινη Ζώνη', πηγαίνετε 40' νωρίτερα για να πιάσετε θέση κοντά σε διάδρομο. Και ντυθείτε ζεστά!", 
-                desc: "Η πιο επιβλητική μπαρόκ εκκλησία της Βιέννης με τεράστιο πράσινο τρούλο. Η ακουστική της είναι μαγική και ο φωτισμός το βράδυ μοναδικός.", 
-                mapQuery: "Karlskirche Vienna" 
+                id: "albertinawurst", type: "food", name: "Würstelstand Albertina (Λουκάνικα)", cost: "~6€", 
+                tip: "📍 Δίπλα στην Όπερα. Συχνά έχει ουρά, αλλά προχωράει γρήγορα.", 
+                desc: "Το πιο διάσημο κιόσκι στο κέντρο για αυθεντικό βιεννέζικο λουκάνικο (Käsekrainer - λουκάνικο γεμιστό με τυρί). Ιδανικό για γρήγορο, αυθεντικό street food.",
+                mapQuery: "Bitzinger Würstelstand Albertina"
             },
             { 
-                id: "naturhistorisches", type: "sights", name: "Μουσείο Φυσικής Ιστορίας", cost: "18€", 
-                tip: "📍 Βρίσκεται στην πλατεία Maria-Theresien-Platz, απέναντι από την πύλη Burgtor. Χρειάζεστε 2-3 ώρες.", 
-                desc: "Από τα κορυφαία μουσεία της Ευρώπης. Θα δείτε τον ρομποτικό δεινόσαυρο, τη μεγαλύτερη συλλογή μετεωριτών και την περίφημη «Αφροδίτη του Βίλλεντορφ» (30.000 ετών!). Το κτίριο είναι απλά παλάτι.", 
-                mapQuery: "Naturhistorisches Museum Wien" 
+                id: "hausmannskost19", type: "food", name: "Hausmannskost19 (Καλό Σνιτσελάδικο)", cost: "~13€ - 20€", 
+                tip: "📍 Heiligenstädter Str. 183. Προσοχή: ΚΛΕΙΣΤΑ την Κυριακή! Λειτουργεί Δευτέρα - Σάββατο μέχρι ~18:00.", 
+                desc: "Αυθεντικό, παραδοσιακό και μη τουριστικό αυστριακό φαγητό σε πολύ χορταστικές μερίδες! Εξαιρετικό σάντουιτς με σνίτσελ (~4,90€), κλασικό χοιρινό/κοτόπουλο σνίτσελ (12,90€) και αυθεντικό μοσχαρίσιο βιεννέζικο (19,90€). Αγαπημένο των ντόπιων.",
+                mapQuery: "Hausmannskost19 Vienna"
+            },
+
+            // --- CAFE & BAKERIES ---
+            { 
+                id: "dermann_mariahilfer", type: "cafe", name: "Φούρνος Der Mann (Mariahilfer)", cost: "Οικονομικό", 
+                tip: "📍 Mariahilfer Str. 132. Πολύ κοντά στο ξενοδοχείο σας.", 
+                desc: "Η τέλεια 'έξυπνη' επιλογή! Προσφέρει αυθεντικό βιεννέζικο καφέ (Melange), Apfelstrudel, καθώς και σάντουιτς με σνίτσελ σε τιμές γειτονιάς, αποφεύγοντας τα τουριστικά καφέ.", 
+                mapQuery: "Der Mann Mariahilfer Str. 132" 
             },
             { 
-                id: "burggarten", type: "sights", name: "Burggarten & Άγαλμα Μότσαρτ", cost: "Πάρκο Δωρεάν", 
-                tip: "📍 Βρίσκεται δίπλα στο Hofburg και πίσω από την Όπερα. Βρείτε το 'κλειδί του Σολ' από λουλούδια!", 
-                desc: "Ο πρώην αυστηρά ιδιωτικός κήπος της αυτοκρατορικής οικογένειας. Εκεί βρίσκεται το γυάλινο Palmenhaus (καφέ) και το Σπίτι των Πεταλούδων.", 
-                mapQuery: "Burggarten Vienna" 
+                id: "dermann_naglergasse", type: "cafe", name: "Φούρνος Der Mann (Στο Κέντρο)", cost: "Οικονομικό", 
+                tip: "📍 Naglergasse 11. Ακριβώς δίπλα στην εμπορική οδό Graben.", 
+                desc: "Το απόλυτο 'κρυφό' σημείο μέσα στο πανάκριβο ιστορικό κέντρο (κοντά στον Αγ. Στέφανο). Ιδανικό για μια γρήγορη στάση για καφέ και γλυκό ανάμεσα στα αξιοθέατα.", 
+                mapQuery: "Der Mann Naglergasse 11" 
             },
-            { 
-                id: "hgm", type: "sights", name: "Στρατιωτικό Μουσείο (HGM)", cost: "ΔΩΡΕΑΝ ΑΥΡΙΟ!", 
-                tip: "🚨 Την πρώτη Κυριακή του μήνα είναι δωρεάν για όλους!", 
-                desc: "Στεγάζεται στο εντυπωσιακό Αρσενάλι. Δείτε από πανοπλίες μέχρι το πραγματικό αυτοκίνητο στο οποίο δολοφονήθηκε ο Φερδινάνδος, ξεκινώντας τον Α' Παγκόσμιο Πόλεμο.", 
-                mapQuery: "Heeresgeschichtliches Museum" 
+
+            // --- METRO & ROUTES ---
+            {
+                id: "stephansplatz_to_hotel", type: "metro", name: "🚇 Επιστροφή: Αγ. Στέφανος ➔ Ξενοδοχείο", cost: "Κάρτα Απεριόριστων",
+                tip: "Από τη στάση Stephansplatz (Άγιος Στέφανος) στο Hampton by Hilton. Προτείνεται η Επιλογή 1 για λιγότερο περπάτημα.",
+                desc: "<div class='route-step'><strong>Επιλογή 1: Αλλαγή (Το πιο ξεκούραστο)</strong><br>1. Μπαίνετε στην <strong>U1 (Κόκκινη)</strong> προς <em>Oberlaa / Reumannplatz</em>.<br>2. Κατεβαίνετε στην αμέσως επόμενη στάση (1 στάση): <strong>Karlsplatz</strong>.<br>3. Ακολουθείτε τις πράσινες ταμπέλες για την <strong>U4 (Πράσινη)</strong> προς <em>Hütteldorf</em>.<br>4. Μετά από 4 στάσεις (Kettenbrückengasse, Pilgramgasse, Margaretengürtel) κατεβαίνετε <strong>Längenfeldgasse</strong>.</div><br><div class='route-step'><strong>Επιλογή 2: Απευθείας U3 (Περισσότερο περπάτημα)</strong><br>1. Μπαίνετε στην <strong>U3 (Πορτοκαλί)</strong> προς <em>Ottakring</em>.<br>2. Περνάτε 4 στάσεις (Herrengasse, Volkstheater, Neubaugasse, Zieglergasse).<br>3. Κατεβαίνετε (5η στάση): <strong>Westbahnhof</strong>.<br>4. Από εκεί περπατάτε ~12 λεπτά μέχρι το ξενοδοχείο (ή παίρνετε την καφέ U6 για 1 στάση μέχρι Gumpendorfer Str.).</div>"
             },
+
+            // --- SIGHTS (ΕΝΔΕΙΚΤΙΚΑ) ---
             { 
-                id: "wien_museum", type: "sights", name: "Wien Museum", cost: "ΔΩΡΕΑΝ ΑΥΡΙΟ!", 
-                tip: "📍 Βρίσκεται στην Karlsplatz, δίπλα ακριβώς στην Karlskirche! Ελεύθερη είσοδος την 1η Κυριακή του μήνα.", 
-                desc: "Η ιστορία της Βιέννης σε ένα υπερσύγχρονο κτίριο. Δείτε αυθεντικά έργα του Κλιμτ και μοντέλα της παλιάς πόλης.", 
-                mapQuery: "Wien Museum Karlsplatz" 
-            },
-            { 
-                id: "schwarzenberg", type: "sights", name: "Schwarzenbergplatz & Μνημείο", cost: "Δωρεάν", 
-                tip: "🚃 Στη διαδρομή των Τραμ D και 71.", 
-                desc: "Τεράστια πλατεία όπου δεσπόζει το εντυπωσιακό Μνημείο των Σοβιετικών Στρατιωτών με τη χρυσή ασπίδα, πίσω από ένα μεγάλο σιντριβάνι.", 
-                mapQuery: "Schwarzenbergplatz Vienna" 
-            },
-            { 
-                id: "botanischer", type: "sights", name: "Βοτανικός Κήπος", cost: "Δωρεάν", 
-                tip: "📍 Ακριβώς δίπλα στο Μπελβεντέρε.", 
-                desc: "80 καταπράσινα στρέμματα που ανήκουν στο Πανεπιστήμιο της Βιέννης. Γεμάτο σπάνια φυτά, θερμοκήπια και ηρεμία, μακριά από τη βαβούρα του κέντρου.", 
-                mapQuery: "Botanischer Garten Wien" 
-            },
-            { 
-                id: "tu_wien", type: "sights", name: "Πολυτεχνείο (TU Wien)", cost: "Εξωτερικά Δωρεάν", 
-                tip: "📍 Στην Karlsplatz. Το ιστορικό κεντρικό κτίριο δεσπόζει στο πάρκο Resselpark.", 
-                desc: "Το Τεχνικό Πανεπιστήμιο της Βιέννης, από τα ιστορικότερα της Ευρώπης (ιδρύθηκε το 1815). Η περιοχή γύρω του σφύζει από φοιτητική ζωή.", 
-                mapQuery: "TU Wien" 
+                id: "hundertwasser", type: "sights", name: "Hundertwasserhaus", cost: "Εξωτερικά Δωρεάν", 
+                tip: "🚃 Τραμ: Γραμμή 1 ➔ Στάση Hetzgasse.", 
+                desc: "Μια πολυκατοικία-διαμαρτυρία ενάντια στη μοντέρνα αρχιτεκτονική. Δεν υπάρχει ούτε μία ευθεία γραμμή, ενώ εκατοντάδες δέντρα φυτρώνουν μέσα από τα μπαλκόνια!", 
+                mapQuery: "Hundertwasserhaus Vienna" 
             },
             { 
                 id: "stephansdom", type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "Δωρεάν / Πύργοι ~7€", 
                 tip: "🚇 Μετρό: Στάση Stephansplatz (U1, U3)", 
-                desc: "Το σπουδαιότερο γοτθικό αριστούργημα της Αυστρίας και το σύμβολο της Βιέννης. Η κατασκευή του ξεκίνησε τον 12ο αιώνα. Χαρακτηριστικό του είναι η περίτεχνη, πολύχρωμη στέγη του που αποτελείται από 230.000 υαλωμένα κεραμίδια.", 
+                desc: "Το σύμβολο της Βιέννης με την περίτεχνη στέγη από 230.000 πολύχρωμα κεραμίδια.", 
                 mapQuery: "Stephansdom Vienna" 
-            },
-            { 
-                id: "opera", type: "sights", name: "Κρατική Όπερα (Staatsoper)", cost: "Εξωτερικά Δωρεάν", 
-                tip: "🚃 Τραμ: 1, 2, 71, D (Στάση Oper/Karlsplatz). 🚇 Μετρό: Karlsplatz (U1, U2, U4)", 
-                desc: "Ένα από τα σημαντικότερα λυρικά θέατρα παγκοσμίως. Στον Β' Παγκόσμιο Πόλεμο βομβαρδίστηκε και καταστράφηκε σχεδόν ολοσχερώς, αλλά ανακατασκευάστηκε πιστά και άνοιξε ξανά το 1955.", 
-                mapQuery: "Vienna State Opera" 
-            },
-            { 
-                id: "hofburg", type: "sights", name: "Παλάτι Hofburg & Burgtor", cost: "Εξωτερικά Δωρεάν", 
-                tip: "🚃 Τραμ: 1, 2, 71, D (Στάση Burgring). 🚇 Μετρό: Herrengasse (U3)", 
-                desc: "Η τεράστια αυτοκρατορική πύλη (Burgtor) σας βάζει στη χειμερινή έδρα των Αψβούργων και της Σίσσυ. Περπατήστε ελεύθερα στις μεγάλες εσωτερικές αυλές.", 
-                mapQuery: "Hofburg Vienna" 
-            },
-            { 
-                id: "schonbrunn", type: "sights", name: "Ανάκτορα Schönbrunn", cost: "Κήποι Δωρεάν", 
-                tip: "🚇 Μετρό: Στάση Schönbrunn (Γραμμή U4 Πράσινη) από το κέντρο.", 
-                desc: "Το 'Βερσαλλίες' της Βιέννης! Ήταν η θερινή κατοικία των Αψβούργων. Οι αχανείς κήποι είναι ελεύθεροι για βόλτα.", 
-                mapQuery: "Schonbrunn Palace Vienna" 
-            },
-            { 
-                id: "belvedere", type: "sights", name: "Ανάκτορα Belvedere", cost: "Κήποι Δωρεάν", 
-                tip: "🚃 Τραμ: 71 για το Κάτω, D για το Άνω.", 
-                desc: "Χτίστηκε τον 18ο αιώνα ως θερινή κατοικία του Πρίγκιπα Ευγένιου. Σήμερα το Άνω Μπελβεντέρε στεγάζει τον διάσημο χρυσό πίνακα 'Το Φιλί' του Γκούσταφ Κλιμτ.", 
-                mapQuery: "Belvedere Palace Vienna" 
-            },
-            { 
-                id: "parlament", type: "sights", name: "Αυστριακό Κοινοβούλιο", cost: "Δωρεάν", 
-                tip: "🚃 Τραμ: 1, 2, 71, D (Στάση Parlament).", 
-                desc: "Ένα αρχιτεκτονικό στολίδι πάνω στη Ringstrasse. Σχεδιάστηκε από τον Δανό αρχιτέκτονα Θεόφιλο Χάνσεν σε νεοελληνικό στυλ, θέλοντας να τιμήσει την Αρχαία Ελλάδα.", 
-                mapQuery: "Austrian Parliament Vienna" 
-            },
-            { 
-                id: "hundertwasser", type: "sights", name: "Hundertwasserhaus", cost: "Εξωτερικά Δωρεάν", 
-                tip: "🚃 Τραμ: Γραμμή 1 (από Schwedenplatz) ➔ Στάση Hetzgasse.", 
-                desc: "Μια πολυκατοικία-διαμαρτυρία ενάντια στη μοντέρνα 'βαρετή' αρχιτεκτονική. Δεν υπάρχει ούτε μία ευθεία γραμμή, ενώ εκατοντάδες δέντρα φυτρώνουν μέσα από τα μπαλκόνια!", 
-                mapQuery: "Hundertwasserhaus Vienna" 
-            },
-            { 
-                id: "votivkirche", type: "sights", name: "Votivkirche", cost: "Δωρεάν", 
-                tip: "🚃 Τραμ: 1, D, 37, 38, 43, 44 ➔ Στάση Schottentor.", 
-                desc: "Ένα εκπληκτικό νεογοτθικό αριστούργημα (μοιάζει με την Παναγία των Παρισίων). Χτίστηκε τον 19ο αιώνα ως 'τάμα' ευγνωμοσύνης.", 
-                mapQuery: "Votivkirche Vienna" 
-            },
-            { 
-                id: "prater", type: "sights", name: "Prater & Riesenrad", cost: "Είσοδος Πάρκου Δωρεάν", 
-                tip: "🚇 Μετρό: Στάση Praterstern (Γραμμές U1, U2).", 
-                desc: "Το πιο νοσταλγικό λούνα παρκ της Ευρώπης, με σήμα κατατεθέν τον τεράστιο τροχό Riesenrad του 1897.", 
-                mapQuery: "Prater Vienna" 
-            },
-            
-            // --- FOOD ---
-            { 
-                id: "albertinawurst", type: "food", name: "Würstelstand Albertina", cost: "~6€", 
-                tip: "📍 Δίπλα στην Όπερα. Συχνά έχει ουρά, αλλά προχωράει γρήγορα.", 
-                desc: "Το πιο διάσημο κιόσκι στο κέντρο για αυθεντικό βιεννέζικο λουκάνικο (Käsekrainer - λουκάνικο γεμιστό με τυρί). Ιδανικό για γρήγορο, αυθεντικό φαγητό.",
-                mapQuery: "Bitzinger Würstelstand Albertina"
-            },
-
-            // --- CAFE & BAKERIES (DER MANN) ---
-            { 
-                id: "dermann_mariahilfer", type: "cafe", name: "Φούρνος Der Mann (Mariahilfer)", cost: "Οικονομικό", 
-                tip: "📍 Mariahilfer Str. 132. Πολύ κοντά στο ξενοδοχείο σας (Hampton by Hilton).", 
-                desc: "Η τέλεια 'έξυπνη' επιλογή! Προσφέρει αυθεντικό βιεννέζικο καφέ (Melange), Apfelstrudel, καθώς και σάντουιτς (ακόμα και με σνίτσελ) σε τιμές γειτονιάς, αποφεύγοντας τα τουριστικά μαγαζιά.", 
-                mapQuery: "Der Mann Mariahilfer Str. 132" 
-            },
-            { 
-                id: "dermann_naglergasse", type: "cafe", name: "Φούρνος Der Mann (Κέντρο)", cost: "Οικονομικό", 
-                tip: "📍 Naglergasse 11. Ακριβώς δίπλα στην εμπορική οδό Graben (κοντά στον Αγ. Στέφανο).", 
-                desc: "Το απόλυτο 'κρυφό' σημείο μέσα στο πανάκριβο ιστορικό κέντρο. Ιδανικό για μια γρήγορη και οικονομική στάση για χορταστικά σνακ, γλυκά και καφέ ανάμεσα στα αξιοθέατα.", 
-                mapQuery: "Der Mann Naglergasse 11" 
             }
         ];
 
-        // --- ΒΑΣΙΚΗ ΛΟΓΙΚΗ ΕΦΑΡΜΟΓΗΣ (ΓΙΑ ΝΑ ΔΟΥΛΕΥΟΥΝ ΤΑ TABS) ---
         function renderCards(filterType) {
             const container = document.getElementById('content');
-            container.innerHTML = ''; // Καθαρίζει το περιεχόμενο
+            container.innerHTML = ''; 
             
-            // Φιλτράρισμα δεδομένων με βάση το κουμπί που πατήθηκε
             const filteredData = placesData.filter(place => place.type === filterType);
             
-            // Αν δεν υπάρχουν δεδομένα για αυτή την κατηγορία
             if (filteredData.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: var(--text-sec); margin-top: 20px;">Δεν έχουν προστεθεί μέρη σε αυτή την κατηγορία ακόμα.</p>';
+                container.innerHTML = '<p style="text-align: center; color: var(--text-sec); margin-top: 20px;">Δεν έχουν προστεθεί σημεία σε αυτή την κατηγορία ακόμα.</p>';
                 return;
             }
 
-            // Δημιουργία των καρτών
             filteredData.forEach(place => {
                 const card = document.createElement('div');
                 card.className = `card type-${place.type}`;
@@ -326,14 +226,12 @@
             });
         }
 
-        // Λειτουργία για την αλλαγή καρτελών
         function setFilter(type) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`.tab-btn.${type}`).classList.add('active');
             renderCards(type);
         }
 
-        // Λειτουργία για το άνοιγμα των φωτογραφιών σε μεγέθυνση (π.χ. τα εισιτήρια)
         function openModal(imgSrc) {
             document.getElementById("imageModal").style.display = "block";
             document.getElementById("img01").src = imgSrc;
@@ -343,7 +241,6 @@
             document.getElementById("imageModal").style.display = "none";
         }
 
-        // Αρχική φόρτωση - Δείχνουμε το "Ταξίδι"
         setFilter('travel');
     </script>
 </body>
