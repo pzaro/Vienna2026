@@ -84,6 +84,14 @@
 
         .route-step { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 8px; border-left: 4px solid var(--accent); }
         .route-step strong { color: #fff; }
+        .highlight-title { font-size: 1.4rem; font-weight: 900; color: #fbbf24; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .u-line { display: inline-block; padding: 3px 8px; border-radius: 4px; color: white; font-weight: bold; margin-bottom: 5px; }
+        .u1 { background-color: var(--u1); }
+        .u2 { background-color: var(--u2); }
+        .u3 { background-color: var(--u3); }
+        .u4 { background-color: var(--u4); }
+        .u6 { background-color: var(--u6); }
     </style>
 </head>
 <body>
@@ -113,7 +121,7 @@
 
     <script>
         const placesData = [
-            // --- TRAVEL & CARDS (ΑΝΑΛΥΤΙΚΕΣ ΟΔΗΓΙΕΣ) ---
+            // --- TRAVEL & CARDS ---
             { 
                 id: "panos", type: "travel", name: "🎫 Κάρτα Μετρό Πάνος", cost: "Ενεργή", 
                 tip: "Το εισιτήριο είναι ονομαστικό. Να έχετε πάντα ταυτότητα μαζί σε περίπτωση ελέγχου. Πατήστε στην εικόνα.", 
@@ -127,64 +135,183 @@
                 qrUrl: "https://github.com/pzaro/Vienna2026/blob/main/Tichet%20Lia.png?raw=true"
             },
             { 
-                id: "arrival", type: "travel", name: "🛬 Άφιξη: Αεροδρόμιο ➔ Ξενοδοχείο", cost: "+ 2,40€", 
+                id: "arrival", type: "travel", name: "<span class='highlight-title'>🛬 Άφιξη: Αεροδρόμιο ➔ Ξενοδοχείο</span>", cost: "+ 2,40€", 
                 tip: "Στα κόκκινα μηχανήματα του αεροδρομίου βγάζετε συμπληρωματικό εισιτήριο ~2,40€ επιλέγοντας 'I have a ticket for Vienna'.", 
                 desc: "<div class='route-step'><strong>Βήμα 1: Προαστιακός S7 (ή Railjet)</strong><br>Επιβίβαση από Αεροδρόμιο με κατεύθυνση την πόλη. Κατεβαίνετε στη στάση <strong>Wien Mitte / Landstraße</strong>.</div><div class='route-step'><strong>Βήμα 2: Μετρό U4 (Πράσινη Γραμμή)</strong><br>Κατεύθυνση: <strong>Hütteldorf</strong>.<br><u>Στάσεις (6)</u>: Stadtpark, Karlsplatz, Kettenbrückengasse, Pilgramgasse, Margaretengürtel, <strong>Längenfeldgasse (ΑΠΟΒΙΒΑΣΗ)</strong>.</div>Από τον σταθμό, το Hampton by Hilton είναι μόλις 3-4 λεπτά με τα πόδια.", 
                 mapQuery: "Hampton by Hilton Vienna City West" 
             },
             { 
-                id: "departure", type: "travel", name: "🛫 Αναχώρηση: Ξενοδοχείο ➔ Αεροδρόμιο (12:55)", cost: "+ 2,40€", 
+                id: "departure", type: "travel", name: "<span class='highlight-title'>🛫 Αναχώρηση: Ξενοδοχείο ➔ Αεροδρόμιο (12:55)</span>", cost: "+ 2,40€", 
                 tip: "Αναχώρηση από το ξενοδοχείο στις 09:30 - 09:45. Μην ξεχάσετε το συμπληρωματικό εισιτήριο στο Wien Mitte!", 
                 desc: "<div class='route-step'><strong>Βήμα 1: Μετρό U4 (Πράσινη Γραμμή)</strong><br>Από <strong>Längenfeldgasse</strong>.<br>Κατεύθυνση: <strong>Heiligenstadt</strong>.<br><u>Στάσεις (6)</u>: Margaretengürtel, Pilgramgasse, Kettenbrückengasse, Karlsplatz, Stadtpark, <strong>Landstraße / Wien Mitte (ΑΠΟΒΙΒΑΣΗ)</strong>.</div><div class='route-step'><strong>Βήμα 2: Προαστιακός S7</strong><br>Μέσα στο Wien Mitte ακολουθείτε τις πινακίδες με το αεροπλάνο και το 'S'.<br>Κατεύθυνση: <strong>Flughafen Wien</strong> (ή Wolfsthal).<br><u>Στάσεις (8)</u>: Wien Rennweg, St. Marx, Geiselbergstraße, Zentralfriedhof, Kaiserebersdorf, Schwechat, Mannswörth, <strong>Flughafen Wien (ΑΠΟΒΙΒΑΣΗ)</strong>.</div>" 
             },
 
             // --- FOOD & SCHNITZEL ---
             { 
-                id: "albertinawurst", type: "food", name: "Würstelstand Albertina (Λουκάνικα)", cost: "~6€", 
+                id: "figlmueller", type: "food", name: "Figlmüller", cost: "~25€", 
+                tip: "📍 Bäckerstraße 6 (ή Wollzeile 5). Απαιτείται κράτηση ή αναμονή στην ουρά. Το πιο διάσημο της Βιέννης!", 
+                desc: "Το 'Σπίτι του Σνίτσελ'. Εδώ και 100 χρόνια φτιάχνουν το διάσημο, τεράστιο χοιρινό σνίτσελ που βγαίνει έξω από το πιάτο. Δοκιμάστε το οπωσδήποτε με την πατατοσαλάτα τους (Kartoffelsalat)!",
+                mapQuery: "Figlmuller Backerstrasse"
+            },
+            { 
+                id: "plachutta", type: "food", name: "Plachutta", cost: "~35€", 
+                tip: "📍 Wollzeile 38. Το αγαπημένο εστιατόριο του Αυτοκράτορα. Κλείστε τραπέζι!", 
+                desc: "Η επιτομή της αυστριακής κουζίνας. Διάσημο για το παραδοσιακό 'Tafelspitz' (σιγοβρασμένο μοσχάρι σε ζωμό) το οποίο σερβίρεται σε παραδοσιακά χάλκινα σκεύη. Απολυτή γευστική εμπειρία.",
+                mapQuery: "Plachutta Wollzeile"
+            },
+            { 
+                id: "albertinawurst", type: "food", name: "Würstelstand Albertina", cost: "~6€", 
                 tip: "📍 Δίπλα στην Όπερα. Συχνά έχει ουρά, αλλά προχωράει γρήγορα.", 
                 desc: "Το πιο διάσημο κιόσκι στο κέντρο για αυθεντικό βιεννέζικο λουκάνικο (Käsekrainer - λουκάνικο γεμιστό με τυρί). Ιδανικό για γρήγορο, αυθεντικό street food.",
                 mapQuery: "Bitzinger Würstelstand Albertina"
             },
             { 
-                id: "hausmannskost19", type: "food", name: "Hausmannskost19 (Καλό Σνιτσελάδικο)", cost: "~13€ - 20€", 
+                id: "hausmannskost19", type: "food", name: "Hausmannskost19", cost: "~13€ - 20€", 
                 tip: "📍 Heiligenstädter Str. 183. Προσοχή: ΚΛΕΙΣΤΑ την Κυριακή! Λειτουργεί Δευτέρα - Σάββατο μέχρι ~18:00.", 
-                desc: "Αυθεντικό, παραδοσιακό και μη τουριστικό αυστριακό φαγητό σε πολύ χορταστικές μερίδες! Εξαιρετικό σάντουιτς με σνίτσελ (~4,90€), κλασικό χοιρινό/κοτόπουλο σνίτσελ (12,90€) και αυθεντικό μοσχαρίσιο βιεννέζικο (19,90€). Αγαπημένο των ντόπιων.",
+                desc: "Αυθεντικό, παραδοσιακό και μη τουριστικό αυστριακό φαγητό σε πολύ χορταστικές μερίδες! Εξαιρετικό σάντουιτς με σνίτσελ (~4,90€), κλασικό χοιρινό/κοτόπουλο σνίτσελ (12,90€) και αυθεντικό μοσχαρίσιο βιεννέζικο (19,90€).",
                 mapQuery: "Hausmannskost19 Vienna"
             },
 
             // --- CAFE & BAKERIES ---
             { 
+                id: "cafe_central", type: "cafe", name: "Café Central", cost: "Ακριβό", 
+                tip: "📍 Herrengasse 14. Ενδέχεται να έχει ουρά, ειδικά τα μεσημέρια.", 
+                desc: "Ίσως το πιο διάσημο καφέ της Βιέννης. Κάτω από τους επιβλητικούς θόλους του έπιναν τον καφέ τους ο Φρόιντ και ο Τρότσκι. Φοβερά γλυκά, κλασική μουσική (συχνά ζωντανό πιάνο) και απαράμιλλη αρχιτεκτονική.", 
+                mapQuery: "Cafe Central Vienna" 
+            },
+            { 
+                id: "cafe_demel", type: "cafe", name: "Café Demel", cost: "Ακριβό", 
+                tip: "📍 Kohlmarkt 14. Δίπλα στο Παλάτι Hofburg.", 
+                desc: "Το αγαπημένο ζαχαροπλαστείο της Πριγκίπισσας Σίσσυ! Μπορείτε να δείτε τους ζαχαροπλάστες να δουλεύουν πίσω από το τζάμι. Δοκιμάστε την εκδοχή τους για την Sachertorte ή το Kaiserschmarrn.", 
+                mapQuery: "Cafe Demel Vienna" 
+            },
+            { 
                 id: "dermann_mariahilfer", type: "cafe", name: "Φούρνος Der Mann (Mariahilfer)", cost: "Οικονομικό", 
                 tip: "📍 Mariahilfer Str. 132. Πολύ κοντά στο ξενοδοχείο σας.", 
-                desc: "Η τέλεια 'έξυπνη' επιλογή! Προσφέρει αυθεντικό βιεννέζικο καφέ (Melange), Apfelstrudel, καθώς και σάντουιτς με σνίτσελ σε τιμές γειτονιάς, αποφεύγοντας τα τουριστικά καφέ.", 
+                desc: "Η τέλεια 'έξυπνη' επιλογή! Προσφέρει αυθεντικό βιεννέζικο καφέ (Melange), Apfelstrudel, καθώς και σάντουιτς με σνίτσελ σε τιμές γειτονιάς.", 
                 mapQuery: "Der Mann Mariahilfer Str. 132" 
             },
             { 
                 id: "dermann_naglergasse", type: "cafe", name: "Φούρνος Der Mann (Στο Κέντρο)", cost: "Οικονομικό", 
                 tip: "📍 Naglergasse 11. Ακριβώς δίπλα στην εμπορική οδό Graben.", 
-                desc: "Το απόλυτο 'κρυφό' σημείο μέσα στο πανάκριβο ιστορικό κέντρο (κοντά στον Αγ. Στέφανο). Ιδανικό για μια γρήγορη στάση για καφέ και γλυκό ανάμεσα στα αξιοθέατα.", 
+                desc: "Το απόλυτο 'κρυφό' σημείο μέσα στο πανάκριβο ιστορικό κέντρο. Ιδανικό για μια γρήγορη στάση για καφέ και γλυκό ανάμεσα στα αξιοθέατα.", 
                 mapQuery: "Der Mann Naglergasse 11" 
             },
 
-            // --- METRO & ROUTES ---
-            {
-                id: "stephansplatz_to_hotel", type: "metro", name: "🚇 Επιστροφή: Αγ. Στέφανος ➔ Ξενοδοχείο", cost: "Κάρτα Απεριόριστων",
-                tip: "Από τη στάση Stephansplatz (Άγιος Στέφανος) στο Hampton by Hilton. Προτείνεται η Επιλογή 1 για λιγότερο περπάτημα.",
-                desc: "<div class='route-step'><strong>Επιλογή 1: Αλλαγή (Το πιο ξεκούραστο)</strong><br>1. Μπαίνετε στην <strong>U1 (Κόκκινη)</strong> προς <em>Oberlaa / Reumannplatz</em>.<br>2. Κατεβαίνετε στην αμέσως επόμενη στάση (1 στάση): <strong>Karlsplatz</strong>.<br>3. Ακολουθείτε τις πράσινες ταμπέλες για την <strong>U4 (Πράσινη)</strong> προς <em>Hütteldorf</em>.<br>4. Μετά από 4 στάσεις (Kettenbrückengasse, Pilgramgasse, Margaretengürtel) κατεβαίνετε <strong>Längenfeldgasse</strong>.</div><br><div class='route-step'><strong>Επιλογή 2: Απευθείας U3 (Περισσότερο περπάτημα)</strong><br>1. Μπαίνετε στην <strong>U3 (Πορτοκαλί)</strong> προς <em>Ottakring</em>.<br>2. Περνάτε 4 στάσεις (Herrengasse, Volkstheater, Neubaugasse, Zieglergasse).<br>3. Κατεβαίνετε (5η στάση): <strong>Westbahnhof</strong>.<br>4. Από εκεί περπατάτε ~12 λεπτά μέχρι το ξενοδοχείο (ή παίρνετε την καφέ U6 για 1 στάση μέχρι Gumpendorfer Str.).</div>"
-            },
-
-            // --- SIGHTS (ΕΝΔΕΙΚΤΙΚΑ) ---
+            // --- SIGHTS (ΠΛΗΡΗΣ ΛΙΣΤΑ) ---
             { 
-                id: "hundertwasser", type: "sights", name: "Hundertwasserhaus", cost: "Εξωτερικά Δωρεάν", 
-                tip: "🚃 Τραμ: Γραμμή 1 ➔ Στάση Hetzgasse.", 
-                desc: "Μια πολυκατοικία-διαμαρτυρία ενάντια στη μοντέρνα αρχιτεκτονική. Δεν υπάρχει ούτε μία ευθεία γραμμή, ενώ εκατοντάδες δέντρα φυτρώνουν μέσα από τα μπαλκόνια!", 
-                mapQuery: "Hundertwasserhaus Vienna" 
+                id: "karlskirche", type: "sights", name: "Ναός Αγίου Καρόλου (Karlskirche)", cost: "Εξωτερικά Δωρεάν", 
+                tip: "📍 Ακριβώς πάνω στην πλατεία Karlsplatz. Το βράδυ ο φωτισμός είναι μαγικός.", 
+                desc: "Η πιο επιβλητική μπαρόκ εκκλησία της Βιέννης με τεράστιο πράσινο τρούλο και εκπληκτική ακουστική. Υπέροχο σημείο για φωτογραφίες με την αντανάκλαση στο νερό.", 
+                mapQuery: "Karlskirche Vienna" 
+            },
+            { 
+                id: "naturhistorisches", type: "sights", name: "Μουσείο Φυσικής Ιστορίας", cost: "18€", 
+                tip: "📍 Βρίσκεται στην Maria-Theresien-Platz. Χρειάζεστε 2-3 ώρες.", 
+                desc: "Από τα κορυφαία μουσεία της Ευρώπης. Θα δείτε τον ρομποτικό δεινόσαυρο, τη μεγαλύτερη συλλογή μετεωριτών και την «Αφροδίτη του Βίλλεντορφ».", 
+                mapQuery: "Naturhistorisches Museum Wien" 
+            },
+            { 
+                id: "burggarten", type: "sights", name: "Burggarten & Άγαλμα Μότσαρτ", cost: "Δωρεάν", 
+                tip: "📍 Δίπλα στο Hofburg και πίσω από την Όπερα. Βρείτε το 'κλειδί του Σολ' από λουλούδια!", 
+                desc: "Ο πρώην ιδιωτικός κήπος της αυτοκρατορικής οικογένειας. Εκεί βρίσκεται το γυάλινο Palmenhaus και το Σπίτι των Πεταλούδων.", 
+                mapQuery: "Burggarten Vienna" 
+            },
+            { 
+                id: "hgm", type: "sights", name: "Στρατιωτικό Μουσείο (HGM)", cost: "Δωρεάν 1η Κυριακή", 
+                tip: "📍 Στεγάζεται στο εντυπωσιακό κτιριακό συγκρότημα Αρσενάλι.", 
+                desc: "Δείτε το πραγματικό αυτοκίνητο στο οποίο δολοφονήθηκε ο Φερδινάνδος, ξεκινώντας τον Α' Παγκόσμιο Πόλεμο, και πολλές πανοπλίες.", 
+                mapQuery: "Heeresgeschichtliches Museum" 
+            },
+            { 
+                id: "wien_museum", type: "sights", name: "Wien Museum", cost: "Δωρεάν 1η Κυριακή", 
+                tip: "📍 Στην Karlsplatz, δίπλα ακριβώς στην Karlskirche.", 
+                desc: "Η ιστορία της Βιέννης σε ένα υπερσύγχρονο κτίριο. Δείτε αυθεντικά έργα του Κλιμτ και μοντέλα της παλιάς πόλης.", 
+                mapQuery: "Wien Museum Karlsplatz" 
+            },
+            { 
+                id: "schwarzenberg", type: "sights", name: "Schwarzenbergplatz", cost: "Δωρεάν", 
+                tip: "🚃 Στη διαδρομή των Τραμ D και 71.", 
+                desc: "Τεράστια πλατεία όπου δεσπόζει το Μνημείο των Σοβιετικών Στρατιωτών με τη χρυσή ασπίδα, πίσω από ένα μεγάλο σιντριβάνι.", 
+                mapQuery: "Schwarzenbergplatz Vienna" 
+            },
+            { 
+                id: "botanischer", type: "sights", name: "Βοτανικός Κήπος", cost: "Δωρεάν", 
+                tip: "📍 Ακριβώς δίπλα στο Μπελβεντέρε.", 
+                desc: "80 καταπράσινα στρέμματα που ανήκουν στο Πανεπιστήμιο της Βιέννης. Γεμάτο σπάνια φυτά, θερμοκήπια και ηρεμία.", 
+                mapQuery: "Botanischer Garten Wien" 
+            },
+            { 
+                id: "tu_wien", type: "sights", name: "Πολυτεχνείο (TU Wien)", cost: "Δωρεάν", 
+                tip: "📍 Στην Karlsplatz.", 
+                desc: "Το Τεχνικό Πανεπιστήμιο της Βιέννης, από τα ιστορικότερα της Ευρώπης. Η περιοχή γύρω του σφύζει από φοιτητική ζωή.", 
+                mapQuery: "TU Wien" 
             },
             { 
                 id: "stephansdom", type: "sights", name: "Καθεδρικός Αγ. Στεφάνου", cost: "Δωρεάν / Πύργοι ~7€", 
                 tip: "🚇 Μετρό: Στάση Stephansplatz (U1, U3)", 
-                desc: "Το σύμβολο της Βιέννης με την περίτεχνη στέγη από 230.000 πολύχρωμα κεραμίδια.", 
+                desc: "Το σπουδαιότερο γοτθικό αριστούργημα της Αυστρίας. Χαρακτηριστικό του η πολύχρωμη στέγη με 230.000 υαλωμένα κεραμίδια. Ο Μότσαρτ παντρεύτηκε εδώ.", 
                 mapQuery: "Stephansdom Vienna" 
+            },
+            { 
+                id: "opera", type: "sights", name: "Κρατική Όπερα (Staatsoper)", cost: "Εξωτερικά Δωρεάν", 
+                tip: "🚇 Μετρό: Karlsplatz (U1, U2, U4)", 
+                desc: "Εγκαινιάστηκε το 1869 με παράσταση του Μότσαρτ. Ένα από τα σημαντικότερα λυρικά θέατρα παγκοσμίως.", 
+                mapQuery: "Vienna State Opera" 
+            },
+            { 
+                id: "hofburg", type: "sights", name: "Παλάτι Hofburg", cost: "Εξωτερικά Δωρεάν", 
+                tip: "🚇 Μετρό: Herrengasse (U3)", 
+                desc: "Η χειμερινή έδρα των Αψβούργων και της Σίσσυ. Περπατήστε ελεύθερα στις μεγάλες εσωτερικές αυλές και στην πλατεία Heldenplatz.", 
+                mapQuery: "Hofburg Vienna" 
+            },
+            { 
+                id: "schonbrunn", type: "sights", name: "Ανάκτορα Schönbrunn", cost: "Κήποι Δωρεάν", 
+                tip: "🚇 Μετρό: Στάση Schönbrunn (U4 Πράσινη)", 
+                desc: "Οι 'Βερσαλλίες' της Βιέννης. Θερινή κατοικία των Αψβούργων με 1.441 δωμάτια. Οι αχανείς κήποι είναι ελεύθεροι.", 
+                mapQuery: "Schonbrunn Palace Vienna" 
+            },
+            { 
+                id: "belvedere", type: "sights", name: "Ανάκτορα Belvedere", cost: "Κήποι Δωρεάν", 
+                tip: "🚃 Τραμ: D για το Άνω.", 
+                desc: "Χτίστηκε ως θερινή κατοικία του Πρίγκιπα Ευγένιου. Στεγάζει τον διάσημο πίνακα 'Το Φιλί' του Γκούσταφ Κλιμτ.", 
+                mapQuery: "Belvedere Palace Vienna" 
+            },
+            { 
+                id: "parlament", type: "sights", name: "Αυστριακό Κοινοβούλιο", cost: "Δωρεάν", 
+                tip: "🚃 Τραμ: 1, 2, 71, D (Στάση Parlament).", 
+                desc: "Ένα αρχιτεκτονικό στολίδι σε νεοελληνικό στυλ, προς τιμήν της Αρχαίας Ελλάδας. Μπροστά δεσπόζει το άγαλμα της θεάς Αθηνάς.", 
+                mapQuery: "Austrian Parliament Vienna" 
+            },
+            { 
+                id: "hundertwasser", type: "sights", name: "Hundertwasserhaus", cost: "Εξωτερικά Δωρεάν", 
+                tip: "🚃 Τραμ: 1 (Στάση Hetzgasse).", 
+                desc: "Πολυκατοικία-διαμαρτυρία. Δεν υπάρχει ούτε μία ευθεία γραμμή! Δέντρα φυτρώνουν μέσα από τα μπαλκόνια.", 
+                mapQuery: "Hundertwasserhaus Vienna" 
+            },
+            { 
+                id: "votivkirche", type: "sights", name: "Votivkirche", cost: "Δωρεάν", 
+                tip: "🚃 Τραμ: 1, D, 37, 38, 43, 44 ➔ Schottentor.", 
+                desc: "Νεογοτθικό αριστούργημα του 19ου αιώνα. Χτίστηκε ως 'τάμα' ευγνωμοσύνης από τον Αυτοκράτορα Φραγκίσκο Ιωσήφ.", 
+                mapQuery: "Votivkirche Vienna" 
+            },
+            { 
+                id: "prater", type: "sights", name: "Prater & Riesenrad", cost: "Είσοδος Πάρκου Δωρεάν", 
+                tip: "🚇 Μετρό: Praterstern (U1, U2).", 
+                desc: "Το πιο νοσταλγικό λούνα παρκ της Ευρώπης. Σήμα κατατεθέν του ο τεράστιο τροχός (Riesenrad) του 1897.", 
+                mapQuery: "Prater Vienna" 
+            },
+
+            // --- METRO & ROUTES ---
+            {
+                id: "stephansplatz_to_hotel", type: "metro", name: "🚇 Επιστροφή: Αγ. Στέφανος ➔ Ξενοδοχείο", cost: "Διαδρομή",
+                tip: "Η πιο βολική επιστροφή από το κέντρο στο Hampton by Hilton.",
+                desc: "<div class='route-step'><strong>Επιλογή 1: Το πιο ξεκούραστο</strong><br>1. <strong>U1 (Κόκκινη)</strong> προς <em>Oberlaa</em> ➔ Κατεβαίνετε <strong>Karlsplatz</strong>.<br>2. Αλλαγή σε <strong>U4 (Πράσινη)</strong> προς <em>Hütteldorf</em> ➔ Κατεβαίνετε <strong>Längenfeldgasse</strong>.</div><div class='route-step'><strong>Επιλογή 2: Απευθείας αλλά με περπάτημα</strong><br>1. <strong>U3 (Πορτοκαλί)</strong> προς <em>Ottakring</em> ➔ Κατεβαίνετε <strong>Westbahnhof</strong>.<br>2. Περπατάτε ~12 λεπτά ως το ξενοδοχείο.</div>"
+            },
+            {
+                id: "ubahn_lines", type: "metro", name: "🗺️ Οι 5 Γραμμές του Μετρό (U-Bahn)", cost: "Οδηγός",
+                tip: "Στις ταμπέλες πάντα ψάχνετε το όνομα του ΤΕΡΜΑΤΙΚΟΥ σταθμού για να βρείτε την κατεύθυνση.",
+                desc: "<span class='u-line u1'>U1 (Κόκκινη)</span> <strong>Oberlaa ↔ Leopoldau</strong><br>Περνάει από τον Αγ. Στέφανο (Stephansplatz), την Όπερα (Karlsplatz) και το Prater.<br><br><span class='u-line u2'>U2 (Μωβ)</span> <strong>Seestadt ↔ Karlsplatz</strong><br>Διασχίζει το ιστορικό κέντρο (Ring), φτάνει σε Μουσεία, Κοινοβούλιο και Δημαρχείο.<br><br><span class='u-line u3'>U3 (Πορτοκαλί)</span> <strong>Ottakring ↔ Simmering</strong><br>Η πιο κεντρική γραμμή! Συνδέει το Westbahnhof με τον Αγ. Στέφανο και τη Landstraße/Wien Mitte.<br><br><span class='u-line u4'>U4 (Πράσινη)</span> <strong>Hütteldorf ↔ Heiligenstadt</strong><br>Η 'δική σας' γραμμή. Περνάει από Schönbrunn, Längenfeldgasse, Karlsplatz και Wien Mitte (για αεροδρόμιο).<br><br><span class='u-line u6'>U6 (Καφέ)</span> <strong>Siebenhirten ↔ Floridsdorf</strong><br>Κινείται δυτικά του κέντρου και περνάει από το Westbahnhof."
             }
         ];
 
